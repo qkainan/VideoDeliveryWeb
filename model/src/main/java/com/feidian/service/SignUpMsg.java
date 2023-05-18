@@ -1,6 +1,5 @@
-package com.feidian.vo;
+package com.feidian.service;
 
-import com.feidian.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class SignUpMsg {
 
-    private Integer id;
+    private Long id;
     private String username;
     private String password;
 

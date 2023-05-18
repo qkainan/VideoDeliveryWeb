@@ -4,13 +4,14 @@
         <artifactId>VideoDeliveryWeb</artifactId>
         <groupId>com.feidian</groupId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>model</artifactId>
+    <artifactId>common-log</artifactId>
     <packaging>jar</packaging>
 
-    <name>model</name>
+    <name>common-log</name>
     <url>http://maven.apache.org</url>
 
     <properties>

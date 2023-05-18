@@ -1,4 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.feidian.mapper.UserMapper" >
+<mapper namespace="com.feidian.mapper.UserMapper">
+
+    <!--查询所有用户-->
+    <select id="findAll" resultType="com.feidian.domain.User">
+        select id, username, password
+        from user;
+    </select>
+
+    <!--根据提供信息查询用户-->
+    <select id="findById" resultType="com.feidian.domain.User">
+        select * from user where id = #{id};
+    </select>
+    <select id="findByName" resultType="com.feidian.domain.User">
+        select * from user where username = #{username};
+    </select>
+
+
+    <!--后台添加数据-->
+    <insert id="insertUser">
+        insert into user (username, password)
+        values (#{username}, #{password});
+    </insert>
+
+    <!--注册添加数据-->
+    <insert id="signUp">
+        insert into user(username, password)
+        values (#{username}, #{password})
+    </insert>
+
+    <!--后台删除用户-->
+    <delete id="deleteUser">
+        delete
+        from user
+        where id = #{id}
+    </delete>
+
+    <!--后台更新用户数据-->
+    <update id="updateUser">
+        update user
+        set username = #{username},
+            password = #{password}
+        where id = #{id}
+    </update>
+
+
 </mapper>
