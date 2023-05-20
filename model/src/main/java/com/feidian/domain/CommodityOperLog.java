@@ -16,7 +16,7 @@ public class CommodityOperLog {
   private String businessType;
   private String method;
   private String requestMethod;
-  private String operUserename;
+  private String operUserName;
   private String operUrl;
   private String operParam;
   private String jsonResult;

@@ -2,7 +2,7 @@ package com.feidian.controller;
 
 import com.feidian.domain.User;
 import com.feidian.responseResult.ResponseResult;
-import com.feidian.service.SignUpMsg;
+import com.feidian.vo.SignUpVo;
 import com.feidian.service.UserService;
 import com.feidian.util.AESUtil;
 import com.feidian.util.EmailUtil;
@@ -24,7 +24,7 @@ public class SignUpController {
 
     //快速注册
     @PostMapping("/postFastSignUp")
-    public ResponseResult fastSignUp(@RequestBody SignUpMsg signUpMsg) throws Exception {
+    public ResponseResult fastSignUp(@RequestBody SignUpVo signUpMsg) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
         // 2.密码长度在8到25之间
@@ -53,7 +53,7 @@ public class SignUpController {
     //邮箱注册
 
     @PostMapping("/postEmailSignUp")
-    public ResponseResult emailSignUp(@RequestBody SignUpMsg signUpMsg) throws Exception {
+    public ResponseResult emailSignUp(@RequestBody SignUpVo signUpMsg) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
         // 2.密码长度在8到16之间
@@ -108,7 +108,7 @@ public class SignUpController {
 
     //邮箱验证
     @PostMapping("/postVerify")
-    public ResponseResult postVerify(@RequestBody SignUpMsg signUpMsg) {
+    public ResponseResult postVerify(@RequestBody SignUpVo signUpMsg) {
 
         String regexEmailAddress = "\\w+@[\\w&&[^_]]{2,7}(\\.[a-zA-Z]{2,4}){1,3}";
 

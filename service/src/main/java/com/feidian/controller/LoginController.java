@@ -2,6 +2,7 @@ package com.feidian.controller;
 
 import com.feidian.domain.User;
 import com.feidian.responseResult.ResponseResult;
+import com.feidian.service.LoginLogService;
 import com.feidian.service.UserService;
 import com.feidian.util.AESUtil;
 import com.feidian.util.JwtUtil;
@@ -17,6 +18,9 @@ import java.util.UUID;
 public class LoginController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private LoginLogService loginLogService;
 
     @PostMapping("/login")
     public ResponseResult login(@RequestBody String username, @RequestBody String password) throws Exception {
@@ -49,15 +53,21 @@ public class LoginController {
         String decryptUserPwd = AESUtil.decryptByAES(user.getPassword());
 
         if (!decryptUserPwd.equals(userPwd)) {
+            user.setUserStatus(1);
+            loginLogService.recordLoginLog(user.getUsername(),user.getUserStatus(),"登陆失败");
             return new ResponseResult(403, "密码不正确");
         }
 
-        //如果正确 生成token返回
+        //如果正确 生成token返回,并记录日志
         Map<String, Object> map;
         map = new HashMap<>();
         String token = JwtUtil.createJWT(UUID.randomUUID().toString(), String.valueOf(id01), null);
         map.put("token", token);
+        user.setUserStatus(0);
 
+        loginLogService.recordLoginLog(user.getUsername(),user.getUserStatus(),"登录成功");
         return new ResponseResult(200, "登录成功", map);
     }
+
+
 }

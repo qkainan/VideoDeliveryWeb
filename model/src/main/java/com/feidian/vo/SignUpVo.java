@@ -1,4 +1,4 @@
-package com.feidian.service;
+package com.feidian.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class SignUpMsg {
+public class SignUpVo {
 
     private Long id;
     private String username;

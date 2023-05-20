@@ -1,4 +1,4 @@
-package com.sample;
+package com.feidian.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

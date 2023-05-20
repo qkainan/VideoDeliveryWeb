@@ -16,7 +16,7 @@ public class VideoOperLog {
   private String businessType;
   private String method;
   private String requestMethod;
-  private String operUsername;
+  private String operUserName;
   private String operUrl;
   private String operIp;
   private String operParam;
