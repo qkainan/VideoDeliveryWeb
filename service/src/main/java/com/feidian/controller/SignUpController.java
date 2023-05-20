@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/signup")
+
 public class SignUpController {
 
     @Autowired
@@ -51,7 +51,6 @@ public class SignUpController {
     }
 
     //邮箱注册
-
     @PostMapping("/postEmailSignUp")
     public ResponseResult emailSignUp(@RequestBody SignUpVo signUpVo) throws Exception {
         //Todo 校验密码是否符合强度要求
@@ -121,5 +120,4 @@ public class SignUpController {
 
         return new ResponseResult(200, "发送验证码成功");
     }
-
 }

@@ -1,0 +1,28 @@
+package com.feidian.vo;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserHomepageVo {
+    private long id;
+    private String username;
+
+    private long videoId;
+    private String videoName;
+    private String videoCoverUrl;
+    private String videoDescription;
+    private java.sql.Timestamp videoCreateTime;
+
+    private long commodityId;
+    private String commodityName;
+
+    private double price;
+    private String commodityDescription;
+    private String commodityCoverUrl;
+    private java.sql.Timestamp commodityCreateTime;
+
+}

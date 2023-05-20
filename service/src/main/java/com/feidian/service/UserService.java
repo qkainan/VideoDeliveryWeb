@@ -1,6 +1,8 @@
 package com.feidian.service;
 
 import com.feidian.domain.User;
+import com.feidian.responseResult.ResponseResult;
+import com.feidian.vo.SignUpVo;
 
 import java.util.List;
 
@@ -20,5 +22,6 @@ public interface UserService {
     void deleteUser(Integer id);
 
     void updateUser(User user);
+
 
 }

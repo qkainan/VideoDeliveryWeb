@@ -3,19 +3,21 @@ package com.feidian.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class SignUpVo {
+public class UserPersonalInformationVo {
 
     private long id;
     private String username;
     private String password;
 
-    private String rePwd;
-    private String verifyCode;
+    private Integer phone;
+    private String headUrl;
+    private String userDescription;
     private String emailAddress;
+
+
+
 }
