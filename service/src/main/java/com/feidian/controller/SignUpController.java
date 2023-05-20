@@ -53,7 +53,7 @@ public class SignUpController {
     //邮箱注册
 
     @PostMapping("/postEmailSignUp")
-    public ResponseResult emailSignUp(@RequestBody SignUpVo signUpMsg) throws Exception {
+    public ResponseResult emailSignUp(@RequestBody SignUpVo signUpVo) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
         // 2.密码长度在8到16之间
@@ -63,17 +63,17 @@ public class SignUpController {
 
         String regexPwd = "\\w{8,16}";
 
-        if (false == signUpMsg.getPassword().matches(regexPwd)) {
+        if (false == signUpVo.getPassword().matches(regexPwd)) {
             return new ResponseResult(403, "输入密码不符合要求");
         }
 
-        if (!signUpMsg.getPassword().equals(signUpMsg.getRePwd())) {
+        if (!signUpVo.getPassword().equals(signUpVo.getRePwd())) {
             return new ResponseResult(403, "第二次输入密码与第一次不同");
         }
 
 
         //验证邮箱验证码
-        Boolean verifyResult = verifyCode.equals(signUpMsg.getVerifyCode());
+        Boolean verifyResult = verifyCode.equals(signUpVo.getVerifyCode());
 
         if (false == verifyResult) {
             return new ResponseResult(403, "验证码错误");
@@ -82,8 +82,8 @@ public class SignUpController {
 
         //加密密码并创建用户
         //补全16位
-        String encryptUserPwd = getEncryptUserPwd(signUpMsg.getPassword());
-        User user = new User(signUpMsg.getId(), signUpMsg.getUsername(), encryptUserPwd);
+        String encryptUserPwd = getEncryptUserPwd(signUpVo.getPassword());
+        User user = new User(signUpVo.getId(), signUpVo.getUsername(), encryptUserPwd);
 
         userService.signUp(user);
         return new ResponseResult(200, "操作成功");
@@ -108,16 +108,16 @@ public class SignUpController {
 
     //邮箱验证
     @PostMapping("/postVerify")
-    public ResponseResult postVerify(@RequestBody SignUpVo signUpMsg) {
+    public ResponseResult postVerify(@RequestBody SignUpVo signUpVo) {
 
         String regexEmailAddress = "\\w+@[\\w&&[^_]]{2,7}(\\.[a-zA-Z]{2,4}){1,3}";
 
-        if (!signUpMsg.getEmailAddress().matches(regexEmailAddress)) {
-            return new ResponseResult(403, "邮箱格式不正确", signUpMsg.getEmailAddress());
+        if (!signUpVo.getEmailAddress().matches(regexEmailAddress)) {
+            return new ResponseResult(403, "邮箱格式不正确", signUpVo.getEmailAddress());
         }
 
         //发送验证码
-        EmailUtil.sendEmail(signUpMsg.getEmailAddress(), verifyCode);
+        EmailUtil.sendEmail(signUpVo.getEmailAddress(), verifyCode);
 
         return new ResponseResult(200, "发送验证码成功");
     }
