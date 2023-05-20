@@ -1,9 +1,11 @@
-package com.sample;
+package com.feidian.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -14,7 +16,7 @@ public class Commodity {
   private long id;
   private String commodityName;
   private String commodityType;
-  private double price;
+  private BigDecimal price;
   private String commodityAddress;
 
   private String commodityDescription;

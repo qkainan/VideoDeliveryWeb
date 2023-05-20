@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,8 +21,7 @@ public class UserHomepageVo {
 
     private long commodityId;
     private String commodityName;
-
-    private double price;
+    private BigDecimal price;
     private String commodityDescription;
     private String commodityCoverUrl;
     private java.sql.Timestamp commodityCreateTime;

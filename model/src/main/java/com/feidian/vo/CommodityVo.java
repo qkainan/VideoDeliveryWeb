@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,7 +13,7 @@ public class CommodityVo {
     private long id;
     private String commodityName;
     private String commodityType;
-    private double price;
+    private BigDecimal price;
     private String commodityAddress;
 
     private String commodityDescription;
