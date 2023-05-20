@@ -1,6 +1,6 @@
 package com.feidian.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import com.feidian.domain.LoginLog;
 import com.github.pagehelper.IPage;
 import com.github.pagehelper.Page;
@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface LoginLogMapper {
     void insert(LoginLog loginLog);
 
-    IPage selectPage(Page<LoginLog> pageParam, QueryWrapper<LoginLog> wrapper);
+    IPage selectPage(Page<LoginLog> pageParam);
 }
