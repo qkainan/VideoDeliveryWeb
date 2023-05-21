@@ -1,8 +1,12 @@
 package com.feidian.controller;
 
 import com.feidian.responseResult.ResponseResult;
+import com.feidian.service.CommodityService;
 import com.feidian.service.UserService;
+import com.feidian.service.VideoService;
+import com.feidian.vo.CommodityVo;
 import com.feidian.vo.UserHomepageVo;
+import com.feidian.vo.VideoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,13 +29,19 @@ public class UserHomepageController {
     @Autowired
     private UserService userService;
 
-    public ResponseResult uploadVideo(UserHomepageVo userHomepageVo){
+    @Autowired
+    private CommodityService commodityService;
 
+    @Autowired
+    private VideoService videoService;
+
+    public ResponseResult uploadVideo(VideoVo videoVo){
+        videoService.uploadVideo(videoVo);
         return new ResponseResult(200,"上传成功");
     }
 
-    public ResponseResult releaseCommodity(UserHomepageVo userHomepageVo){
-
+    public ResponseResult releaseCommodity(CommodityVo commodityVo){
+        commodityService.releaseCommodity(commodityVo);
         return new ResponseResult(200,"发布成功");
     }
 
