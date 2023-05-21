@@ -151,7 +151,6 @@ export default {
             },
             async handleSubmit3 (valid, {username1,password1,mail,captcha}) {
                 if (valid) {
-                
                         const form1={
                             captcha:captcha,
                             username:username1,
