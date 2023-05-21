@@ -147,7 +147,6 @@ export default {
                         console.log("验证码发送失败！")
                         mail=''
                     }
-                 
             },
             async handleSubmit3 (valid, {username1,password1,mail,captcha}) {
                 if (valid) {
