@@ -16,6 +16,8 @@ public class OrderVo {
     private BigDecimal price;
     private String commodityAddress;
 
+    private long status;
+
     private String commodityDescription;
     private String coverUrl;
 

@@ -7,7 +7,9 @@ import com.feidian.service.UserService;
 import com.feidian.util.AESUtil;
 import com.feidian.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -15,6 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Controller
+@CrossOrigin
 public class LoginController {
     @Autowired
     private UserService userService;

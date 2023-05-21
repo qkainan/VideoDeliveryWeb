@@ -12,6 +12,7 @@ import java.math.BigDecimal;
 public class UserHomepageVo {
     private long id;
     private String username;
+    private String userDescription;
 
     private long videoId;
     private String videoName;

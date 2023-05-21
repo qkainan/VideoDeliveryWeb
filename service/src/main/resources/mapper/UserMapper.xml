@@ -44,5 +44,12 @@
         where id = #{id}
     </update>
 
+    <!--更新用户个性签名-->
+    <update id="updateUserDescription">
+        update user
+        set user_description = #{description}
+        where id = #{id}
+    </update>
+
 
 </mapper>
