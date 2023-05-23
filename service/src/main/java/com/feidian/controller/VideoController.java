@@ -48,7 +48,7 @@ public class VideoController {
         List<Commodity> commodityList = commodityService.findByUserId(video.getUserId());
 
         VideoVo videoVo = new VideoVo(video.getId(), video.getVideoTitle(), user.getId(),
-                user.getUsername(), video.getDataUrl(), video.getCoverUrl(), video.getVideoDescription(),
+                 video.getDataUrl(), video.getCoverUrl(), video.getVideoDescription(),
                 video.getCreateTime(), commodityList);
 
         return new ResponseResult(200,"操作成功",videoVo);
