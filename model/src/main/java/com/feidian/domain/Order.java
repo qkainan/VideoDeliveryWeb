@@ -7,21 +7,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Video {
+public class Order {
 
   private long id;
+  private long commodityId;
   private long userId;
-
-  private String videoName;
-  private String videoTitle;
-  private String videoType;
-  private String videoDescription;
-  private String coverUrl;
-  private String dataUrl;
+  private long addressId;
 
   private long videoStatus;
+
   private java.sql.Timestamp createTime;
   private java.sql.Timestamp updateTime;
   private long isDeleted;
+
+
+
 
 }

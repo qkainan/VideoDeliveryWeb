@@ -1,8 +1,8 @@
 package com.feidian.service;
 
 import com.feidian.domain.User;
-import com.feidian.responseResult.ResponseResult;
-import com.feidian.vo.SignUpVo;
+
+
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    User findById(Integer id);
+    User findById(long id);
 
     User findByName(String username);
 
@@ -19,7 +19,7 @@ public interface UserService {
 
     void signUp(User user);
 
-    void deleteUser(Integer id);
+    void deleteUser(long id);
 
     void updateUser(User user);
 

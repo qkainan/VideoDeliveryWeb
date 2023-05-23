@@ -5,4 +5,12 @@
     <update id="updateVideo"></update>
     <delete id="deleteVideo"></delete>
     <select id="findByVideoName"></select>
+
+    <select id="findByVideoId" resultType="com.feidian.domain.Video">
+        select * from video where id =#{id};
+    </select>
+    <select id="findByUserId" resultType="com.feidian.domain.Video">
+        select * from video where user_id = #{userId};
+    </select>
+
 </mapper>

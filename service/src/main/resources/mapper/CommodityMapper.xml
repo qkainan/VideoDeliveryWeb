@@ -6,4 +6,23 @@
         values (id, commodity_name, commodity_type, price, commodity_address, commodity_description,
                 cover_url), (#{commodityVo})
     </insert>
+
+    <update id="updateCommodityDescription">
+        update commodity
+        set commodity_description = #{description}
+        where id = #{id}
+    </update>
+
+
+    <select id="findByUserId" resultType="com.feidian.domain.Commodity">
+        select *
+        from commodity
+        where user_id = #{id}
+    </select>
+
+    <select id="findByCommodityId" resultType="com.feidian.domain.Commodity">
+        select *
+        from commodity
+        where id = #{id}
+    </select>
 </mapper>

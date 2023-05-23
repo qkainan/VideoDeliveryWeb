@@ -1,10 +1,15 @@
 package com.feidian.vo;
 
+import com.feidian.domain.Cart;
+import com.feidian.domain.Commodity;
+import com.feidian.domain.Order;
+import com.feidian.domain.Video;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -13,18 +18,16 @@ public class UserHomepageVo {
     private long id;
     private String username;
     private String userDescription;
+    private Integer phone;
+    private String headUrl;
+    private String emailAddress;
 
-    private long videoId;
-    private String videoName;
-    private String videoCoverUrl;
-    private String videoDescription;
-    private java.sql.Timestamp videoCreateTime;
+    private List<Video> videoList;
 
-    private long commodityId;
-    private String commodityName;
-    private BigDecimal price;
-    private String commodityDescription;
-    private String commodityCoverUrl;
-    private java.sql.Timestamp commodityCreateTime;
+    private List<Commodity> commodityList;
+
+    private List<Order> orderList;
+
+    private List<Cart> cartList;
 
 }

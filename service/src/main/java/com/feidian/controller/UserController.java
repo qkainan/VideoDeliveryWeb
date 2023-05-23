@@ -20,8 +20,8 @@ public class UserController {
         return new ResponseResult<>(200, "操作成功", userService.findAll());
     }
 
-    @PostMapping("/findById/{id}")
-    public ResponseResult findById(@PathVariable("id")Integer id){
+    @GetMapping ("/findById/{id}")
+    public ResponseResult findById(@PathVariable("id")long id){
         User user = userService.findById(id);
         if (user == null) {
             return new ResponseResult(500, "User does not exist");
@@ -29,7 +29,7 @@ public class UserController {
         return new ResponseResult(200,"操作成功",user);
     }
 
-    @PostMapping("/findByName/{name}")
+    @GetMapping("/findByName/{name}")
     public ResponseResult findByName(@PathVariable("name") String username){
         User user = userService.findByName(username);
         if (user == null) {
@@ -44,8 +44,8 @@ public class UserController {
         return new ResponseResult(200, "操作成功");
     }
 
-    @PostMapping("/deleteUser/{id}")
-    public ResponseResult deleteUser(@PathVariable("id") Integer id){
+    @DeleteMapping("/deleteUser/{id}")
+    public ResponseResult deleteUser(@PathVariable("id") long id){
         userService.deleteUser(id);
         return new ResponseResult(200, "操作成功");
     }

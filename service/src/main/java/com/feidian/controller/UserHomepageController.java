@@ -1,24 +1,27 @@
 package com.feidian.controller;
 
+import com.feidian.domain.*;
 import com.feidian.responseResult.ResponseResult;
-import com.feidian.service.CommodityService;
-import com.feidian.service.UserService;
-import com.feidian.service.VideoService;
+import com.feidian.service.*;
+import com.feidian.util.JwtUtil;
 import com.feidian.vo.CommodityVo;
 import com.feidian.vo.UserHomepageVo;
 import com.feidian.vo.VideoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 
-@Controller
+@RestController
 @CrossOrigin
 public class UserHomepageController {
 
@@ -35,6 +38,14 @@ public class UserHomepageController {
     @Autowired
     private VideoService videoService;
 
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private OrderService orderService;
+
+
+
     public ResponseResult uploadVideo(VideoVo videoVo){
         videoService.uploadVideo(videoVo);
         return new ResponseResult(200,"上传成功");
@@ -49,6 +60,43 @@ public class UserHomepageController {
         userService.updateUserDescription(userHomepageVo.getUserDescription());
         return new ResponseResult(200,"发布成功");
     }
+
+    @GetMapping("/perinfo")
+    public ResponseResult getHomePage(){
+        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
+        HttpServletRequest req = sra.getRequest();
+
+        String token = req.getHeader("token");
+        long userId = JwtUtil.getSubject(token);
+
+        User user = userService.findById(userId);
+        List<Video> videoList = videoService.findByUserId(userId);
+        List<Commodity> commodityList = commodityService.findByUserId(userId);
+        List<Order> orderList = orderService.findByUserId(userId);
+        List<Cart> cartList = cartService. findByUserId(userId);
+
+        UserHomepageVo userHomepageVo = new UserHomepageVo(userId, user.getUsername(),
+                user.getUserDescription(), user.getPhone(), user.getHeadUrl(),
+                user.getEmailAddress(), videoList, commodityList, orderList, cartList);
+        return  new ResponseResult(200,"操作成功",userHomepageVo);
+    }
+
+    @GetMapping("/pervideo")
+    public ResponseResult getVideos(){
+        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
+        HttpServletRequest req = sra.getRequest();
+
+        String token = req.getHeader("token");
+        long userId = JwtUtil.getSubject(token);
+
+        List<Video> videoList = videoService.findByUserId(userId);
+        List<Commodity> commodityList = commodityService.findByUserId(userId);
+
+        return new ResponseResult(200,"操作成功",videoList);
+    }
+
 
     @RequestMapping("/upload")
     public String upload(MultipartFile uploadFile) throws IOException {

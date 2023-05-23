@@ -12,7 +12,7 @@ public interface UserMapper {
 
     List<User> findAll();
 
-    User findById(Integer id);
+    User findById(long id);
 
     User findByName(String username);
 
@@ -20,7 +20,7 @@ public interface UserMapper {
 
     void signUp(User user);
 
-    void deleteUser(Integer id);
+    void deleteUser(long id);
 
     void updateUser(User user);
 
