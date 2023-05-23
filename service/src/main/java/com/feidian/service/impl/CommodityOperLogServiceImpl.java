@@ -19,7 +19,7 @@ public class CommodityOperLogServiceImpl implements CommodityOperLogService {
     }
 
     @Override
-    public User findById(Integer id) {
+    public User findById(long id) {
         return commodityOperLogMapper.findById(id);
     }
 }

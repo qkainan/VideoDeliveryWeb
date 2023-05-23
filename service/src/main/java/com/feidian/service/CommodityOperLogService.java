@@ -7,6 +7,6 @@ public interface CommodityOperLogService {
 
     void saveLog(CommodityOperLog commodityOperLog);
 
-    User findById(Integer id);
+    User findById(long id);
 
 }

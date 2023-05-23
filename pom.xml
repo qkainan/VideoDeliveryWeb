@@ -130,6 +130,11 @@
       <version>2.0.26</version>
     </dependency>
 
+    <!--文件上传-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
+    </dependency>
 
   </dependencies>
 

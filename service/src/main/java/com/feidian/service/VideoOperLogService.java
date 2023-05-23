@@ -7,5 +7,5 @@ public interface VideoOperLogService {
 
     void saveLog(VideoOperLog videoOperLog);
 
-    User findById(Integer id);
+    User findById(long id);
 }

@@ -9,11 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -38,12 +34,7 @@ public class CommodityController {
 
     @GetMapping("/pergoods")
     public ResponseResult findByUserId(long id){
-        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
-        HttpServletRequest req = sra.getRequest();
-
-        String token = req.getHeader("token");
-        long userId = JwtUtil.getSubject(token);
+        long userId = JwtUtil.getUserId();
 
         List list = commodityService.findByUserId(userId);
 

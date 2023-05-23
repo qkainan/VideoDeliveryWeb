@@ -10,7 +10,6 @@ import java.util.List;
 @Repository
 @Mapper
 public interface VideoMapper {
-    void updateVideo();
 
     void deleteVideo();
 

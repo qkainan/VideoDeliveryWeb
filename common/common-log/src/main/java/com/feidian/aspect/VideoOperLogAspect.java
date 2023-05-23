@@ -50,7 +50,7 @@ public class VideoOperLogAspect {
 
             //请求的用户
             String token = request.getHeader("token");
-            Integer userId = JwtUtil.getSubject(token);
+            long userId = JwtUtil.getSubject(token);
             User user = videoOperLogService.findById(userId);
             videoOperLog.setOperUserName(user.getUsername());
 

@@ -1,6 +1,6 @@
 package com.feidian.mapper;
 
-import com.feidian.domain.CommodityOperLog;
+
 import com.feidian.domain.User;
 import com.feidian.domain.VideoOperLog;
 import org.apache.ibatis.annotations.Mapper;
@@ -12,5 +12,5 @@ public interface VideoOperLogMapper {
 
     void insertLog(VideoOperLog videoOperLog);
 
-    User findById(Integer id);
+    User findById(long id);
 }

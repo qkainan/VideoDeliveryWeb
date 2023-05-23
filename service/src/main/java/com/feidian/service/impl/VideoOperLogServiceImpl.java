@@ -20,7 +20,7 @@ public class VideoOperLogServiceImpl implements VideoOperLogService {
     }
 
     @Override
-    public User findById(Integer id) {
+    public User findById(long id) {
         return videoOperLogMapper.findById(id);
     }
 }

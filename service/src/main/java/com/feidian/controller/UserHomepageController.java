@@ -44,13 +44,6 @@ public class UserHomepageController {
     @Autowired
     private OrderService orderService;
 
-
-
-    public ResponseResult uploadVideo(VideoVo videoVo){
-        videoService.uploadVideo(videoVo);
-        return new ResponseResult(200,"上传成功");
-    }
-
     public ResponseResult releaseCommodity(CommodityVo commodityVo){
         commodityService.releaseCommodity(commodityVo);
         return new ResponseResult(200,"发布成功");
@@ -84,12 +77,7 @@ public class UserHomepageController {
 
     @GetMapping("/pervideo")
     public ResponseResult getVideos(){
-        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
-        HttpServletRequest req = sra.getRequest();
-
-        String token = req.getHeader("token");
-        long userId = JwtUtil.getSubject(token);
+        long userId = JwtUtil.getUserId();
 
         List<Video> videoList = videoService.findByUserId(userId);
         List<Commodity> commodityList = commodityService.findByUserId(userId);

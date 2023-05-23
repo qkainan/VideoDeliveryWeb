@@ -11,5 +11,5 @@ public interface CommodityOperLogMapper {
 
     void insertLog(CommodityOperLog commodityOperLog);
 
-    User findById(Integer id);
+    User findById(long id);
 }

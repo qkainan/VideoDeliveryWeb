@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -17,7 +16,6 @@ public class VideoVo {
     private String videoTitle;
 
     private long userId;
-    private String username;
 
     private String videoDataUrl;
     private String videoCoverUrl;

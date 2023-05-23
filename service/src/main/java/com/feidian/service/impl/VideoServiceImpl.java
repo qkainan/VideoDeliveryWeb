@@ -17,7 +17,7 @@ public class VideoServiceImpl implements VideoService {
     private VideoMapper videoMapper;
 
     @Override
-    public void uploadVideo(VideoVo videoVo) {
+    public void insertVideo(VideoVo videoVo) {
         videoMapper.insertVideo(videoVo);
     }
 

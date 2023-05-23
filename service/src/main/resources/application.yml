@@ -5,6 +5,12 @@ spring:
     password: Qkn2695946524
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  servlet:
+    multipart:
+      max-file-size: 1024MB
+      max-request-size: 1024MB
+
+
   aop:
     proxy-target-class: false #切换动态代理的方式
 
