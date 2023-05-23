@@ -65,7 +65,7 @@ public class VideoController {
 //        Video video = new Video();
 //        videoService.insertVideo(video);
 //        uploadVideoFile(file);
-//        return new ResponseResult(200,"操作成功");
+          return new ResponseResult(200,"操作成功");
     }
 
 
