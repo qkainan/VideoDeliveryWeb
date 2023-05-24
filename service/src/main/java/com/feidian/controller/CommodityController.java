@@ -1,13 +1,11 @@
 package com.feidian.controller;
 
 import com.feidian.domain.Commodity;
-import com.feidian.domain.Video;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.CommodityService;
 import com.feidian.util.JwtUtil;
 import com.feidian.vo.CommodityVo;
 import com.feidian.vo.UploadCommodityVo;
-import com.feidian.vo.UploadVideoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

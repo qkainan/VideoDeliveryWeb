@@ -145,7 +145,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>com.feidian.service.ServiceApplication</mainClass>
+          <mainClass>com.feidian.ServiceApplication</mainClass>
         </configuration>
 
       </plugin>
