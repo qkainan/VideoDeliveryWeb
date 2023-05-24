@@ -38,4 +38,57 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <!-- 项目打包时会将java目录中的*.xml文件也进行打包 -->
+    <build>
+       <!-- <plugins>
+            <plugin>
+                &lt;!&ndash;该插件主要用途：构建可执行的JAR &ndash;&gt;
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+
+            &lt;!&ndash;设置自己目录下的配置文件&ndash;&gt;
+            <resource>
+                &lt;!&ndash;下方resources的文件夹名字要和自己项目的文件夹名确认一致才行 很多人就是忽略了名字不一致 &ndash;&gt;
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+            </resource>
+        </resources>-->
+        <!--yml或者properties文件没有被扫描到,需要在pom文件中<build></build>添加如下.来保证文件都能正常被扫描到并且加载成功.-->
+        <!-- 如果不添加此节点mybatis的mapper.xml文件都会被漏掉。 -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+
+    </build>
+
 </project>
