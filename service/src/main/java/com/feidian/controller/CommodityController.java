@@ -58,19 +58,18 @@ public class CommodityController {
 
         long userId = JwtUtil.getUserId();
 
-        String videoDataUrl = "";
-        String videoCoverUrl = "";
+        String commodityCoverUrl = "";
 
         // 定义保存路径
-        String uploadVideoCoverDir ="C:/uploads/videos/cover/";
+        String uploadCommodityCoverDir ="C:/uploads/commodities/cover/";
 
-        uploadCommodityFile(coverFile,uploadVideoCoverDir);
+        uploadCommodityFile(coverFile,uploadCommodityCoverDir);
 
-        videoCoverUrl = uploadCommodityFile(coverFile,uploadVideoCoverDir);
+        commodityCoverUrl = uploadCommodityFile(coverFile,uploadCommodityCoverDir);
 
         uploadCommodityVo.setUserId(userId);
 
-        uploadCommodityVo.setCoverUrl(videoCoverUrl);
+        uploadCommodityVo.setCoverUrl(commodityCoverUrl);
 
 
         Commodity commodity = new Commodity(uploadCommodityVo.getId(), uploadCommodityVo.getUserId(),
