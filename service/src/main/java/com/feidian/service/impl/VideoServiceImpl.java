@@ -3,7 +3,7 @@ package com.feidian.service.impl;
 import com.feidian.domain.Video;
 import com.feidian.mapper.VideoMapper;
 import com.feidian.service.VideoService;
-import com.feidian.vo.VideoVo;
+import com.feidian.vo.DisplayVideoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +17,8 @@ public class VideoServiceImpl implements VideoService {
     private VideoMapper videoMapper;
 
     @Override
-    public void insertVideo(VideoVo videoVo) {
-        videoMapper.insertVideo(videoVo);
+    public void insertVideo(Video video) {
+        videoMapper.insertVideo(video);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Video findByVideoId(Integer id) {
+    public Video findByVideoId(long id) {
         return videoMapper.findByVideoId(id);
     }
 

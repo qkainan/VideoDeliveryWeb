@@ -10,12 +10,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideoVo {
+public class DisplayVideoVo {
 
     private long videoId;
     private String videoTitle;
 
     private long userId;
+    private String username;
+
 
     private String videoDataUrl;
     private String videoCoverUrl;

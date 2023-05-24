@@ -1,6 +1,7 @@
 package com.feidian.service.impl;
 
 import com.feidian.domain.Commodity;
+import com.feidian.domain.Video;
 import com.feidian.mapper.CommodityMapper;
 import com.feidian.service.CommodityService;
 import com.feidian.vo.CommodityVo;
@@ -14,13 +15,15 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Autowired
     private CommodityMapper commodityMapper;
+
+    @Override
+    public void insertCommodity(Commodity commodity) {
+        commodityMapper.insertCommodity(commodity);
+    }
+
     public void updateCommodityDescription(String description){
         commodityMapper.updateCommodityDescription(description);
     };
-    @Override
-    public void releaseCommodity(CommodityVo commodityVo) {
-        commodityMapper.insertCommodity(commodityVo);
-    }
 
     @Override
     public List<Commodity> findByUserId(long id) {

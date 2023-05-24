@@ -4,18 +4,12 @@ import com.feidian.domain.*;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.*;
 import com.feidian.util.JwtUtil;
-import com.feidian.vo.CommodityVo;
 import com.feidian.vo.UserHomepageVo;
-import com.feidian.vo.VideoVo;
+import com.feidian.vo.VideosVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -44,10 +38,10 @@ public class UserHomepageController {
     @Autowired
     private OrderService orderService;
 
-    public ResponseResult releaseCommodity(CommodityVo commodityVo){
-        commodityService.releaseCommodity(commodityVo);
-        return new ResponseResult(200,"发布成功");
-    }
+//    public ResponseResult releaseCommodity(CommodityVo commodityVo){
+//        commodityService.releaseCommodity(commodityVo);
+//        return new ResponseResult(200,"发布成功");
+//    }
 
     public ResponseResult writePersonalDescription(@RequestBody UserHomepageVo userHomepageVo){
         userService.updateUserDescription(userHomepageVo.getUserDescription());
@@ -56,12 +50,7 @@ public class UserHomepageController {
 
     @GetMapping("/perinfo")
     public ResponseResult getHomePage(){
-        RequestAttributes ra = RequestContextHolder.getRequestAttributes();
-        ServletRequestAttributes sra = (ServletRequestAttributes) ra;
-        HttpServletRequest req = sra.getRequest();
-
-        String token = req.getHeader("token");
-        long userId = JwtUtil.getSubject(token);
+        long userId = JwtUtil.getUserId();
 
         User user = userService.findById(userId);
         List<Video> videoList = videoService.findByUserId(userId);
@@ -82,7 +71,9 @@ public class UserHomepageController {
         List<Video> videoList = videoService.findByUserId(userId);
         List<Commodity> commodityList = commodityService.findByUserId(userId);
 
-        return new ResponseResult(200,"操作成功",videoList);
+        VideosVo videosVo = new VideosVo(videoList, commodityList);
+
+        return new ResponseResult(200,"操作成功",videosVo);
     }
 
 

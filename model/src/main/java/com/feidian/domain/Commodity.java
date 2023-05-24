@@ -26,4 +26,16 @@ public class Commodity {
   private java.sql.Timestamp updateTime;
   private long isDeleted;
 
+
+  public Commodity(long id, long userId, String commodityName, String commodityType, BigDecimal price, String commodityDescription, String commodityAddress, String coverUrl) {
+    this.id = id;
+    this.userId = userId;
+    this.commodityName = commodityName;
+    this.commodityType = commodityType;
+    this.price = price;
+    this.commodityDescription = commodityDescription;
+    this.commodityAddress = commodityAddress;
+    this.coverUrl = coverUrl;
+  }
+
 }

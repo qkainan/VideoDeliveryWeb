@@ -4,7 +4,7 @@
     <insert id="insertVideo">
         insert into video (id, user_id, video_name, video_title, video_type, video_description,
                            cover_url, data_url, video_status, create_time, update_time, is_deleted)
-            VALUES (id=#{videoId}, user_id= #{});
+            VALUES ();
     </insert>
 
     <delete id="deleteVideo"></delete>

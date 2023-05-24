@@ -1,15 +1,15 @@
 package com.feidian.service;
 
 import com.feidian.domain.Commodity;
-import com.feidian.vo.CommodityVo;
+
 
 import java.util.List;
 
 public interface CommodityService {
 
-    void updateCommodityDescription(String description);
+    void insertCommodity(Commodity commodity);
 
-    void releaseCommodity(CommodityVo commodityVo);
+    void updateCommodityDescription(String description);
 
     List<Commodity> findByUserId(long id);
 

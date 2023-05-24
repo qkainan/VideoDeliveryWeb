@@ -8,7 +8,8 @@ import com.feidian.service.CommodityService;
 import com.feidian.service.UserService;
 import com.feidian.service.VideoService;
 import com.feidian.util.JwtUtil;
-import com.feidian.vo.VideoVo;
+import com.feidian.vo.DisplayVideoVo;
+import com.feidian.vo.UploadVideoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,46 +43,66 @@ public class VideoController {
     }
 
     @GetMapping("/video")
-    public ResponseResult getVideoVo(Integer id){
+    public ResponseResult getDisplayVideoVo(long id){
         Video video = videoService.findByVideoId(id);
         User user = userService.findById(video.getUserId());
         List<Commodity> commodityList = commodityService.findByUserId(video.getUserId());
 
-        VideoVo videoVo = new VideoVo(video.getId(), video.getVideoTitle(), user.getId(),
-                 video.getDataUrl(), video.getCoverUrl(), video.getVideoDescription(),
-                video.getCreateTime(), commodityList);
+        DisplayVideoVo displayVideoVo = new DisplayVideoVo(video.getId(), video.getVideoTitle(), user.getId(),
+                user.getUsername(), video.getDataUrl(), video.getCoverUrl(),
+                video.getVideoDescription(), video.getCreateTime(), commodityList);
 
-        return new ResponseResult(200,"操作成功",videoVo);
+        return new ResponseResult(200,"操作成功",displayVideoVo);
     }
 
     @PostMapping("/uploadVideo")
-    public ResponseResult uploadVideo(@RequestBody VideoVo videoVo,@RequestPart("file") MultipartFile file){
+    public ResponseResult uploadVideo(@RequestBody UploadVideoVo uploadVideoVo,
+                                      @RequestPart("dataFile") MultipartFile dataFile,
+                                      @RequestPart("coverFile") MultipartFile coverFile){
+
         long userId = JwtUtil.getUserId();
 
+        String videoDataUrl = "";
+        String videoCoverUrl = "";
 
-//        videoVo.setUserId(userId);
-//        videoVo.setVideoName(file.getOriginalFilename());
-//
-//        Video video = new Video();
-//        videoService.insertVideo(video);
-//        uploadVideoFile(file);
-          return new ResponseResult(200,"操作成功");
+        // 定义保存路径
+        String uploadVideoDataDir = "C:/uploads/videos/data/";
+        String uploadVideoCoverDir ="C:/uploads/videos/cover/";
+
+        uploadVideoFile(dataFile,uploadVideoDataDir);
+        uploadVideoFile(coverFile,uploadVideoCoverDir);
+
+        videoDataUrl = uploadVideoFile(dataFile,uploadVideoDataDir);
+        videoCoverUrl = uploadVideoFile(coverFile,uploadVideoCoverDir);
+
+        uploadVideoVo.setUserId(userId);
+        uploadVideoVo.setVideoName(dataFile.getOriginalFilename());
+
+        uploadVideoVo.setCoverUrl(videoCoverUrl);
+        uploadVideoVo.setDataUrl(videoDataUrl);
+
+        Video video = new Video(uploadVideoVo.getId(), uploadVideoVo.getUserId(), uploadVideoVo.getVideoName(),
+                uploadVideoVo.getVideoTitle(), uploadVideoVo.getVideoType(), uploadVideoVo.getVideoDescription(),
+                uploadVideoVo.getCoverUrl(), uploadVideoVo.getDataUrl());
+
+        videoService.insertVideo(video);
+
+        return new ResponseResult(200,"操作成功");
     }
 
 
-    public ResponseResult uploadVideoFile(@RequestPart("file") MultipartFile file) {
+    public String uploadVideoFile(MultipartFile file,String uploadDir) {
 
         // 处理文件上传逻辑
         // 进行视频文件的保存、处理等操作
         // 返回相应的结果
 
         if (file.isEmpty()) {
-            return new ResponseResult(403,"所传文件为空");
+            return  "0";
         }
 
         try {
             // 定义保存路径
-            String uploadDir = "D:/uploadVideos/";
             // 创建保存目录（如果不存在）
             File dir = new File(uploadDir);
             if (!dir.exists()) {
@@ -95,9 +116,9 @@ public class VideoController {
 
             // 在此可以对文件进行进一步处理，例如调用视频处理库进行处理操作
 
-            return new ResponseResult(200,"上传成功");
+            return filePath;
         } catch (IOException e) {
-            return new ResponseResult(500,"上传失败",e.getMessage());
+            return e.getMessage();
         }
     }
 

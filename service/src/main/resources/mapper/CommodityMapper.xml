@@ -4,7 +4,7 @@
     <insert id="insertCommodity">
         insert into commodity
         values (id, commodity_name, commodity_type, price, commodity_address, commodity_description,
-                cover_url), (#{commodityVo})
+                cover_url), (commodity)
     </insert>
 
     <update id="updateCommodityDescription">

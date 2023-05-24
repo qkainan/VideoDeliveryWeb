@@ -1,7 +1,7 @@
 package com.feidian.mapper;
 
 import com.feidian.domain.Video;
-import com.feidian.vo.VideoVo;
+import com.feidian.vo.DisplayVideoVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -13,11 +13,11 @@ public interface VideoMapper {
 
     void deleteVideo();
 
-    void insertVideo(VideoVo videoVo);
+    void insertVideo(Video video);
 
     void findByVideoName();
 
-    Video findByVideoId(Integer id);
+    Video findByVideoId(long id);
 
     List<Video> findByUserId(long userId);
 }
