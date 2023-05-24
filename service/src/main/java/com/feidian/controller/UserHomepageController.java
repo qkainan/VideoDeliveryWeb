@@ -48,14 +48,15 @@ public class UserHomepageController {
         return new ResponseResult(200,"发布成功");
     }
 
-    @GetMapping("/perinfo")
+    @GetMapping("/getPerinfo")
     public ResponseResult getHomePage(){
         long userId = JwtUtil.getUserId();
 
         User user = userService.findById(userId);
+
         List<Video> videoList = videoService.findByUserId(userId);
         List<Commodity> commodityList = commodityService.findByUserId(userId);
-        List<Order> orderList = orderService.findByUserId(userId);
+        List<SaleOrder> orderList = orderService.findByUserId(userId);
         List<Cart> cartList = cartService. findByUserId(userId);
 
         UserHomepageVo userHomepageVo = new UserHomepageVo(userId, user.getUsername(),
@@ -64,7 +65,9 @@ public class UserHomepageController {
         return  new ResponseResult(200,"操作成功",userHomepageVo);
     }
 
-    @GetMapping("/pervideo")
+
+    //Todo video commodity 对应表
+    @GetMapping("/getPervideo")
     public ResponseResult getVideos(){
         long userId = JwtUtil.getUserId();
 

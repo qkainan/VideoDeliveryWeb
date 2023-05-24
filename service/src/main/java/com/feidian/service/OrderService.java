@@ -1,9 +1,9 @@
 package com.feidian.service;
 
-import com.feidian.domain.Order;
+import com.feidian.domain.SaleOrder;
 
 import java.util.List;
 
 public interface OrderService {
-    List<Order> findByUserId(long userId);
+    List<SaleOrder> findByUserId(long userId);
 }

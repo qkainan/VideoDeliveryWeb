@@ -32,17 +32,18 @@ public class VideoController {
     @Autowired
     private CommodityService commodityService;
 
-    @GetMapping("/homerecommend")
+    @GetMapping("/getHomeRecommend")
     public ResponseResult homeRecommend(){
         List<Video> list = new ArrayList<Video>();
         for (Integer id:videoService.homeRecommend()) {
             list.add(videoService.findByVideoId(id));
         }
-
         return new ResponseResult(200, "操作成功",list);
     }
 
-    @GetMapping("/video")
+
+    //Todo
+    @GetMapping("/getDisplayVideo/{id}")
     public ResponseResult getDisplayVideoVo(long id){
         Video video = videoService.findByVideoId(id);
         User user = userService.findById(video.getUserId());
@@ -55,7 +56,7 @@ public class VideoController {
         return new ResponseResult(200,"操作成功",displayVideoVo);
     }
 
-    @PostMapping("/uploadVideo")
+    @PostMapping("/postUploadVideo")
     public ResponseResult uploadVideo(@RequestBody UploadVideoVo uploadVideoVo,
                                       @RequestPart("dataFile") MultipartFile dataFile,
                                       @RequestPart("coverFile") MultipartFile coverFile){
@@ -91,6 +92,10 @@ public class VideoController {
     }
 
 
+//    @DeleteMapping("/deleteVideo")
+//    public
+
+
     public String uploadVideoFile(MultipartFile file,String uploadDir) {
 
         // 处理文件上传逻辑
@@ -121,5 +126,6 @@ public class VideoController {
             return e.getMessage();
         }
     }
+
 
 }

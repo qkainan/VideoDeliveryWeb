@@ -30,7 +30,7 @@ public class IndexController {
     String verifyCode = new VerifyCode().setVerifyCode();
 
     //快速注册
-    @PostMapping("/postFastSignUp")
+    @PostMapping("/postFastSignup")
     public ResponseResult fastSignUp(@RequestBody SignUpVo signUpMsg) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
@@ -58,7 +58,7 @@ public class IndexController {
     }
 
     //邮箱注册
-    @PostMapping("/postEmailSignUp")
+    @PostMapping("/postEmailSignup")
     public ResponseResult emailSignUp(@RequestBody SignUpVo signUpVo) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
@@ -132,7 +132,7 @@ public class IndexController {
     @Autowired
     private LoginLogService loginLogService;
 
-    @PostMapping("/login")
+    @PostMapping("/postLogin")
     public ResponseResult login(@RequestBody String username, @RequestBody String password) throws Exception {
 
         if (password.length() >16 && password.length() <8 ) {

@@ -7,14 +7,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class SaleOrder {
 
   private long id;
+  private long PurchaseOrderId;
   private long commodityId;
-  private long userId;
+  private long sellerId;
+  private long buyerId;
   private long addressId;
 
-  private long videoStatus;
+  //5：已收货 4：待收货 3：已发货 1：待发货 0：已退款
+  private long status;
 
   private java.sql.Timestamp createTime;
   private java.sql.Timestamp updateTime;

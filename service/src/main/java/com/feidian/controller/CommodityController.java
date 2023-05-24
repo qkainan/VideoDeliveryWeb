@@ -21,7 +21,7 @@ public class CommodityController {
     @Autowired
     private CommodityService commodityService;
 
-    @GetMapping("/goods")
+    @PostMapping("/getCommodity")
     public ResponseResult findByCommodityId(long id){
 
         Commodity commodity = commodityService.findByCommodityId(id);
@@ -34,7 +34,7 @@ public class CommodityController {
 
     }
 
-    @GetMapping("/pergoods")
+    @GetMapping("/getPerCommodities")
     public ResponseResult findByUserId(long id){
         long userId = JwtUtil.getUserId();
 
@@ -43,14 +43,14 @@ public class CommodityController {
         return new ResponseResult(200,"操作成功",list);
     }
 
-    @PostMapping("/updateCommodityMsg")
+    @PutMapping("/putUpdateCommodityMsg")
     public ResponseResult updateCommodityMsg(@RequestBody CommodityVo commodityVo, @RequestPart(required = false) MultipartFile file){
         Commodity commodity = new Commodity();
         commodityService.insertCommodity(commodity);
         return new ResponseResult(200,"操作成功");
     }
 
-    @PostMapping("/uploadCommodity")
+    @PostMapping("/postUploadCommodity")
     public ResponseResult uploadVideo(@RequestBody UploadCommodityVo uploadCommodityVo,
                                       @RequestPart("coverFile") MultipartFile coverFile){
 
@@ -80,6 +80,8 @@ public class CommodityController {
         return new ResponseResult(200,"操作成功");
     }
 
+//    @PostMapping("/deleteCommodity")
+//    public
 
     public String uploadCommodityFile(MultipartFile file,String uploadDir) {
 

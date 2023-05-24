@@ -14,7 +14,7 @@ public class Cart {
   private long commodityId;
   private long addressId;
 
-  private long videoStatus;
+  private long status;
   private java.sql.Timestamp createTime;
   private java.sql.Timestamp updateTime;
   private long isDeleted;

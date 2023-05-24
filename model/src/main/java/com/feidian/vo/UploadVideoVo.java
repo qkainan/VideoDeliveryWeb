@@ -16,6 +16,8 @@ public class UploadVideoVo {
     private String videoTitle;
     private String videoType;
     private String videoDescription;
+
+    //Todo 商品id 数组形式
     private String coverUrl;
     private String dataUrl;
 

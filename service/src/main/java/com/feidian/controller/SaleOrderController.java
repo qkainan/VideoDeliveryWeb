@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-public class OrderController {
+public class SaleOrderController {
 
     @Autowired
     private OrderService orderService;

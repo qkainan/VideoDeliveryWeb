@@ -2,13 +2,12 @@ package com.feidian.vo;
 
 import com.feidian.domain.Cart;
 import com.feidian.domain.Commodity;
-import com.feidian.domain.Order;
+import com.feidian.domain.SaleOrder;
 import com.feidian.domain.Video;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -26,7 +25,7 @@ public class UserHomepageVo {
 
     private List<Commodity> commodityList;
 
-    private List<Order> orderList;
+    private List<SaleOrder> orderList;
 
     private List<Cart> cartList;
 
