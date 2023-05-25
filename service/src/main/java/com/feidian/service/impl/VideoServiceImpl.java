@@ -23,6 +23,7 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Integer[] homeRecommend() {
+
         //创建一个新的数组
         Integer[] arr = new Integer[40];
         //把随机数存入数组当中

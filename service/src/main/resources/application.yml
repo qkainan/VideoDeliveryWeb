@@ -10,9 +10,9 @@ spring:
       max-file-size: 1024MB
       max-request-size: 1024MB
 
-#设置端口
-server :
-  port : 8088
+  profiles:
+    active: deploy
+
 
   aop:
     proxy-target-class: false #切换动态代理的方式

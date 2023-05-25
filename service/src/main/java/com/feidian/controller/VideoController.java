@@ -34,7 +34,7 @@ public class VideoController {
 
     @GetMapping("/getHomeRecommend")
     public ResponseResult homeRecommend(){
-        List<Video> list = new ArrayList<Video>();
+        List<Video> list = new ArrayList<>();
         for (Integer id:videoService.homeRecommend()) {
             list.add(videoService.findByVideoId(id));
         }
@@ -66,9 +66,10 @@ public class VideoController {
         String videoDataUrl = "";
         String videoCoverUrl = "";
 
+        //Todo 最好放在配置文件
         // 定义保存路径
         String uploadVideoDataDir = "C:/uploads/videos/data/";
-        String uploadVideoCoverDir ="C:/uploads/videos/cover/";
+        String uploadVideoCoverDir = "C:/uploads/videos/cover/";
 
         uploadVideoFile(dataFile,uploadVideoDataDir);
         uploadVideoFile(coverFile,uploadVideoCoverDir);

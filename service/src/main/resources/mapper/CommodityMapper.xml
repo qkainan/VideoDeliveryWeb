@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.feidian.mapper.CommodityMapper">
-    <insert id="insertCommodity">
+    <insert id="insertCommodity" parameterType="com.feidian.domain.Commodity">
         insert into commodity
         values (id, commodity_name, commodity_type, price, commodity_address, commodity_description,
-                cover_url), (commodity)
+                cover_url), (#{commodity.id}, #{commodity.userId}, #{commodity.} );
     </insert>
 
     <update id="updateCommodityDescription">

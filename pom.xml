@@ -140,17 +140,7 @@
   </dependencies>
 
   <build>
-    <plugins>
-      <!--springboot打包插件-->
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <mainClass>com.feidian.ServiceApplication</mainClass>
-        </configuration>
 
-      </plugin>
-    </plugins>
   </build>
 
 </project>
