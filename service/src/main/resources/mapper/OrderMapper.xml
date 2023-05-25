@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.feidian.mapper.OrderMapper">
-    <select id="findByUserId" resultType="com.feidian.domain.SaleOrder">
+
+    <select id="findByBuyerId" resultType="com.feidian.domain.Order">
         select *
         from order
-        where user_id = #{userId};
+        where buyer_id = #{buyerId};
+    </select>
+
+    <select id="findBySellerId" resultType="com.feidian.domain.Order">
+        select *
+        from order
+        where seller_id = #{sellerId};
     </select>
 </mapper>

@@ -4,14 +4,15 @@ import com.feidian.domain.*;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.*;
 import com.feidian.util.JwtUtil;
+import com.feidian.vo.BuyerOrderVo;
+import com.feidian.vo.SellerOrderVo;
 import com.feidian.vo.UserHomepageVo;
 import com.feidian.vo.VideosVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,10 +39,6 @@ public class UserHomepageController {
     @Autowired
     private OrderService orderService;
 
-//    public ResponseResult releaseCommodity(CommodityVo commodityVo){
-//        commodityService.releaseCommodity(commodityVo);
-//        return new ResponseResult(200,"发布成功");
-//    }
 
     public ResponseResult writePersonalDescription(@RequestBody UserHomepageVo userHomepageVo){
         userService.updateUserDescription(userHomepageVo.getUserDescription());
@@ -56,12 +53,13 @@ public class UserHomepageController {
 
         List<Video> videoList = videoService.findByUserId(userId);
         List<Commodity> commodityList = commodityService.findByUserId(userId);
-        List<SaleOrder> orderList = orderService.findByUserId(userId);
+        List<BuyerOrderVo> buyerOrderVoList = getBuyerOrderVo(userId);
+        List<SellerOrderVo> sellerOrderVoList = getSellerOrderVo(userId);
         List<Cart> cartList = cartService. findByUserId(userId);
 
         UserHomepageVo userHomepageVo = new UserHomepageVo(userId, user.getUsername(),
                 user.getUserDescription(), user.getPhone(), user.getHeadUrl(),
-                user.getEmailAddress(), videoList, commodityList, orderList, cartList);
+                user.getEmailAddress(), videoList, commodityList, buyerOrderVoList,sellerOrderVoList, cartList);
         return  new ResponseResult(200,"操作成功",userHomepageVo);
     }
 
@@ -79,11 +77,41 @@ public class UserHomepageController {
         return new ResponseResult(200,"操作成功",videosVo);
     }
 
+    //创建订单Vo
+    public List<BuyerOrderVo> getBuyerOrderVo(long buyerId){
+        List<Order> orderList = orderService.findByBuyerId(buyerId);
+        List<BuyerOrderVo> buyerOrderVoList = new ArrayList();
 
-    @RequestMapping("/upload")
-    public String upload(MultipartFile uploadFile) throws IOException {
-        //文件存储 把上传上来的文件存储下来
-        uploadFile.transferTo(new File("test.sql"));
-        return "/success.jsp";
+        BuyerOrderVo buyerOrderVo;
+        for (Order order : orderList) {
+            User buyer = userService.findById(buyerId);
+            Commodity commodity = commodityService.findByCommodityId(order.getCommodityId());
+            User seller = userService.findById(order.getSellerId());
+
+            buyerOrderVo = new BuyerOrderVo(order.getId(), commodity.getCommodityName(),
+                    commodity.getPrice(), commodity.getCommodityAddress(),
+                    order.getOrderStatus(), order.getUpdateTime());
+            buyerOrderVoList.add(buyerOrderVo);
+        }
+
+        return buyerOrderVoList;
     }
+    public List<SellerOrderVo> getSellerOrderVo(long sellerId){
+        List<Order> orderList = orderService.findByBuyerId(sellerId);
+        List<SellerOrderVo> sellerOrderVoList = new ArrayList();
+
+        SellerOrderVo sellerOrderVo;
+        for (Order order : orderList) {
+            User buyer = userService.findById(sellerId);
+            Commodity commodity = commodityService.findByCommodityId(order.getCommodityId());
+            User seller = userService.findById(order.getSellerId());
+
+            sellerOrderVo = new SellerOrderVo(order.getId(), commodity.getCommodityName(),
+                    commodity.getPrice(), commodity.getCommodityAddress(),
+                    order.getOrderStatus(), order.getUpdateTime());
+            sellerOrderVoList.add(sellerOrderVo);
+        }
+        return sellerOrderVoList;
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.SaleOrder;
+import com.feidian.domain.Order;
 import com.feidian.mapper.OrderMapper;
 import com.feidian.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,12 @@ public class OrderServiceImpl implements OrderService {
     private OrderMapper orderMapper;
 
     @Override
-    public List<SaleOrder> findByUserId(long userId) {
-        return orderMapper.findByUserId(userId);
+    public List<Order> findByBuyerId(long buyerId) {
+        return orderMapper.findByBuyerId(buyerId);
+    }
+
+    @Override
+    public List<Order> findBySellerId(long sellerId) {
+        return orderMapper.findBySellerId(sellerId);
     }
 }
