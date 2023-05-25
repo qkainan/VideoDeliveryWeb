@@ -44,7 +44,7 @@ public class VideoController {
 
     //Todo
     @GetMapping("/getDisplayVideo/{id}")
-    public ResponseResult getDisplayVideoVo(long id){
+    public ResponseResult getDisplayVideoVo(@PathVariable("id") long id){
         Video video = videoService.findByVideoId(id);
         User user = userService.findById(video.getUserId());
         List<Commodity> commodityList = commodityService.findByUserId(video.getUserId());

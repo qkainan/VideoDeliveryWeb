@@ -1,9 +1,12 @@
 package com.feidian.vo;
 
+import com.feidian.domain.Commodity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @Data
@@ -19,7 +22,7 @@ public class UploadVideoVo {
     private String videoType;
     private String videoDescription;
 
-    //Todo 商品id 数组形式
+    private List<Commodity> commodityList;
     private String coverUrl;
     private String dataUrl;
 
