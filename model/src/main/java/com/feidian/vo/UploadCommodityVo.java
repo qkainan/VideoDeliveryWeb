@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.List;
+
 @Component
 @Data
 @NoArgsConstructor
@@ -21,5 +23,6 @@ public class UploadCommodityVo {
     private String commodityDescription;
     private String commodityAddress;
     private String coverUrl;
+    private List<String> imageUrl;
 
 }

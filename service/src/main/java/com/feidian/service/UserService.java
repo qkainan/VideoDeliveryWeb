@@ -1,7 +1,7 @@
 package com.feidian.service;
 
 import com.feidian.domain.User;
-
+import com.feidian.vo.UserPersonalInformationVo;
 
 
 import java.util.List;
@@ -25,4 +25,5 @@ public interface UserService {
 
     void updateUserDescription(String description);
 
+    void updateUserPersonalInformation(UserPersonalInformationVo userPersonalInformationVo);
 }

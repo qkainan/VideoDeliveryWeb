@@ -48,6 +48,11 @@ public class VideoServiceImpl implements VideoService {
         return videoMapper.findByUserId(userId);
     }
 
+    @Override
+    public void deleteVideo(long videoId) {
+        videoMapper.deleteVideo(videoId);
+    }
+
 
 }
 

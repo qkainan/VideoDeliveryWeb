@@ -1,13 +1,12 @@
 package com.feidian.controller;
 
 import com.feidian.domain.*;
+import com.feidian.resolver.CurrentUserId;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.*;
+import com.feidian.util.EmailUtil;
 import com.feidian.util.JwtUtil;
-import com.feidian.vo.BuyerOrderVo;
-import com.feidian.vo.SellerOrderVo;
-import com.feidian.vo.UserHomepageVo;
-import com.feidian.vo.VideosVo;
+import com.feidian.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +16,6 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin
 public class UserHomepageController {
 
     //Todo 上传视频（视频名称、视频封面、编写视频简介、获取视频发布时间） 视频资源路径
@@ -39,10 +37,17 @@ public class UserHomepageController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private OrderCommodityService orderCommodityService;
 
-    public ResponseResult writePersonalDescription(@RequestBody UserHomepageVo userHomepageVo){
-        userService.updateUserDescription(userHomepageVo.getUserDescription());
-        return new ResponseResult(200,"发布成功");
+
+    @GetMapping("/getPerCommodities")
+    public ResponseResult findByUserId(){
+        long userId = JwtUtil.getUserId();
+
+        List list = commodityService.findByUserId(userId);
+
+        return new ResponseResult(200,"操作成功",list);
     }
 
     @GetMapping("/getPerinfo")
@@ -53,8 +58,8 @@ public class UserHomepageController {
 
         List<Video> videoList = videoService.findByUserId(userId);
         List<Commodity> commodityList = commodityService.findByUserId(userId);
-        List<BuyerOrderVo> buyerOrderVoList = getBuyerOrderVo(userId);
-        List<SellerOrderVo> sellerOrderVoList = getSellerOrderVo(userId);
+        List<PurchaseOrderVo> buyerOrderVoList = getPurchaseOrderVo(userId);
+        List<SaleOrderVo> sellerOrderVoList = getSaleOrderVo(userId);
         List<Cart> cartList = cartService. findByUserId(userId);
 
         UserHomepageVo userHomepageVo = new UserHomepageVo(userId, user.getUsername(),
@@ -64,7 +69,6 @@ public class UserHomepageController {
     }
 
 
-    //Todo video commodity 对应表
     @GetMapping("/getPervideo")
     public ResponseResult getVideos(){
         long userId = JwtUtil.getUserId();
@@ -77,41 +81,52 @@ public class UserHomepageController {
         return new ResponseResult(200,"操作成功",videosVo);
     }
 
-    //创建订单Vo
-    public List<BuyerOrderVo> getBuyerOrderVo(long buyerId){
-        List<Order> orderList = orderService.findByBuyerId(buyerId);
-        List<BuyerOrderVo> buyerOrderVoList = new ArrayList();
 
-        BuyerOrderVo buyerOrderVo;
+    public List<PurchaseOrderVo> getPurchaseOrderVo(@CurrentUserId long buyerId){
+        List<Order> orderList = orderService.findByBuyerId(buyerId);
+        List<PurchaseOrderVo> purchaseOrderVoList = new ArrayList();
+
+        PurchaseOrderVo purchaseOrderVo;
         for (Order order : orderList) {
             User buyer = userService.findById(buyerId);
-            Commodity commodity = commodityService.findByCommodityId(order.getCommodityId());
+            OrderCommodity orderCommodity = orderCommodityService.findById(order.getId());
+            Commodity commodity = commodityService.findByCommodityId(orderCommodity.getCommodityId());
             User seller = userService.findById(order.getSellerId());
 
-            buyerOrderVo = new BuyerOrderVo(order.getId(), commodity.getCommodityName(),
+            purchaseOrderVo = new PurchaseOrderVo(order.getId(), commodity.getCommodityName(),
                     commodity.getPrice(), commodity.getCommodityAddress(),
                     order.getOrderStatus(), order.getUpdateTime());
-            buyerOrderVoList.add(buyerOrderVo);
+            purchaseOrderVoList.add(purchaseOrderVo);
         }
 
-        return buyerOrderVoList;
+        return purchaseOrderVoList;
     }
-    public List<SellerOrderVo> getSellerOrderVo(long sellerId){
+
+    public List<SaleOrderVo> getSaleOrderVo(long sellerId) {
         List<Order> orderList = orderService.findByBuyerId(sellerId);
-        List<SellerOrderVo> sellerOrderVoList = new ArrayList();
+        List<SaleOrderVo> saleOrderVoList = new ArrayList();
 
-        SellerOrderVo sellerOrderVo;
+        SaleOrderVo saleOrderVo;
         for (Order order : orderList) {
+
             User buyer = userService.findById(sellerId);
-            Commodity commodity = commodityService.findByCommodityId(order.getCommodityId());
+            OrderCommodity orderCommodity = orderCommodityService.findById(sellerId);
+            Commodity commodity = commodityService.findByCommodityId(orderCommodity.getCommodityId());
             User seller = userService.findById(order.getSellerId());
 
-            sellerOrderVo = new SellerOrderVo(order.getId(), commodity.getCommodityName(),
+            saleOrderVo = new SaleOrderVo(order.getId(), commodity.getCommodityName(),
                     commodity.getPrice(), commodity.getCommodityAddress(),
                     order.getOrderStatus(), order.getUpdateTime());
-            sellerOrderVoList.add(sellerOrderVo);
+            saleOrderVoList.add(saleOrderVo);
         }
-        return sellerOrderVoList;
+        return saleOrderVoList;
     }
+
+    @PutMapping("/putUserPersonalInformation")
+    public ResponseResult putUserPersonalInformation(@RequestBody UserPersonalInformationVo userPersonalInformationVo) {
+        userService.updateUserPersonalInformation(userPersonalInformationVo);
+        return new ResponseResult(200, "发布成功");
+    }
+    //发送验证码
 
 }

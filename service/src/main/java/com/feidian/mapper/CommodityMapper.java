@@ -12,9 +12,13 @@ import java.util.List;
 public interface CommodityMapper {
     void insertCommodity(Commodity commodity);
 
+    void deleteCommodity(long commodityId);
+
     void updateCommodityDescription(String description);
 
     List<Commodity> findByUserId(long id);
 
     Commodity findByCommodityId(long id);
+
+
 }

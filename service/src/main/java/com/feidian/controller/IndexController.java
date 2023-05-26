@@ -2,12 +2,14 @@ package com.feidian.controller;
 
 import com.feidian.domain.User;
 import com.feidian.responseResult.ResponseResult;
+import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.LoginLogService;
 import com.feidian.service.UserService;
 import com.feidian.util.AESUtil;
 import com.feidian.util.EmailUtil;
 import com.feidian.util.JwtUtil;
 import com.feidian.util.VerifyCode;
+import com.feidian.vo.LoginVo;
 import com.feidian.vo.SignUpVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -22,7 +24,6 @@ import java.util.UUID;
 
 
 @RestController
-@CrossOrigin
 public class IndexController {
     @Autowired
     private UserService userService;
@@ -41,11 +42,11 @@ public class IndexController {
         String regexPwd = "\\w{8,25}";
 
         if (signUpMsg.getPassword().matches(regexPwd) == false) {
-            return new ResponseResult(403, "输入密码不符合要求");
+            return new ResponseResult(403,"密码不符合要求");
         }
 
         if (!signUpMsg.getPassword().equals(signUpMsg.getRePwd())) {
-            return new ResponseResult(403, "第二次输入密码与第一次不同");
+            return new ResponseResult(403,"第二次输入密码与第一次不同");
         }
 
         //加密密码并创建用户
@@ -54,7 +55,7 @@ public class IndexController {
         User user = new User(signUpMsg.getId(), signUpMsg.getUsername(), encryptUserPwd);
 
         userService.signUp(user);
-        return new ResponseResult(200, "操作成功");
+        return new ResponseResult(200,"操作成功");
     }
 
     //邮箱注册
@@ -70,11 +71,11 @@ public class IndexController {
         String regexPwd = "\\w{8,16}";
 
         if (false == signUpVo.getPassword().matches(regexPwd)) {
-            return new ResponseResult(403, "输入密码不符合要求");
+            return new ResponseResult(403,"密码不符合要求");
         }
 
         if (!signUpVo.getPassword().equals(signUpVo.getRePwd())) {
-            return new ResponseResult(403, "第二次输入密码与第一次不同");
+            return new ResponseResult(403, "密码不正确");
         }
 
 
@@ -82,7 +83,7 @@ public class IndexController {
         Boolean verifyResult = verifyCode.equals(signUpVo.getVerifyCode());
 
         if (false == verifyResult) {
-            return new ResponseResult(403, "验证码错误");
+            return new  ResponseResult(403,"验证码错误");
         }
 
 
@@ -92,7 +93,7 @@ public class IndexController {
         User user = new User(signUpVo.getId(), signUpVo.getUsername(), encryptUserPwd);
 
         userService.signUp(user);
-        return new ResponseResult(200, "操作成功");
+        return new ResponseResult(200,"操作成功");
     }
 
     //加密用户密码
@@ -112,20 +113,20 @@ public class IndexController {
         return encryptUserPwd;
     }
 
-    //邮箱验证
+    //发送验证码
     @PostMapping("/postVerify")
     public ResponseResult postVerify(@RequestBody SignUpVo signUpVo) {
 
         String regexEmailAddress = "\\w+@[\\w&&[^_]]{2,7}(\\.[a-zA-Z]{2,4}){1,3}";
 
         if (!signUpVo.getEmailAddress().matches(regexEmailAddress)) {
-            return new ResponseResult(403, "邮箱格式不正确", signUpVo.getEmailAddress());
+            return new ResponseResult(403,"密码格式不正确");
         }
 
         //发送验证码
         EmailUtil.sendEmail(signUpVo.getEmailAddress(), verifyCode);
 
-        return new ResponseResult(200, "发送验证码成功");
+        return new ResponseResult(200,"验证码发送成功");
     }
 
 
@@ -133,27 +134,27 @@ public class IndexController {
     private LoginLogService loginLogService;
 
     @PostMapping("/postLogin")
-    public ResponseResult login(@RequestBody String username, @RequestBody String password) throws Exception {
+    public ResponseResult login(@RequestBody LoginVo loginVo) throws Exception {
 
-        if (password.length() >16 && password.length() <8 ) {
+        if (loginVo.getPassword().length() >16 && loginVo.getPassword().length() <8 ) {
             return new ResponseResult(403, "密码不符合要求");
         }
 
         //密码符合要求则开始验证
-        User user = userService.findByName(username);
+        User user = userService.findByName(loginVo.getUsername());
         Long id01 = user.getId();
         String username01 = user.getUsername();
 
         if (!StringUtils.hasText(username01)) {
-            return new ResponseResult(403, "用户名不存在");
+            return new ResponseResult(403,"用户名不存在");
         }
 
         //验证密码是否正确
         //补全用户输入的密码
         String userPwd = "";
-        StringBuilder stringBuilder = new StringBuilder(password);
-        if (16 > password.length()){
-            for (int i = password.length() ; i < 16; i++) {
+        StringBuilder stringBuilder = new StringBuilder(loginVo.getPassword());
+        if (16 > loginVo.getPassword().length()){
+            for (int i = loginVo.getPassword().length() ; i < 16; i++) {
                 stringBuilder = stringBuilder.append("=");
             }
         }
@@ -165,14 +166,14 @@ public class IndexController {
         if (!decryptUserPwd.equals(userPwd)) {
             user.setUserStatus(1);
             loginLogService.recordLoginLog(user.getUsername(),user.getUserStatus(),"登陆失败");
-            return new ResponseResult(403, "密码不正确");
+            return new ResponseResult(403,"密码不正确");
         }
 
         //如果正确 生成token返回,并记录日志
         Map<String, Object> map;
         map = new HashMap<>();
         String token = JwtUtil.createJWT(UUID.randomUUID().toString(), String.valueOf(id01), null);
-        map.put("token", token);
+        map.put("Authorization", token);
         user.setUserStatus(0);
 
         loginLogService.recordLoginLog(user.getUsername(),user.getUserStatus(),"登录成功");

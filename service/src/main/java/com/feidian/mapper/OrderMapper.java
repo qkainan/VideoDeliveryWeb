@@ -13,4 +13,5 @@ public interface OrderMapper {
     List<Order> findByBuyerId(long buyerId);
 
     List<Order> findBySellerId(long sellerId);
+
 }

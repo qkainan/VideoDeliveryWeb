@@ -25,9 +25,9 @@ public class UserHomepageVo {
 
     private List<Commodity> commodityList;
 
-    private List<BuyerOrderVo> buyerOrderVoList;
+    private List<PurchaseOrderVo> buyerOrderVoList;
 
-    private List<SellerOrderVo> sellerOrderVoList;
+    private List<SaleOrderVo> sellerOrderVoList;
 
     private List<Cart> cartList;
 

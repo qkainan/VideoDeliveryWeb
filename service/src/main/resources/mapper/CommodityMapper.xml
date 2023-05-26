@@ -13,6 +13,13 @@
         where id = #{id}
     </update>
 
+    <update id="deleteCommodity">
+        update commodity
+        set id_deleted = #{1}
+        where id = #{id}
+    </update>
+
+
 
     <select id="findByUserId" resultType="com.feidian.domain.Commodity">
         select *

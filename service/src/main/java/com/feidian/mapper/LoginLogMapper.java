@@ -11,5 +11,4 @@ import org.springframework.stereotype.Repository;
 public interface LoginLogMapper {
     void insert(LoginLog loginLog);
 
-    IPage selectPage(Page<LoginLog> pageParam);
 }

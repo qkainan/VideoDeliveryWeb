@@ -2,12 +2,8 @@ package com.feidian.service.impl;
 
 import com.feidian.domain.User;
 import com.feidian.mapper.UserMapper;
-import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.UserService;
-import com.feidian.util.AESUtil;
-import com.feidian.util.EmailUtil;
-import com.feidian.util.VerifyCode;
-import com.feidian.vo.SignUpVo;
+import com.feidian.vo.UserPersonalInformationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,6 +56,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserDescription(String description) {
         userMapper.updateUserDescription(description);
+    }
+
+    @Override
+    public void updateUserPersonalInformation(UserPersonalInformationVo userPersonalInformationVo) {
+        User user = new User(userPersonalInformationVo.getId(),userPersonalInformationVo.getUsername(),userPersonalInformationVo.getPassword(),
+                userPersonalInformationVo.getPhone(),userPersonalInformationVo.getHeadUrl(),userPersonalInformationVo.getUserDescription(),
+                userPersonalInformationVo.getEmailAddress());
+
+        userMapper.updateUser(user);
     }
 
 

@@ -32,9 +32,6 @@ public class User {
         this.id = id;
         this.username = username;
         this.password = password;
-
-
-
     }
 
     public User(long id, String username, String password,  String emailAddress) {
@@ -42,6 +39,16 @@ public class User {
         this.username = username;
         this.password = password;
         this.emailAddress = emailAddress;
+    }
 
+    public User(long id, String username, String password, Integer phone,
+                String headUrl, String userDescription, String emailAddress) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.emailAddress = emailAddress;
+        this.phone = phone;
+        this.headUrl = headUrl;
+        this.userDescription = userDescription;
     }
 }

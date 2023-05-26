@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class CartController {
 
     @Autowired
@@ -51,7 +50,7 @@ public class CartController {
             cartVoList.add(cartVo);
         }
 
-        return new ResponseResult<>(200, "操作成功", cartVoList);
+        return new ResponseResult(200, "操作成功", cartVoList);
     }
 
     public List<Cart> getCartList(long userId){

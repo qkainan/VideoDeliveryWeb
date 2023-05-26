@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface VideoMapper {
 
-    void deleteVideo();
+    void deleteVideo(long videoId);
 
     void insertVideo(Video video);
 

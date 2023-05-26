@@ -7,7 +7,12 @@
             VALUES ();
     </insert>
 
-    <delete id="deleteVideo"></delete>
+    <delete id="deleteVideo">
+        update video
+        set id_deleted = #{1}
+        where id = #{id}
+    </delete>
+
     <select id="findByVideoName"></select>
 
     <select id="findByVideoId" resultType="com.feidian.domain.Video">

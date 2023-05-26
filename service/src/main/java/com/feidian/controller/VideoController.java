@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 public class VideoController {
 
     @Autowired
@@ -58,8 +57,8 @@ public class VideoController {
 
     @PostMapping("/postUploadVideo")
     public ResponseResult uploadVideo(@RequestBody UploadVideoVo uploadVideoVo,
-                                      @RequestPart("dataFile") MultipartFile dataFile,
-                                      @RequestPart("coverFile") MultipartFile coverFile){
+                                         @RequestPart("dataFile") MultipartFile dataFile,
+                                         @RequestPart("coverFile") MultipartFile coverFile){
 
         long userId = JwtUtil.getUserId();
 
@@ -93,8 +92,11 @@ public class VideoController {
     }
 
 
-//    @DeleteMapping("/deleteVideo")
-//    public
+    @PostMapping ("/postDeleteVideo")
+    public ResponseResult deleteVideo(long videoId){
+        videoService.deleteVideo(videoId);
+        return new ResponseResult(200, "操作成功");
+    }
 
 
     public String uploadVideoFile(MultipartFile file,String uploadDir) {

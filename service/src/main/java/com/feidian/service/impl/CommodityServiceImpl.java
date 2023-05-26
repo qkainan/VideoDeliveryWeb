@@ -21,6 +21,11 @@ public class CommodityServiceImpl implements CommodityService {
         commodityMapper.insertCommodity(commodity);
     }
 
+    @Override
+    public void deleteCommodity(long commodityId) {
+        commodityMapper.deleteCommodity(commodityId);
+    }
+
     public void updateCommodityDescription(String description){
         commodityMapper.updateCommodityDescription(description);
     };

@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 @Data
 @NoArgsConstructor
@@ -13,7 +15,7 @@ public class OrderCommodity {
 
   private long id;
   private long commodityId;
-  private double commodityNum;
+  private BigDecimal commodityNum;
 
   private java.sql.Timestamp createTime;
   private java.sql.Timestamp updateTime;

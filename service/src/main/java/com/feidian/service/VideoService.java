@@ -17,4 +17,5 @@ public interface VideoService {
     List<Video> findByUserId(long userId);
 
 
+    void deleteVideo(long videoId);
 }
