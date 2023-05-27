@@ -20,4 +20,6 @@ public interface VideoMapper {
     Video findByVideoId(long id);
 
     List<Video> findByUserId(long userId);
+
+    void updateVideoMsg(Video video);
 }

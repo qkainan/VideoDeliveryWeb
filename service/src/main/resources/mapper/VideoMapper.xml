@@ -1,15 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.feidian.mapper.VideoMapper">
+
     <insert id="insertVideo">
         insert into video (id, user_id, video_name, video_title, video_type, video_description,
                            cover_url, data_url, video_status, create_time, update_time, is_deleted)
             VALUES ();
     </insert>
 
+    <update id="updateVideoMsg">
+        update video
+        set
+            video_title = #{videoTitle},
+            video_type = #{videoType},
+            video_description = #{videoDescription},
+            cover_url = #{coverUrl}
+        where id = #{id}
+    </update>
+
     <delete id="deleteVideo">
         update video
-        set id_deleted = #{1}
+        set is_deleted = #{1}
         where id = #{id}
     </delete>
 

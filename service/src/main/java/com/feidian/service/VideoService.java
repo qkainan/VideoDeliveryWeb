@@ -18,4 +18,6 @@ public interface VideoService {
 
 
     void deleteVideo(long videoId);
+
+    void updateVideoMsg(Video video);
 }

@@ -23,4 +23,9 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findBySellerId(long sellerId) {
         return orderMapper.findBySellerId(sellerId);
     }
+
+    @Override
+    public void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus) {
+        orderMapper.insertOrder(id, userId,userId1, addressName, commodityAddress, orderStatus);
+    }
 }

@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
 @Component
 @Data
 @NoArgsConstructor
@@ -16,14 +14,24 @@ public class Order {
   private long id;
   private long buyerId;
   private long sellerId;
-  private long addressId;
 
+  private String addressName;
+  private String commodityAddress;
+
+  //状态（5：已收货 4：代发货 3：已发货 2：代发货 0：已退款 ）
   private long orderStatus;
 
   private java.sql.Timestamp createTime;
   private java.sql.Timestamp updateTime;
   private long isDeleted;
 
-
+  public Order(long id, long buyerId, long sellerId, String addressName, String commodityAddress, long orderStatus) {
+    this.id = id;
+    this.buyerId = buyerId;
+    this.sellerId = sellerId;
+    this.addressName = addressName;
+    this.commodityAddress = commodityAddress;
+    this.orderStatus = orderStatus;
+  }
 
 }

@@ -1,6 +1,8 @@
 package com.feidian.service.impl;
 
+import com.feidian.domain.Address;
 import com.feidian.domain.User;
+import com.feidian.mapper.AddressMapper;
 import com.feidian.mapper.UserMapper;
 import com.feidian.service.UserService;
 import com.feidian.vo.UserPersonalInformationVo;
@@ -15,6 +17,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private AddressMapper addressMapper;
 
 
 
@@ -65,6 +70,11 @@ public class UserServiceImpl implements UserService {
                 userPersonalInformationVo.getEmailAddress());
 
         userMapper.updateUser(user);
+    }
+
+    @Override
+    public Address findByAddressId(long addressId) {
+        return addressMapper.findByAddressId(addressId);
     }
 
 

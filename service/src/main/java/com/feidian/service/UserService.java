@@ -1,5 +1,6 @@
 package com.feidian.service;
 
+import com.feidian.domain.Address;
 import com.feidian.domain.User;
 import com.feidian.vo.UserPersonalInformationVo;
 
@@ -26,4 +27,6 @@ public interface UserService {
     void updateUserDescription(String description);
 
     void updateUserPersonalInformation(UserPersonalInformationVo userPersonalInformationVo);
+
+    Address findByAddressId(long addressId);
 }

@@ -53,6 +53,11 @@ public class VideoServiceImpl implements VideoService {
         videoMapper.deleteVideo(videoId);
     }
 
+    @Override
+    public void updateVideoMsg(Video video) {
+        videoMapper.updateVideoMsg(video);
+    }
+
 
 }
 

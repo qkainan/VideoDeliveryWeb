@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.feidian.mapper.CartMapper">
+    <insert id="insertCart">
+        insert into cart
+            (id, user_id, commodity_id, address_id, commodity_num, order_status, is_deleted)
+            VALUE (#{id}, #{userId}, #{commodityId}, #{addressId}, #{commodityNum}, #{orderStatus}, #{0})
+    </insert>
+
+    <update id="updateOrderStatus">
+        update cart
+        set order_status = #{orderStatus}
+        where id = #{id};
+    </update>
+
     <select id="findByUserId" resultType="com.feidian.domain.Cart">
         select *
         from cart
         where user_id = #{userId};
     </select>
+
 </mapper>

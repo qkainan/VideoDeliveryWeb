@@ -23,4 +23,16 @@ public class VideoCommodity {
   private long isDeleted;
 
 
+  public VideoCommodity(long userId, long videoId, long commodityId, long videoStatus) {
+    this.userId = userId;
+    this.videoId = videoId;
+    this.commodityId = commodityId;
+    this.videoStatus = videoStatus;
+  }
+
+  public VideoCommodity(long videoId, long commodityId) {
+    this.videoId = videoId;
+    this.commodityId = commodityId;
+  }
+
 }
