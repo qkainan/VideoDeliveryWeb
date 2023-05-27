@@ -13,4 +13,6 @@ public interface OrderService {
     List<Order> findBySellerId(long userId);
 
     void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus);
+
+    void updateStatus(long orderId);
 }

@@ -1,13 +1,14 @@
 package com.feidian.service;
 
 import com.feidian.domain.Commodity;
+import io.lettuce.core.dynamic.annotation.Param;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface CommodityService {
 
-    void insertCommodity(Commodity commodity);
 
     void deleteCommodity(long commodityId);
 
@@ -15,7 +16,10 @@ public interface CommodityService {
 
     List<Commodity> findByUserId(long id);
 
-    Commodity findByCommodityId(long id);
+    Commodity findByCommodityId(@Param("commodityId") long commodityId);
 
+    void insertCommodity(long id, long userId, String commodityName,
+                         String commodityType, BigDecimal price, String commodityDescription,
+                         String commodityAddress, String coverUrl);
 
 }

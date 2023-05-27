@@ -1,20 +1,28 @@
 package com.feidian.controller;
 
 import com.feidian.domain.Commodity;
+import com.feidian.domain.CommodityImage;
+import com.feidian.domain.Video;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.CommodityImageService;
 import com.feidian.service.CommodityService;
 import com.feidian.util.JwtUtil;
+import com.feidian.util.fileUploadUtil;
 import com.feidian.vo.CommodityVo;
+import com.feidian.vo.DataAndCoverResource;
+import com.feidian.vo.ImageAndCoverResource;
 import com.feidian.vo.UploadCommodityVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CommodityController {
@@ -26,48 +34,72 @@ public class CommodityController {
     private CommodityImageService commodityImageService;
 
     @PostMapping("/getCommodity")
-    public ResponseResult findByCommodityId(long id){
+    public ResponseResult findByCommodityId(long commodityId) throws IOException {
 
-        Commodity commodity = commodityService.findByCommodityId(id);
+        Commodity commodity = commodityService.findByCommodityId(commodityId);
 
         CommodityVo commodityVo = new CommodityVo(commodity.getId(), commodity.getCommodityName(),
                 commodity.getCommodityType(), commodity.getPrice(), commodity.getCommodityAddress(),
                 commodity.getCommodityDescription(), commodity.getCoverUrl());
 
-        return new ResponseResult(200,"操作成功", commodityVo);
+        List<InputStreamResource> imageUrlList = new ArrayList<>();
+        for (CommodityImage ci:commodityImageService.findByCommodityId(commodityVo.getId())) {
+            imageUrlList.add(fileUploadUtil.getCommodityImage(ci.getImageUrl()));
+        }
+        ImageAndCoverResource imageAndCoverResource = new ImageAndCoverResource(
+                fileUploadUtil.getCommodityCover(commodityVo.getCoverUrl()),imageUrlList );
+
+        Map<CommodityVo,ImageAndCoverResource> map = new HashMap<>();
+        map.put(commodityVo, imageAndCoverResource);
+        return new ResponseResult(200,"操作成功", map);
 
     }
 
+    @GetMapping("/getDisplayCommodity")
+    public ResponseResult getDisplayCommodity(long commodityId) throws IOException {
+        HashMap<Long, ImageAndCoverResource> map = new HashMap<>();
+        Commodity commodity = commodityService.findByCommodityId(commodityId);
+        List<CommodityImage> commodityImageList = commodityImageService.findByCommodityId(commodityId);
+        List<InputStreamResource> imageResourceList = new ArrayList<>();
 
+        for (CommodityImage commodityImage : commodityImageList) {
+            imageResourceList.add(fileUploadUtil.getCommodityImage(commodityImage.getImageUrl()));
+
+        }
+        ImageAndCoverResource imageAndCoverResource =
+                new ImageAndCoverResource(fileUploadUtil.getCommodityCover(commodity.getCoverUrl()),
+                        imageResourceList);
+        map.put(commodity.getId(), imageAndCoverResource);
+
+        return new ResponseResult(200, "操作成功", map);
+    }
 
     @PutMapping("/putUpdateCommodityMsg")
-    public ResponseResult updateCommodityMsg(@RequestBody CommodityVo commodityVo, @RequestPart(required = false) MultipartFile file){
-        Commodity commodity = new Commodity();
-        commodityService.insertCommodity(commodity);
-        return new ResponseResult(200,"操作成功");
+    public ResponseResult updateCommodityMsg(@RequestBody CommodityVo commodityVo){
+
+        Commodity commodity = new Commodity(commodityVo.getId(), JwtUtil.getUserId(), commodityVo.getCommodityName(),
+                commodityVo.getCommodityType(), commodityVo.getPrice(), commodityVo.getCommodityDescription(),
+                commodityVo.getCommodityAddress(), commodityVo.getCoverUrl());
+
+        commodityService.insertCommodity(commodity.getId(), commodity.getUserId(), commodity.getCommodityName(),
+                commodity.getCommodityType(), commodity.getPrice(), commodity.getCommodityDescription(),
+                commodity.getCommodityAddress(), commodity.getCoverUrl());
+
+        return new ResponseResult(200,"更改成功");
     }
 
-    @PostMapping("/postUploadCommodity")
-    public ResponseResult uploadCommodity(@RequestBody UploadCommodityVo uploadCommodityVo,
-                                             @RequestPart("coverFile") MultipartFile coverFile,
-                                             @RequestPart("imageFiles") MultipartFile imageFile) {
+    @PostMapping(value = "/postUploadCommodity", consumes = "multipart/form-data")
+    public ResponseResult uploadCommodity(@RequestPart(name = "uploadCommodityVo") UploadCommodityVo uploadCommodityVo,
+                                          @RequestPart(name = "coverFile") MultipartFile coverFile,
+                                          @RequestPart(name = "imageFile") MultipartFile[] imageFile) {
 
         long userId = JwtUtil.getUserId();
 
         String commodityCoverUrl = "";
-        String uploadCommodityCoverDir = "C:/uploads/commodities/cover/";
+        String uploadCommodityCoverDir = "D:/uploads/commodities/cover/";
         uploadCommodityFile(coverFile, uploadCommodityCoverDir);
         commodityCoverUrl = uploadCommodityFile(coverFile, uploadCommodityCoverDir);
         uploadCommodityVo.setCoverUrl(commodityCoverUrl);
-
-
-        String commodityImageUrl = "";
-        String uploadCommodityImageDir = "C:/uploads/commodities/image/";
-        uploadCommodityFile(imageFile, uploadCommodityImageDir);
-        commodityImageUrl = uploadCommodityFile(imageFile, uploadCommodityImageDir);
-        List<String> commodityImageUrlList = new ArrayList<>();
-        commodityImageUrlList.add(commodityImageUrl);
-        uploadCommodityVo.setImageUrl(commodityImageUrlList);
 
 
         uploadCommodityVo.setUserId(userId);
@@ -77,10 +109,18 @@ public class CommodityController {
                 uploadCommodityVo.getPrice(), uploadCommodityVo.getCommodityDescription(),
                 uploadCommodityVo.getCommodityAddress(), uploadCommodityVo.getCoverUrl());
 
-        for (String imageUrl : commodityImageUrlList) {
-            commodityImageService.insertCommodityImage(commodity.getId(), imageUrl, 1);
+
+        String commodityImageUrl = "";
+        String uploadCommodityImageDir = "D:/uploads/commodities/image/";
+        for (MultipartFile multipartFile :imageFile) {
+            uploadCommodityFile(multipartFile, uploadCommodityImageDir);
+            commodityImageUrl = uploadCommodityFile(multipartFile, uploadCommodityImageDir);
+            commodityImageService.insertCommodityImage(commodity.getId(), commodityImageUrl, 1);
         }
-        commodityService.insertCommodity(commodity);
+
+        commodityService.insertCommodity(commodity.getId(), commodity.getUserId(),
+                commodity.getCommodityName(), commodity.getCommodityType(), commodity.getPrice(),
+                commodity.getCommodityDescription(), commodity.getCommodityAddress(), commodity.getCoverUrl());
 
         return new ResponseResult(200, "操作成功");
     }
@@ -91,7 +131,7 @@ public class CommodityController {
         return new ResponseResult(200, "删除成功");
     }
 
-    public String uploadCommodityFile(MultipartFile file, String uploadDir) {
+    public String uploadCommodityFile(@RequestPart("file") MultipartFile file, String uploadDir) {
 
         // 处理文件上传逻辑
         // 进行视频文件的保存、处理等操作

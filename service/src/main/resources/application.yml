@@ -1,14 +1,4 @@
 spring:
-  datasource:
-#jdbc:mysql://117.50.163.249/video_delivery_web_db?characterEncoding=utf-8&serverTimezone=UTC
-#    username: root
-#    password: hzau.123
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost/video_delivery_web_db?characterEncoding=utf-8&serverTimezone=UTC
-    username: root
-    password: Qkn2695946524
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
   servlet:
     multipart:
       max-file-size: 1024MB
@@ -37,7 +27,9 @@ logging:
 mybatis:
   mapper-locations: classpath:mapper/*Mapper.xml # mapper映射文件路径
   type-aliases-package: com.feidian.domain   # 配置哪个包下的类有默认的别名
-
+  configuration:
+    # 开启自动驼峰命名和下划线转换
+    map-underscore-to-camel-case: true
 #  指标监控
 management:
   endpoints:

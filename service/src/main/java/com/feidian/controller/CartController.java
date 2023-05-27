@@ -29,9 +29,6 @@ public class CartController {
     private CommodityService commodityService;
 
     @Autowired
-    private VideoService videoService;
-
-    @Autowired
     private OrderService orderService;
 
     @PostMapping("/postCart")
@@ -42,7 +39,7 @@ public class CartController {
         return new ResponseResult(200,"操作成功");
     }
 
-    @PostMapping("/getCartVoList")
+    @GetMapping("/getCartVoList")
     public ResponseResult getCartVoList(@RequestBody long userId) {
         List<Cart> list = getCartList(userId);
         List<CartVo> cartVoList = new ArrayList<>();
@@ -69,7 +66,7 @@ public class CartController {
     }
 
     @PostMapping("/postCartPurchase")
-    private ResponseResult postCartPurchase(PurchaseVo purchaseVo) {
+    public ResponseResult postCartPurchase(PurchaseVo purchaseVo) {
         long userId = JwtUtil.getUserId();
 
         //状态（5：已收货 4：代发货 3：已发货 2：代发货 0：已退款 ）
@@ -82,6 +79,11 @@ public class CartController {
         return new ResponseResult(200,"操作成功");
     }
 
+    @PostMapping("/postTakeCommodity")
+    public ResponseResult postTakeCommodity(long orderId){
+        orderService.updateStatus(orderId);
+        return new ResponseResult(200,"操作成功");
+    }
 
     public List<Cart> getCartList(long userId){
         return cartService.findByUserId(userId);

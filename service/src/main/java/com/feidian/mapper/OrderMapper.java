@@ -15,4 +15,6 @@ public interface OrderMapper {
     List<Order> findBySellerId(long sellerId);
 
     void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus);
+
+    void updateStatus(long orderId);
 }

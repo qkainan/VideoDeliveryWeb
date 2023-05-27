@@ -28,4 +28,9 @@ public class OrderServiceImpl implements OrderService {
     public void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus) {
         orderMapper.insertOrder(id, userId,userId1, addressName, commodityAddress, orderStatus);
     }
+
+    @Override
+    public void updateStatus(long orderId) {
+        orderMapper.updateStatus(orderId);
+    }
 }

@@ -3,9 +3,10 @@
 <mapper namespace="com.feidian.mapper.VideoMapper">
 
     <insert id="insertVideo">
-        insert into video (id, user_id, video_name, video_title, video_type, video_description,
-                           cover_url, data_url, video_status, create_time, update_time, is_deleted)
-            VALUES ();
+        insert into video (user_id, video_name, video_title, video_type, video_description,
+                           cover_url, data_url, video_status)
+            VALUES (#{userId}, #{videoName}, #{videoTitle}, #{videoType},
+                    #{videoDescription}, #{coverUrl}, #{dataUrl}, #{videoStatus});
     </insert>
 
     <update id="updateVideoMsg">
@@ -20,17 +21,17 @@
 
     <delete id="deleteVideo">
         update video
-        set is_deleted = #{1}
+        set is_deleted = ${1}
         where id = #{id}
     </delete>
 
     <select id="findByVideoName"></select>
 
     <select id="findByVideoId" resultType="com.feidian.domain.Video">
-        select *
-        from video
-        where id = #{id};
+        select `id`, `user_id`, `video_name`, `video_title`, `video_type`,
+               `video_status`, `video_description`,`cover_url`, `data_url` from `video` where `id` = #{videoId};
     </select>
+
     <select id="findByUserId" resultType="com.feidian.domain.Video">
         select *
         from video

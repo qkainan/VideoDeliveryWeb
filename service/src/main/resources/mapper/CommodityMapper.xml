@@ -3,9 +3,18 @@
 <mapper namespace="com.feidian.mapper.CommodityMapper">
     <insert id="insertCommodity" parameterType="com.feidian.domain.Commodity">
         insert into commodity
-        values (id, commodity_name, commodity_type, price, commodity_address, commodity_description,
-                cover_url), (#{commodity.id}, #{commodity.userId}, #{commodity.} );
+        values (user_id, commodity_name, commodity_type, price, commodity_address, commodity_description,
+                cover_url),
+               (#{userId}, #{commodityName}, #{commodityType},
+                #{price}, #{commodityDescription}, #{commodityAddress}, #{coverUrl});
     </insert>
+
+    <insert id="insertInCommodity">
+        insert into commodity
+        values (id,cover_url),
+               (#{id}, #{coverUrl});
+    </insert>
+
 
     <update id="updateCommodityDescription">
         update commodity
@@ -30,6 +39,6 @@
     <select id="findByCommodityId" resultType="com.feidian.domain.Commodity">
         select *
         from commodity
-        where id = #{id}
+        where id = #{commodityId}
     </select>
 </mapper>

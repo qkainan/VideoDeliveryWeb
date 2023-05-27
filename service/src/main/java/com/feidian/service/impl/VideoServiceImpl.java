@@ -4,6 +4,7 @@ import com.feidian.domain.Video;
 import com.feidian.mapper.VideoMapper;
 import com.feidian.service.VideoService;
 import com.feidian.vo.DisplayVideoVo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,15 +23,15 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Integer[] homeRecommend() {
+    public long[] homeRecommend() {
 
         //创建一个新的数组
-        Integer[] arr = new Integer[40];
+        long[] arr = new long[40];
         //把随机数存入数组当中
         Random r = new Random();
-        for (int i = 0; i < arr.length; i++) {
+        for (Integer i = 0; i < arr.length; i++) {
             //每循环一次，就会生成一个随机数
-            Integer num = r.nextInt(100 + 1);
+            Integer num = r.nextInt(40 + 1);
             //把生成的随机数存入数组当中
             arr[i] = num;
         }
@@ -39,8 +40,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Video findByVideoId(long id) {
-        return videoMapper.findByVideoId(id);
+    public Video findByVideoId(@Param("videoId") long videoId) {
+        return videoMapper.findByVideoId(videoId);
     }
 
     @Override

@@ -5,9 +5,11 @@ import com.feidian.domain.Video;
 import com.feidian.mapper.CommodityMapper;
 import com.feidian.service.CommodityService;
 import com.feidian.vo.CommodityVo;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -15,11 +17,6 @@ public class CommodityServiceImpl implements CommodityService {
 
     @Autowired
     private CommodityMapper commodityMapper;
-
-    @Override
-    public void insertCommodity(Commodity commodity) {
-        commodityMapper.insertCommodity(commodity);
-    }
 
     @Override
     public void deleteCommodity(long commodityId) {
@@ -36,7 +33,18 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public Commodity findByCommodityId(long id) {
-        return commodityMapper.findByCommodityId(id);
+    public Commodity findByCommodityId(@Param("commodityId") long commodityId) {
+        return commodityMapper.findByCommodityId(commodityId);
     }
+
+    @Override
+    public void insertCommodity(long id, long userId, String commodityName,
+                                String commodityType, BigDecimal price,
+                                String commodityDescription, String commodityAddress, String coverUrl) {
+        commodityMapper.insertCommodity(id, userId, commodityName, commodityType, price,
+                commodityDescription, commodityAddress, coverUrl);
+    }
+
+
+
 }

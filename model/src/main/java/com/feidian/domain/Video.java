@@ -26,8 +26,8 @@ public class Video {
   private java.sql.Timestamp updateTime;
   private long isDeleted;
 
-  public Video(long id, long userId, String videoName, String videoTitle, String videoType, String videoDescription, String coverUrl, String dataUrl,long videoStatus) {
-    this.id = id;
+  public Video( long userId, String videoName, String videoTitle, String videoType, String videoDescription, String coverUrl, String dataUrl,long videoStatus) {
+
     this.userId = userId;
     this.videoName = videoName;
     this.videoTitle = videoTitle;
