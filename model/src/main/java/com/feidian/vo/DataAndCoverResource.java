@@ -1,9 +1,9 @@
 package com.feidian.vo;
 
+import com.feidian.dto.FileDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Component;
 
 
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class DataAndCoverResource {
 
-    private InputStreamResource dataResource;
+    private byte[] dataResource;
 
-    private InputStreamResource coverResource;
+    private byte[] coverResource;
 
 }

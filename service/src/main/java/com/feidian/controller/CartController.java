@@ -3,7 +3,6 @@ package com.feidian.controller;
 import com.feidian.domain.Address;
 import com.feidian.domain.Cart;
 import com.feidian.domain.Commodity;
-import com.feidian.domain.Order;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.*;
 import com.feidian.util.JwtUtil;

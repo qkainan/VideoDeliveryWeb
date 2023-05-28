@@ -113,6 +113,7 @@ public class IndexController {
         return encryptUserPwd;
     }
 
+
     //发送验证码
     @PostMapping("/postVerify")
     public ResponseResult postVerify(@RequestBody SignUpVo signUpVo) {

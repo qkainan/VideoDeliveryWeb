@@ -3,7 +3,7 @@ package com.feidian.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.core.io.InputStreamResource;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ImageAndCoverResource {
 
-    private InputStreamResource coverResource;
+    private byte[] coverResource;
 
-    private List<InputStreamResource> imageResource;
+    private List<byte[]> imageResource;
 }

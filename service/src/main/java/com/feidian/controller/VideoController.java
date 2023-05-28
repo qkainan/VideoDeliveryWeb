@@ -16,18 +16,15 @@ import com.feidian.vo.DisplayVideoVo;
 import com.feidian.vo.UploadVideoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.core.io.InputStreamResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
 
 @RestController
 public class VideoController {
@@ -44,62 +41,22 @@ public class VideoController {
     @Autowired
     private VideoCommodityService videoCommodityService;
 
-//    @GetMapping("/getHomeRecommend")
-//    public ResponseResult homeRecommend() throws IOException, URISyntaxException {
-//        List<Video> list = new ArrayList<>();
-//
-//        HashMap<Long,DataAndCoverResource> map = new HashMap<>();
-//
-//        for (long videoId:videoService.homeRecommend()) {
-//            Video video = videoService.findByVideoId(videoId);
-//            list.add(video);
-//            DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getVideoData(video.getDataUrl()),
-//                    fileUploadUtil.getVideoCover(video.getCoverUrl()));
-//            map.put(video.getId(),dataAndCoverResource);
-//        }
-//
-//        return new ResponseResult(200, "操作成功",map);
-//    }
-
     @GetMapping("/getHomeRecommend")
     public ResponseResult homeRecommend() throws IOException, URISyntaxException {
         List<Video> list = new ArrayList<>();
 
         HashMap<Long,DataAndCoverResource> map = new HashMap<>();
 
-        List<InputStreamResource> inputStreamResourceList = new ArrayList<>();
-
         for (long videoId:videoService.homeRecommend()) {
             Video video = videoService.findByVideoId(videoId);
             list.add(video);
-            DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getVideoData(video.getDataUrl()),
-                    fileUploadUtil.getVideoCover(video.getCoverUrl()));
-            inputStreamResourceList.add(fileUploadUtil.getVideoData(video.getDataUrl()));
+            DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getFileVideo(video.getDataUrl()).getFileByte(),
+                    fileUploadUtil.getFileImage(video.getCoverUrl()).getFileByte());
             map.put(video.getId(),dataAndCoverResource);
         }
-        return new ResponseResult(200, "操作成功",list);
+        return new ResponseResult(200, "操作成功",map);
     }
 
-
-//        @GetMapping("/getHomeRecommend")
-//    public ResponseResult homeRecommend() throws IOException, URISyntaxException {
-//        List<Video> list = new ArrayList<>();
-//
-//        HashMap<Long,DataAndCoverResource> map = new HashMap<>();
-//
-//            List<InputStreamResource> inputStreamResourceList = new ArrayList<>();
-//
-//            for (long videoId:videoService.homeRecommend()) {
-//            Video video = videoService.findByVideoId(videoId);
-//            list.add(video);
-//            DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getVideoData(video.getDataUrl()),
-//                    fileUploadUtil.getVideoCover(video.getCoverUrl()));
-//                inputStreamResourceList.add(fileUploadUtil.getVideoData(video.getDataUrl()));
-//            map.put(video.getId(),dataAndCoverResource);
-//        }
-//
-//        return new ResponseResult(200, "操作成功",inputStreamResourceList);
-//    }
 
 
     @GetMapping("/getDisplayVideo")
@@ -120,12 +77,12 @@ public class VideoController {
                 video.getVideoDescription(), video.getCreateTime(), commodityList);
 
         DataAndCoverResource dataAndCoverResource = new DataAndCoverResource(
-                fileUploadUtil.getVideoData(displayVideoVo.getVideoDataUrl()),
-                fileUploadUtil.getVideoCover(displayVideoVo.getVideoCoverUrl()));
+                fileUploadUtil.getFileVideo(displayVideoVo.getVideoDataUrl()).getFileByte(),
+                fileUploadUtil.getFileImage(displayVideoVo.getVideoCoverUrl()).getFileByte());
 
         HashMap<DisplayVideoVo, DataAndCoverResource> map = new HashMap<>();
         map.put(displayVideoVo,dataAndCoverResource);
-        return new ResponseResult(200,"操作成功",fileUploadUtil.getVideoData(displayVideoVo.getVideoDataUrl()));
+        return new ResponseResult(200,"操作成功",fileUploadUtil.getFileVideo(displayVideoVo.getVideoDataUrl()));
     }
 
     @PostMapping("/postUploadVideo")
@@ -302,4 +259,6 @@ public class VideoController {
         videoService.insertVideo(video);
         return new ResponseResult(200,"上传成功");
     }
+
+
 }
