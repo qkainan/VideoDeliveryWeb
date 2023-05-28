@@ -15,8 +15,8 @@ public class CommodityImageServiceImpl implements CommodityImageService {
     private CommodityImageMapper commodityImageMapper;
 
     @Override
-    public void insertCommodityImage(long commodityId, String imageUrl, long imageStatu ) {
-        commodityImageMapper.insertCommodityImage(commodityId, imageUrl, imageStatu);
+    public void insertCommodityImage(long commodityId, String imageUrl, long imageStatus ) {
+        commodityImageMapper.insertCommodityImage(commodityId, imageUrl, imageStatus);
     }
 
     @Override

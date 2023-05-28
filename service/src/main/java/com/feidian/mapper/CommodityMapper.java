@@ -23,10 +23,10 @@ public interface CommodityMapper {
     Commodity findByCommodityId(@Param("commodityId") long commodityId);
 
 
-    void insertCommodity(@Param("userId") long userId, @Param("commodityName")String commodityName,
-                         @Param("commodityType")String commodityType,@Param("price") BigDecimal price,
-                         @Param("commodityDescription")String commodityDescription,
-                         @Param("commodityAddress")String commodityAddress,@Param("coverUrl") String coverUrl);
-
+//    void insertCommodity(@Param("userId") long userId, @Param("commodityName")String commodityName,
+//                         @Param("commodityType")String commodityType,@Param("price") BigDecimal price,
+//                         @Param("commodityDescription")String commodityDescription,
+//                         @Param("commodityAddress")String commodityAddress,@Param("coverUrl") String coverUrl);
+    void insertCommodity(Commodity commodity);
     void insertInCommodity(long commodityId, String coverUrl);
 }

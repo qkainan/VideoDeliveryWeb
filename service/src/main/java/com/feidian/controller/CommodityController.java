@@ -104,20 +104,23 @@ public class CommodityController {
         Commodity commodity = new Commodity(commodityVo.getId(), JwtUtil.getUserId(), commodityVo.getCommodityName(),
                 commodityVo.getCommodityType(), commodityVo.getPrice(), commodityVo.getCommodityDescription(),
                 commodityVo.getCommodityAddress(), commodityVo.getCoverUrl());
-
-        commodityService.insertCommodity( commodity.getUserId(), commodity.getCommodityName(),
-                commodity.getCommodityType(), commodity.getPrice(), commodity.getCommodityDescription(),
-                commodity.getCommodityAddress(), commodity.getCoverUrl());
+//        commodity.getUserId(), commodity.getCommodityName(),
+//                commodity.getCommodityType(), commodity.getPrice(), commodity.getCommodityDescription(),
+//                commodity.getCommodityAddress(), commodity.getCoverUrl()
+        commodityService.insertCommodity(commodity);
 
         return new ResponseResult(200,"更改成功");
     }
 
 
     @PostMapping("/postUploadCommodityVo")
-    public ResponseResult postUploadCommodityVo( @RequestPart("uploadCommodityVo") UploadCommodityVo uploadCommodityVo){
-        commodityService.insertCommodity(uploadCommodityVo.getUserId(),uploadCommodityVo.getCommodityName(),
+    public ResponseResult postUploadCommodityVo( @RequestBody UploadCommodityVo uploadCommodityVo){
+
+        Commodity commodity = new Commodity(JwtUtil.getUserId(),uploadCommodityVo.getUserId(),uploadCommodityVo.getCommodityName(),
                 uploadCommodityVo.getCommodityType(), uploadCommodityVo.getPrice(),uploadCommodityVo.getCommodityDescription()
                 ,uploadCommodityVo.getCommodityAddress(), uploadCommodityVo.getCoverUrl());
+
+        commodityService.insertCommodity(commodity);
         return new ResponseResult(200,"上传商品信息成功");
     }
     @PostMapping("/uploadCover")
@@ -198,10 +201,10 @@ public class CommodityController {
             commodityImageUrl = saveCommodityFile(multipartFile, uploadCommodityImageDir);
             commodityImageService.insertCommodityImage(commodity.getId(), commodityImageUrl, 1);
         }
-
-        commodityService.insertCommodity( commodity.getUserId(),
-                commodity.getCommodityName(), commodity.getCommodityType(), commodity.getPrice(),
-                commodity.getCommodityDescription(), commodity.getCommodityAddress(), commodity.getCoverUrl());
+//       commodity.getUserId(),
+//               commodity.getCommodityName(), commodity.getCommodityType(), commodity.getPrice(),
+//               commodity.getCommodityDescription(), commodity.getCommodityAddress(), commodity.getCoverUrl()
+        commodityService.insertCommodity(commodity);
 
         return new ResponseResult(200, "操作成功");
     }

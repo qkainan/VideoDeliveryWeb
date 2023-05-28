@@ -37,15 +37,18 @@ public class CommodityServiceImpl implements CommodityService {
         return commodityMapper.findByCommodityId(commodityId);
     }
 
+//    @Override
+//    public void insertCommodity( @Param("userId") long userId,@Param("commodityName") String commodityName,
+//                                 @Param("commodityType")String commodityType,@Param("price") BigDecimal price,
+//                                 @Param("commodityDescription") String commodityDescription,
+//                                 @Param("commodityAddress")String commodityAddress, @Param("coverUrl")String coverUrl) {
+//        commodityMapper.insertCommodity( userId, commodityName, commodityType, price,
+//                commodityDescription, commodityAddress, coverUrl);
+//    }
+
     @Override
-    public void insertCommodity( @Param("userId") long userId,@Param("commodityName") String commodityName,
-                                 @Param("commodityType")String commodityType,@Param("price") BigDecimal price,
-                                 @Param("commodityDescription") String commodityDescription,
-                                 @Param("commodityAddress")String commodityAddress, @Param("coverUrl")String coverUrl) {
-        commodityMapper.insertCommodity( userId, commodityName, commodityType, price,
-                commodityDescription, commodityAddress, coverUrl);
+    public void insertCommodity(Commodity commodity) {
+        commodityMapper.insertCommodity(commodity);
     }
-
-
 
 }

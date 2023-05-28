@@ -7,7 +7,6 @@ spring:
   profiles:
     active: develop
 
-
   aop:
     proxy-target-class: false #切换动态代理的方式
 
