@@ -19,8 +19,7 @@
 
     <!--后台添加数据-->
     <insert id="insertUser">
-        insert into user (username, password)
-        values (#{username}, #{password});
+        v
     </insert>
 
     <!--注册添加数据-->

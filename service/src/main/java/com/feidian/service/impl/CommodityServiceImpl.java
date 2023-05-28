@@ -38,9 +38,10 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public void insertCommodity( long userId, String commodityName,
-                                String commodityType, BigDecimal price,
-                                String commodityDescription, String commodityAddress, String coverUrl) {
+    public void insertCommodity( @Param("userId") long userId,@Param("commodityName") String commodityName,
+                                 @Param("commodityType")String commodityType,@Param("price") BigDecimal price,
+                                 @Param("commodityDescription") String commodityDescription,
+                                 @Param("commodityAddress")String commodityAddress, @Param("coverUrl")String coverUrl) {
         commodityMapper.insertCommodity( userId, commodityName, commodityType, price,
                 commodityDescription, commodityAddress, coverUrl);
     }

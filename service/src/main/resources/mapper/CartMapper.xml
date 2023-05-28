@@ -4,7 +4,7 @@
     <insert id="insertCart">
         insert into cart
             (id, user_id, commodity_id, address_id, commodity_num, order_status, is_deleted)
-            VALUE (#{id}, #{userId}, #{commodityId}, #{addressId}, #{commodityNum}, #{orderStatus}, #{0})
+            values (#{id}, #{userId}, #{commodityId}, #{addressId}, #{commodityNum}, #{orderStatus}, ${0})
     </insert>
 
     <update id="updateOrderStatus">

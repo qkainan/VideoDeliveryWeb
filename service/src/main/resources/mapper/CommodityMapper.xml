@@ -3,9 +3,8 @@
 <mapper namespace="com.feidian.mapper.CommodityMapper">
     <insert id="insertCommodity" parameterType="com.feidian.domain.Commodity">
         insert into commodity
-        values (user_id, commodity_name, commodity_type, price, commodity_address, commodity_description,
-                cover_url),
-               (#{userId}, #{commodityName}, #{commodityType},
+            (user_id, commodity_name, commodity_type, price, commodity_address, commodity_description,cover_url)
+            value  (#{userId}, #{commodityName}, #{commodityType},
                 #{price}, #{commodityDescription}, #{commodityAddress}, #{coverUrl});
     </insert>
 
@@ -24,7 +23,7 @@
 
     <update id="deleteCommodity">
         update commodity
-        set id_deleted = #{1}
+        set is_deleted = ${1}
         where id = #{id}
     </update>
 

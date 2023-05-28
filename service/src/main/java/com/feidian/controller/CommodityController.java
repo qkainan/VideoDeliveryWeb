@@ -118,7 +118,7 @@ public class CommodityController {
         commodityService.insertCommodity(uploadCommodityVo.getUserId(),uploadCommodityVo.getCommodityName(),
                 uploadCommodityVo.getCommodityType(), uploadCommodityVo.getPrice(),uploadCommodityVo.getCommodityDescription()
                 ,uploadCommodityVo.getCommodityAddress(), uploadCommodityVo.getCoverUrl());
-        return new ResponseResult<>(200,"上传商品信息成功");
+        return new ResponseResult(200,"上传商品信息成功");
     }
     @PostMapping("/uploadCover")
     public ResponseResult uploadCover(@RequestPart("file")MultipartFile file){

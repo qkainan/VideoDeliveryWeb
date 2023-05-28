@@ -18,8 +18,8 @@ public interface CommodityService {
 
     Commodity findByCommodityId(@Param("commodityId") long commodityId);
 
-    void insertCommodity( long userId, String commodityName,
-                         String commodityType, BigDecimal price, String commodityDescription,
-                         String commodityAddress, String coverUrl);
+    void insertCommodity( @Param("userId") long userId, @Param("commodityName")String commodityName,
+                          @Param("commodityType") String commodityType,@Param("price") BigDecimal price, @Param("commodityDescription")String commodityDescription,
+                          @Param("")String commodityAddress,@Param("coverUrl") String coverUrl);
 
 }
