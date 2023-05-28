@@ -23,7 +23,7 @@ public interface CommodityMapper {
     Commodity findByCommodityId(@Param("commodityId") long commodityId);
 
 
-    void insertCommodity(long id, long userId, String commodityName,
+    void insertCommodity( long userId, String commodityName,
                          String commodityType, BigDecimal price,
                          String commodityDescription, String commodityAddress, String coverUrl);
 

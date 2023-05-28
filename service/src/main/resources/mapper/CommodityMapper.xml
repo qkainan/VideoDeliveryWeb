@@ -37,7 +37,8 @@
     </select>
 
     <select id="findByCommodityId" resultType="com.feidian.domain.Commodity">
-        select *
+        select id,user_id,commodity_name, commodity_type, price, commodity_description, commodity_address,
+               cover_url, commodity_status, create_time, update_time, is_deleted
         from commodity
         where id = #{commodityId}
     </select>

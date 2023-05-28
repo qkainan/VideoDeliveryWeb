@@ -16,11 +16,14 @@ import com.feidian.vo.DisplayVideoVo;
 import com.feidian.vo.UploadVideoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,27 +44,66 @@ public class VideoController {
     @Autowired
     private VideoCommodityService videoCommodityService;
 
+//    @GetMapping("/getHomeRecommend")
+//    public ResponseResult homeRecommend() throws IOException, URISyntaxException {
+//        List<Video> list = new ArrayList<>();
+//
+//        HashMap<Long,DataAndCoverResource> map = new HashMap<>();
+//
+//        for (long videoId:videoService.homeRecommend()) {
+//            Video video = videoService.findByVideoId(videoId);
+//            list.add(video);
+//            DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getVideoData(video.getDataUrl()),
+//                    fileUploadUtil.getVideoCover(video.getCoverUrl()));
+//            map.put(video.getId(),dataAndCoverResource);
+//        }
+//
+//        return new ResponseResult(200, "操作成功",map);
+//    }
+
     @GetMapping("/getHomeRecommend")
-    public ResponseResult homeRecommend() throws IOException {
+    public ResponseResult homeRecommend() throws IOException, URISyntaxException {
         List<Video> list = new ArrayList<>();
 
         HashMap<Long,DataAndCoverResource> map = new HashMap<>();
 
+        List<InputStreamResource> inputStreamResourceList = new ArrayList<>();
 
         for (long videoId:videoService.homeRecommend()) {
             Video video = videoService.findByVideoId(videoId);
             list.add(video);
             DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getVideoData(video.getDataUrl()),
                     fileUploadUtil.getVideoCover(video.getCoverUrl()));
+            inputStreamResourceList.add(fileUploadUtil.getVideoData(video.getDataUrl()));
             map.put(video.getId(),dataAndCoverResource);
         }
-
-        return new ResponseResult(200, "操作成功",map);
+        return new ResponseResult(200, "操作成功",list);
     }
 
 
-    @GetMapping("/getDisplayVideo/{id}")
-    public ResponseResult getDisplayVideoVo(@PathVariable("id") long id) throws IOException {
+//        @GetMapping("/getHomeRecommend")
+//    public ResponseResult homeRecommend() throws IOException, URISyntaxException {
+//        List<Video> list = new ArrayList<>();
+//
+//        HashMap<Long,DataAndCoverResource> map = new HashMap<>();
+//
+//            List<InputStreamResource> inputStreamResourceList = new ArrayList<>();
+//
+//            for (long videoId:videoService.homeRecommend()) {
+//            Video video = videoService.findByVideoId(videoId);
+//            list.add(video);
+//            DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getVideoData(video.getDataUrl()),
+//                    fileUploadUtil.getVideoCover(video.getCoverUrl()));
+//                inputStreamResourceList.add(fileUploadUtil.getVideoData(video.getDataUrl()));
+//            map.put(video.getId(),dataAndCoverResource);
+//        }
+//
+//        return new ResponseResult(200, "操作成功",inputStreamResourceList);
+//    }
+
+
+    @GetMapping("/getDisplayVideo")
+    public ResponseResult getDisplayVideoVo(long id) throws IOException, URISyntaxException {
         Video video = videoService.findByVideoId(id);
         User user = userService.findById(video.getUserId());
 
@@ -83,7 +125,7 @@ public class VideoController {
 
         HashMap<DisplayVideoVo, DataAndCoverResource> map = new HashMap<>();
         map.put(displayVideoVo,dataAndCoverResource);
-        return new ResponseResult(200,"操作成功",map);
+        return new ResponseResult(200,"操作成功",fileUploadUtil.getVideoData(displayVideoVo.getVideoDataUrl()));
     }
 
     @PostMapping("/postUploadVideo")
@@ -120,6 +162,66 @@ public class VideoController {
 
         return new ResponseResult(200,"操作成功");
     }
+
+
+    @PostMapping("/postUploadVideoVo")
+    public ResponseResult uploadVideo( @RequestPart("uploadVideoVo") UploadVideoVo uploadVideoVo){
+        Video video = new Video(uploadVideoVo.getUserId(), uploadVideoVo.getVideoName(),
+                uploadVideoVo.getVideoTitle(), uploadVideoVo.getVideoType(), uploadVideoVo.getVideoDescription(),
+                uploadVideoVo.getCoverUrl(), uploadVideoVo.getDataUrl(),1);
+        videoService.insertVideo(video);
+        return new ResponseResult<>(200,"上传视频信息成功");
+    }
+
+    @PostMapping("/postUploadVideoData")
+    public ResponseResult postUploadVideoData(@RequestPart("dataFile") MultipartFile dataFile){
+        UploadVideoVo uploadVideoVo = new UploadVideoVo();
+        long userId = JwtUtil.getUserId();
+
+        String videoDataUrl = "";
+
+        String uploadVideoDataDir = "D:/uploads/videos/data/";
+        uploadVideoFile(dataFile,uploadVideoDataDir);
+        videoDataUrl = uploadVideoFile(dataFile,uploadVideoDataDir);
+        uploadVideoVo.setDataUrl(videoDataUrl);
+        uploadVideoVo.setVideoName(dataFile.getOriginalFilename());
+        uploadVideoVo.setVideoName(dataFile.getOriginalFilename());
+
+        uploadVideoVo.setUserId(userId);
+
+        Video video = new Video(uploadVideoVo.getUserId(), uploadVideoVo.getVideoName(),
+                uploadVideoVo.getVideoTitle(), uploadVideoVo.getVideoType(), uploadVideoVo.getVideoDescription(),
+                uploadVideoVo.getCoverUrl(), uploadVideoVo.getDataUrl(),1);
+
+        videoService.insertVideo(video);
+        return new ResponseResult(200, "上传视频文件成功");
+    }
+
+    @PostMapping("/postUploadVideoCover")
+    public ResponseResult postUploadVideoCover(@RequestPart("coverFile") MultipartFile coverFile){
+        long userId = JwtUtil.getUserId();
+        UploadVideoVo uploadVideoVo = new UploadVideoVo();
+        String videoCoverUrl = "";
+
+        //Todo 最好放在配置文件
+        // 定义保存路径
+        String uploadVideoCoverDir = "D:/uploads/videos/cover/";
+        uploadVideoFile(coverFile,uploadVideoCoverDir);
+        videoCoverUrl = uploadVideoFile(coverFile,uploadVideoCoverDir);
+        uploadVideoVo.setCoverUrl(videoCoverUrl);
+
+
+        uploadVideoVo.setUserId(userId);
+
+        Video video = new Video(uploadVideoVo.getUserId(), uploadVideoVo.getVideoName(),
+                uploadVideoVo.getVideoTitle(), uploadVideoVo.getVideoType(), uploadVideoVo.getVideoDescription(),
+                uploadVideoVo.getCoverUrl(), uploadVideoVo.getDataUrl(),1);
+
+        videoService.insertVideo(video);
+
+        return new ResponseResult(200,"上传视频封面成功");
+    }
+
 
     @PostMapping("/postUploadVideoCommodity")
     public ResponseResult postUploadVideoCommodity(@RequestBody UploadVideoVo uploadVideoVo){

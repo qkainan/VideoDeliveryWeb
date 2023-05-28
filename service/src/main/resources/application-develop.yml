@@ -5,6 +5,7 @@ spring:
       password: Qkn2695946524
       driver-class-name: com.mysql.cj.jdbc.Driver
 
+#
 #设置端口
 server :
    port : 8088

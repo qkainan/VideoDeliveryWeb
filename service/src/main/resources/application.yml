@@ -5,7 +5,7 @@ spring:
       max-request-size: 1024MB
 
   profiles:
-    active: deploy
+    active: develop
 
 
   aop:
