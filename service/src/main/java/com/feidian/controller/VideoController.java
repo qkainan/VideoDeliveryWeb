@@ -99,12 +99,12 @@ public class VideoController {
 
         //Todo 最好放在配置文件
         // 定义保存路径
-        String uploadVideoCoverDir = "D:/uploads/videos/cover/";
+        String uploadVideoCoverDir = "file://D:/uploads/videos/cover/";
         uploadVideoFile(coverFile,uploadVideoCoverDir);
         videoCoverUrl = uploadVideoFile(coverFile,uploadVideoCoverDir);
         uploadVideoVo.setCoverUrl(videoCoverUrl);
 
-        String uploadVideoDataDir = "D:/uploads/videos/data/";
+        String uploadVideoDataDir = "file://D:/uploads/video/data/";
         uploadVideoFile(dataFile,uploadVideoDataDir);
         videoDataUrl = uploadVideoFile(dataFile,uploadVideoDataDir);
         uploadVideoVo.setDataUrl(videoDataUrl);
@@ -123,63 +123,6 @@ public class VideoController {
     }
 
 
-//    @PostMapping("/postUploadVideoVo")
-//    public ResponseResult uploadVideo( @RequestPart("uploadVideoVo") UploadVideoVo uploadVideoVo){
-//        Video video = new Video(uploadVideoVo.getUserId(), uploadVideoVo.getVideoName(),
-//                uploadVideoVo.getVideoTitle(), uploadVideoVo.getVideoType(), uploadVideoVo.getVideoDescription(),
-//                uploadVideoVo.getCoverUrl(), uploadVideoVo.getDataUrl(),1);
-//        videoService.insertVideo(video);
-//        return new ResponseResult<>(200,"上传视频信息成功");
-//    }
-//
-//    @PostMapping("/postUploadVideoData")
-//    public ResponseResult postUploadVideoData(@RequestPart("dataFile") MultipartFile dataFile){
-//        UploadVideoVo uploadVideoVo = new UploadVideoVo();
-//        long userId = JwtUtil.getUserId();
-//
-//        String videoDataUrl = "";
-//
-//        String uploadVideoDataDir = "D:/uploads/videos/data/";
-//        uploadVideoFile(dataFile,uploadVideoDataDir);
-//        videoDataUrl = uploadVideoFile(dataFile,uploadVideoDataDir);
-//        uploadVideoVo.setDataUrl(videoDataUrl);
-//        uploadVideoVo.setVideoName(dataFile.getOriginalFilename());
-//        uploadVideoVo.setVideoName(dataFile.getOriginalFilename());
-//
-//        uploadVideoVo.setUserId(userId);
-//
-//        Video video = new Video(uploadVideoVo.getUserId(), uploadVideoVo.getVideoName(),
-//                uploadVideoVo.getVideoTitle(), uploadVideoVo.getVideoType(), uploadVideoVo.getVideoDescription(),
-//                uploadVideoVo.getCoverUrl(), uploadVideoVo.getDataUrl(),1);
-//
-//        videoService.insertVideo(video);
-//        return new ResponseResult(200, "上传视频文件成功");
-//    }
-//
-//    @PostMapping("/postUploadVideoCover")
-//    public ResponseResult postUploadVideoCover(@RequestPart("coverFile") MultipartFile coverFile){
-//        long userId = JwtUtil.getUserId();
-//        UploadVideoVo uploadVideoVo = new UploadVideoVo();
-//        String videoCoverUrl = "";
-//
-//        //Todo 最好放在配置文件
-//        // 定义保存路径
-//        String uploadVideoCoverDir = "D:/uploads/videos/cover/";
-//        uploadVideoFile(coverFile,uploadVideoCoverDir);
-//        videoCoverUrl = uploadVideoFile(coverFile,uploadVideoCoverDir);
-//        uploadVideoVo.setCoverUrl(videoCoverUrl);
-//
-//
-//        uploadVideoVo.setUserId(userId);
-//
-//        Video video = new Video(uploadVideoVo.getUserId(), uploadVideoVo.getVideoName(),
-//                uploadVideoVo.getVideoTitle(), uploadVideoVo.getVideoType(), uploadVideoVo.getVideoDescription(),
-//                uploadVideoVo.getCoverUrl(), uploadVideoVo.getDataUrl(),1);
-//
-//        videoService.insertVideo(video);
-//
-//        return new ResponseResult(200,"上传视频封面成功");
-//    }
 
     @Transactional
     @PostMapping("/postUploadVideoCommodity")

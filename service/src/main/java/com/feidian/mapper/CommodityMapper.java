@@ -1,5 +1,6 @@
 package com.feidian.mapper;
 
+import com.feidian.dto.CommodityDTO;
 import com.feidian.po.CommodityPO;
 
 import io.lettuce.core.dynamic.annotation.Param;
@@ -29,5 +30,5 @@ public interface CommodityMapper {
     void insertCommodity(CommodityPO commodityPO);
     void insertInCommodity(long commodityId, String coverUrl);
 
-    void updateCommodity(CommodityPO commodityPO);
+    void updateCommodity(CommodityDTO commodityDTO);
 }

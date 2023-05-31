@@ -1,5 +1,6 @@
 package com.feidian.service.impl;
 
+import com.feidian.dto.CommodityDTO;
 import com.feidian.po.CommodityPO;
 import com.feidian.mapper.CommodityMapper;
 import com.feidian.service.CommodityService;
@@ -49,8 +50,8 @@ public class CommodityServiceImpl implements CommodityService {
     }
 
     @Override
-    public void updateCommodity(CommodityPO commodityPO) {
-        commodityMapper.updateCommodity(commodityPO);
+    public void updateCommodity(CommodityDTO commodityDTO) {
+        commodityMapper.updateCommodity(commodityDTO);
     }
 
 }

@@ -29,19 +29,25 @@
 
     <update id="updateCommodity">
         update commodity
-            <set>
-                <if test="username!=null and username!=''">
-                    username=#{username},
-                </if>
-                <if test="sex!=null and sex!=''">
-                    sex=#{sex},
-                </if>
-                <if test="phone!=null and phone!=''">
-                    phone=#{phone},
-                </if>
-            </set>
-            where id=#{id}
-        </update>
+        <set>
+            <if test="commodityName!=null and commodityName!=''">
+                commodity_name = #{commodityName},
+            </if>
+            <if test="commodityType!=null and commodityType!=''">
+                commodity_type = #{commodityType},
+            </if>
+            <if test="price!=null and price!=''">
+                price = #{price},
+            </if>
+            <if test="commodityAddress!=null and commodityAddress!=''">
+                commodity_address = #{commodityAddress},
+            </if>
+            <if test="commodityDescription!=null and commodityDescription!=''">
+                commodity_description = #{commodityDescription},
+            </if>
+        </set>
+        where id = #{commodityId};
+    </update>
 
     <select id="findByUserId" resultType="com.feidian.po.CommodityPO">
         select *

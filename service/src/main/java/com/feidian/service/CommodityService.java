@@ -1,5 +1,6 @@
 package com.feidian.service;
 
+import com.feidian.dto.CommodityDTO;
 import com.feidian.po.CommodityPO;
 import io.lettuce.core.dynamic.annotation.Param;
 
@@ -22,5 +23,5 @@ public interface CommodityService {
 //                          @Param("")String commodityAddress,@Param("coverUrl") String coverUrl);
     void insertCommodity( CommodityPO commodityPO);
 
-    void updateCommodity(CommodityPO commodityPO);
+    void updateCommodity(CommodityDTO commodityDTO);
 }

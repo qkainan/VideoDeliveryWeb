@@ -1,5 +1,6 @@
 package com.feidian.controller;
 
+import com.feidian.dto.CommodityDTO;
 import com.feidian.dto.ImageAndCoverResource;
 import com.feidian.po.CommodityPO;
 import com.feidian.po.CommodityImagePO;
@@ -77,13 +78,14 @@ public class CommodityController {
     }
     @Transactional
     @PutMapping("/putUpdateCommodityMsg")
-    public ResponseResult updateCommodityMsg(@RequestBody CommodityVO commodityVo){
+    public ResponseResult updateCommodityMsg(@RequestBody CommodityDTO commodityDTO){
 
-        CommodityPO commodityPO = new CommodityPO(commodityVo.getId(), JwtUtil.getUserId(), commodityVo.getCommodityName(),
-                commodityVo.getCommodityType(), commodityVo.getPrice(), commodityVo.getCommodityDescription(),
-                commodityVo.getCommodityAddress(), commodityVo.getCoverUrl());
+        CommodityPO commodityPO = new CommodityPO(commodityDTO.getCommodityId(), JwtUtil.getUserId(),
+                commodityDTO.getCommodityName(), commodityDTO.getCommodityType(),
+                commodityDTO.getPrice(), commodityDTO.getCommodityDescription(),
+                commodityDTO.getCommodityAddress(), commodityDTO.getCoverUrl());
 
-        commodityService.updateCommodity(commodityPO);
+        commodityService.updateCommodity(commodityDTO);
 
         return new ResponseResult(200,"更改成功");
     }
@@ -126,7 +128,7 @@ public class CommodityController {
 
     @Transactional
    @PostMapping(value = "/postUploadCommodity", consumes = "multipart/form-data")
-    public ResponseResult uploadCommodity(@RequestPart(name = "uploadCommodityVo") UploadCommodityVO uploadCommodityVo,
+    public ResponseResult uploadCommodity(@RequestPart(name = "commodityDTO") CommodityDTO commodityDTO,
                                           @RequestPart(name = "coverFile") MultipartFile coverFile,
                                           @RequestPart(name = "imageFile") MultipartFile[] imageFile) {
 
@@ -136,15 +138,15 @@ public class CommodityController {
         String uploadCommodityCoverDir = "file://D:/uploads/commodities/cover/";
         saveCommodityFile(coverFile, uploadCommodityCoverDir);
         commodityCoverUrl = saveCommodityFile(coverFile, uploadCommodityCoverDir);
-        uploadCommodityVo.setCoverUrl(commodityCoverUrl);
+        commodityDTO.setCoverUrl(commodityCoverUrl);
 
 
-        uploadCommodityVo.setUserId(userId);
+        commodityDTO.setUserId(userId);
 
-        CommodityPO commodityPO = new CommodityPO(uploadCommodityVo.getId(), uploadCommodityVo.getUserId(),
-                uploadCommodityVo.getCommodityName(), uploadCommodityVo.getCommodityType(),
-                uploadCommodityVo.getPrice(), uploadCommodityVo.getCommodityDescription(),
-                uploadCommodityVo.getCommodityAddress(), uploadCommodityVo.getCoverUrl());
+        CommodityPO commodityPO = new CommodityPO(commodityDTO.getCommodityId(), commodityDTO.getUserId(),
+                commodityDTO.getCommodityName(), commodityDTO.getCommodityType(),
+                commodityDTO.getPrice(), commodityDTO.getCommodityDescription(),
+                commodityDTO.getCommodityAddress(), commodityDTO.getCoverUrl());
 
 
         String commodityImageUrl = "";
