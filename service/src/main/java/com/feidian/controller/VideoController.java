@@ -1,5 +1,6 @@
 package com.feidian.controller;
 
+import com.feidian.dto.VideoDTO;
 import com.feidian.po.CommodityPO;
 import com.feidian.po.UserPO;
 import com.feidian.po.VideoPO;
@@ -86,6 +87,7 @@ public class VideoController {
         map.put(displayVideoVo,dataAndCoverResource);
         return new ResponseResult(200,"操作成功",fileUploadUtil.getFileVideo(displayVideoVo.getVideoDataUrl()));
     }
+
     @Transactional
     @PostMapping("/postUploadVideo")
     public ResponseResult uploadVideo( @RequestPart("uploadVideoVo") UploadVideoVO uploadVideoVo,
@@ -99,12 +101,12 @@ public class VideoController {
 
         //Todo 最好放在配置文件
         // 定义保存路径
-        String uploadVideoCoverDir = "file://D:/uploads/videos/cover/";
+        String uploadVideoCoverDir = "D:/uploads/videos/cover/";
         uploadVideoFile(coverFile,uploadVideoCoverDir);
         videoCoverUrl = uploadVideoFile(coverFile,uploadVideoCoverDir);
         uploadVideoVo.setCoverUrl(videoCoverUrl);
 
-        String uploadVideoDataDir = "file://D:/uploads/video/data/";
+        String uploadVideoDataDir = "D:/uploads/videos/data/";
         uploadVideoFile(dataFile,uploadVideoDataDir);
         videoDataUrl = uploadVideoFile(dataFile,uploadVideoDataDir);
         uploadVideoVo.setDataUrl(videoDataUrl);
@@ -126,13 +128,13 @@ public class VideoController {
 
     @Transactional
     @PostMapping("/postUploadVideoCommodity")
-    public ResponseResult postUploadVideoCommodity(@RequestBody UploadVideoVO uploadVideoVo){
+    public ResponseResult postUploadVideoCommodity(@RequestBody VideoDTO videoDTO){
         long userId = JwtUtil.getUserId();
-        VideoPO videoPO = videoService.findByVideoId(uploadVideoVo.getId());
+        VideoPO videoPO = videoService.findByVideoId(videoDTO.getVideoId());
 
         //将商品安排到video推荐商品里
-        for (Long cId : uploadVideoVo.getCommodityIdList()) {
-            VideoCommodityPO videoCommodityPO = new VideoCommodityPO(userId, uploadVideoVo.getId(), cId,
+        for (long cId : videoDTO.getCommodityIdList()) {
+            VideoCommodityPO videoCommodityPO = new VideoCommodityPO(userId, videoDTO.getVideoId(), cId,
                     videoPO.getVideoStatus());
             videoCommodityService.insertVideoCommodity(videoCommodityPO);
         }
@@ -148,33 +150,30 @@ public class VideoController {
     }
     @Transactional
     @PutMapping("/putUpdateVideoMsg")
-    public ResponseResult putUpdateVideoMsg(@RequestBody UploadVideoVO uploadVideoVo) {
-        VideoPO videoPO = new VideoPO(uploadVideoVo.getId(),uploadVideoVo.getVideoTitle(), uploadVideoVo.getVideoType(),
-                uploadVideoVo.getVideoDescription(), uploadVideoVo.getCoverUrl());
+    public ResponseResult putUpdateVideoMsg(@RequestBody VideoDTO videoDTO) {
+        VideoPO videoPO = new VideoPO(videoDTO.getVideoId(),videoDTO.getVideoTitle(), videoDTO.getVideoType(),
+                videoDTO.getVideoDescription());
         videoService.updateVideoMsg(videoPO);
         return new ResponseResult(200,"操作成功");
     }
     @Transactional
     @PutMapping("/putUpdateVideoCommodityMsg")
-    public ResponseResult putUpdateVideoCommodityMsg(@RequestBody UploadVideoVO uploadVideoVo){
+    public ResponseResult putUpdateVideoCommodityMsg(@RequestBody VideoDTO videoDTO){
 
-        for (Long cId:uploadVideoVo.getCommodityIdList()) {
-            VideoCommodityPO videoCommodityPO = new VideoCommodityPO(uploadVideoVo.getId(),cId);
+        for (Long cId:videoDTO.getCommodityIdList()) {
+            VideoCommodityPO videoCommodityPO = new VideoCommodityPO(videoDTO.getVideoId(),cId);
             videoCommodityService.updateVideoCommodityMsg(videoCommodityPO);
         }
         return new ResponseResult(200,"操作成功");
     }
 
     public String uploadVideoFile(MultipartFile file,String uploadDir) {
-
         // 处理文件上传逻辑
         // 进行视频文件的保存、处理等操作
         // 返回相应的结果
-
         if (file.isEmpty()) {
             return  "0";
         }
-
         try {
             // 定义保存路径
             // 创建保存目录（如果不存在）
@@ -182,19 +181,17 @@ public class VideoController {
             if (!dir.exists()) {
                 dir.mkdirs();
             }
-
             // 生成保存文件的路径
             String filePath = uploadDir + file.getOriginalFilename();
             // 保存文件
             file.transferTo(new File(filePath));
-
             // 在此可以对文件进行进一步处理，例如调用视频处理库进行处理操作
-
             return filePath;
         } catch (IOException e) {
             return e.getMessage();
         }
     }
+
     @Transactional
     @PostMapping("/insertTestVideo")
     public ResponseResult insertTestVideo(UploadVideoVO uploadVideoVo){

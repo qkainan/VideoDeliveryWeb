@@ -135,7 +135,7 @@ public class CommodityController {
         long userId = JwtUtil.getUserId();
 
         String commodityCoverUrl = "";
-        String uploadCommodityCoverDir = "file://D:/uploads/commodities/cover/";
+        String uploadCommodityCoverDir = "D:/uploads/commodities/cover/";
         saveCommodityFile(coverFile, uploadCommodityCoverDir);
         commodityCoverUrl = saveCommodityFile(coverFile, uploadCommodityCoverDir);
         commodityDTO.setCoverUrl(commodityCoverUrl);
@@ -150,7 +150,7 @@ public class CommodityController {
 
 
         String commodityImageUrl = "";
-        String uploadCommodityImageDir = "file://D:/uploads/commodities/image/";
+        String uploadCommodityImageDir = "D:/uploads/commodities/image/";
         for (MultipartFile multipartFile :imageFile) {
             saveCommodityFile(multipartFile, uploadCommodityImageDir);
             commodityImageUrl = saveCommodityFile(multipartFile, uploadCommodityImageDir);

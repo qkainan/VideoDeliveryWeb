@@ -38,12 +38,11 @@ public class VideoPO {
     this.videoStatus = videoStatus;
   }
 
-  public VideoPO(long id, String videoTitle, String videoType, String videoDescription, String coverUrl) {
+  public VideoPO(long id, String videoTitle, String videoType, String videoDescription) {
     this.id = id;
     this.videoTitle = videoTitle;
     this.videoType = videoType;
     this.videoDescription = videoDescription;
-    this.coverUrl = coverUrl;
 
   }
 

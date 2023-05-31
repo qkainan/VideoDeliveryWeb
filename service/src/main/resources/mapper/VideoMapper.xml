@@ -14,8 +14,7 @@
         set
             video_title = #{videoTitle},
             video_type = #{videoType},
-            video_description = #{videoDescription},
-            cover_url = #{coverUrl}
+            video_description = #{videoDescription}
         where id = #{id}
     </update>
 
