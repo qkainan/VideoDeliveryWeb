@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommodityVo {
+public class CommodityVO {
     private long id;
     private String commodityName;
     private String commodityType;

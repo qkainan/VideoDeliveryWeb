@@ -1,6 +1,6 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.VideoCommodity;
+import com.feidian.po.VideoCommodityPO;
 import com.feidian.mapper.VideoCommodityMapper;
 import com.feidian.service.VideoCommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,17 @@ public class VideoCommodityServiceImpl implements VideoCommodityService {
     private VideoCommodityMapper videoCommodityMapper;
 
     @Override
-    public void insertVideoCommodity(VideoCommodity videoCommodity) {
-        videoCommodityMapper.insertVideoCommodity(videoCommodity);
+    public void insertVideoCommodity(VideoCommodityPO videoCommodityPO) {
+        videoCommodityMapper.insertVideoCommodity(videoCommodityPO);
     }
 
     @Override
-    public List<VideoCommodity> findByVideoId(long videoId) {
+    public List<VideoCommodityPO> findByVideoId(long videoId) {
         return videoCommodityMapper.findByVideoId(videoId);
     }
 
     @Override
-    public void updateVideoCommodityMsg(VideoCommodity videoCommodity) {
-        videoCommodityMapper.updateVideoCommodityMsg(videoCommodity);
+    public void updateVideoCommodityMsg(VideoCommodityPO videoCommodityPO) {
+        videoCommodityMapper.updateVideoCommodityMsg(videoCommodityPO);
     }
 }

@@ -1,8 +1,8 @@
 package com.feidian.vo;
 
-import com.feidian.domain.Cart;
-import com.feidian.domain.Commodity;
-import com.feidian.domain.Video;
+import com.feidian.po.CartPO;
+import com.feidian.po.CommodityPO;
+import com.feidian.po.VideoPO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserHomepageVo {
+public class UserHomepageVO {
     private long id;
     private String username;
     private String userDescription;
@@ -21,14 +21,14 @@ public class UserHomepageVo {
     private String headUrl;
     private String emailAddress;
 
-    private List<Video> videoList;
+    private List<VideoPO> videoPOList;
 
-    private List<Commodity> commodityList;
+    private List<CommodityPO> commodityPOList;
 
-    private List<PurchaseOrderVo> buyerOrderVoList;
+    private List<PurchaseOrderVO> buyerOrderVoList;
 
-    private List<SaleOrderVo> sellerOrderVoList;
+    private List<SaleOrderVO> sellerOrderVoList;
 
-    private List<Cart> cartList;
+    private List<CartPO> cartList;
 
 }

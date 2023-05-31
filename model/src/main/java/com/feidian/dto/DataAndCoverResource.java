@@ -1,16 +1,20 @@
-package com.feidian.vo;
+package com.feidian.dto;
 
+import com.feidian.dto.FileDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginVo {
+public class DataAndCoverResource {
 
-    private String username;
-    private String password;
+    private byte[] dataResource;
+
+    private byte[] coverResource;
+
 }

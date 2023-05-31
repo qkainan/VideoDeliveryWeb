@@ -1,6 +1,6 @@
 package com.feidian.mapper;
 
-import com.feidian.domain.User;
+import com.feidian.po.UserPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,19 +10,19 @@ import java.util.List;
 @Mapper
 public interface UserMapper {
 
-    List<User> findAll();
+    List<UserPO> findAll();
 
-    User findById(long id);
+    UserPO findById(long id);
 
-    User findByName(String username);
+    UserPO findByName(String username);
 
-    void insertUser(User user);
+    void insertUser(UserPO userPO);
 
-    void signUp(User user);
+    void signUp(UserPO userPO);
 
     void deleteUser(long id);
 
-    void updateUser(User user);
+    void updateUser(UserPO userPO);
 
     void updateUserDescription(String description);
 }

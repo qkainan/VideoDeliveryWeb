@@ -1,4 +1,4 @@
-package com.feidian.domain;
+package com.feidian.po;
 
 
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CommodityOperLog {
+public class CommodityOperLogPO {
 
   private long id;
   private String businessType;

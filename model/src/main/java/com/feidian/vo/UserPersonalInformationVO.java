@@ -5,23 +5,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SaleOrderVo {
+public class UserPersonalInformationVO {
 
     private long id;
-    private String commodityName;
+    private String username;
+    private String password;
 
-    private BigDecimal price;
+    private Integer phone;
+    private String headUrl;
+    private String userDescription;
+    private String emailAddress;
 
-    private String commodityAddress;
 
-    private long status;
-
-    private java.sql.Timestamp updateTime;
 
 }

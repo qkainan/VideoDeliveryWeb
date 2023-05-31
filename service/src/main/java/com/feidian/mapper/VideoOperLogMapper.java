@@ -1,8 +1,8 @@
 package com.feidian.mapper;
 
 
-import com.feidian.domain.User;
-import com.feidian.domain.VideoOperLog;
+import com.feidian.po.UserPO;
+import com.feidian.po.VideoOperLogPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface VideoOperLogMapper {
 
-    void insertLog(VideoOperLog videoOperLog);
+    void insertLog(VideoOperLogPO videoOperLogPO);
 
-    User findById(long id);
+    UserPO findById(long id);
 }

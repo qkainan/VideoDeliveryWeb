@@ -3,24 +3,21 @@ package com.feidian.vo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseOrderVo {
+@ToString
+public class SignUpVO {
 
     private long id;
-    private String commodityName;
+    private String username;
+    private String password;
 
-    private BigDecimal price;
-
-    private String commodityAddress;
-
-    private long status;
-
-    private java.sql.Timestamp updateTime;
-
+    private String rePwd;
+    private String verifyCode;
+    private String emailAddress;
 }

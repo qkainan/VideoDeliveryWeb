@@ -1,6 +1,6 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.OrderCommodity;
+import com.feidian.po.OrderCommodity;
 import com.feidian.mapper.OrderCommodityMapper;
 import com.feidian.service.OrderCommodityService;
 import org.springframework.beans.factory.annotation.Autowired;

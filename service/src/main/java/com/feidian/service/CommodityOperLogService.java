@@ -1,12 +1,12 @@
 package com.feidian.service;
 
-import com.feidian.domain.CommodityOperLog;
-import com.feidian.domain.User;
+import com.feidian.po.CommodityOperLogPO;
+import com.feidian.po.UserPO;
 
 public interface CommodityOperLogService {
 
-    void saveLog(CommodityOperLog commodityOperLog);
+    void saveLog(CommodityOperLogPO commodityOperLogPO);
 
-    User findById(long id);
+    UserPO findById(long id);
 
 }

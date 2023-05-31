@@ -1,6 +1,6 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.CommodityImage;
+import com.feidian.po.CommodityImagePO;
 import com.feidian.mapper.CommodityImageMapper;
 import com.feidian.service.CommodityImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class CommodityImageServiceImpl implements CommodityImageService {
     }
 
     @Override
-    public List<CommodityImage> findByCommodityId(long CommodityId) {
+    public List<CommodityImagePO> findByCommodityId(long CommodityId) {
         return commodityImageMapper.findByCommodityId(CommodityId);
     }
 }

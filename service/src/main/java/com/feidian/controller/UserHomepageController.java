@@ -1,13 +1,13 @@
 package com.feidian.controller;
 
-import com.feidian.domain.*;
+import com.feidian.po.*;
 import com.feidian.resolver.CurrentUserId;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.*;
-import com.feidian.util.EmailUtil;
 import com.feidian.util.JwtUtil;
 import com.feidian.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -40,7 +40,7 @@ public class UserHomepageController {
     @Autowired
     private OrderCommodityService orderCommodityService;
 
-
+    @Transactional
     @GetMapping("/getPerCommodities")
     public ResponseResult findByUserId(){
         long userId = JwtUtil.getUserId();
@@ -49,52 +49,52 @@ public class UserHomepageController {
 
         return new ResponseResult(200,"操作成功",list);
     }
-
+    @Transactional
     @GetMapping("/getPerinfo")
     public ResponseResult getHomePage(){
         long userId = JwtUtil.getUserId();
 
-        User user = userService.findById(userId);
+        UserPO userPO = userService.findById(userId);
 
-        List<Video> videoList = videoService.findByUserId(userId);
-        List<Commodity> commodityList = commodityService.findByUserId(userId);
-        List<PurchaseOrderVo> buyerOrderVoList = getPurchaseOrderVo(userId);
-        List<SaleOrderVo> sellerOrderVoList = getSaleOrderVo(userId);
-        List<Cart> cartList = cartService. findByUserId(userId);
+        List<VideoPO> videoPOList = videoService.findByUserId(userId);
+        List<CommodityPO> commodityPOList = commodityService.findByUserId(userId);
+        List<PurchaseOrderVO> buyerOrderVoList = getPurchaseOrderVo(userId);
+        List<SaleOrderVO> sellerOrderVoList = getSaleOrderVo(userId);
+        List<CartPO> cartList = cartService. findByUserId(userId);
 
-        UserHomepageVo userHomepageVo = new UserHomepageVo(userId, user.getUsername(),
-                user.getUserDescription(), user.getPhone(), user.getHeadUrl(),
-                user.getEmailAddress(), videoList, commodityList, buyerOrderVoList,sellerOrderVoList, cartList);
+        UserHomepageVO userHomepageVo = new UserHomepageVO(userId, userPO.getUsername(),
+                userPO.getUserDescription(), userPO.getPhone(), userPO.getHeadUrl(),
+                userPO.getEmailAddress(), videoPOList, commodityPOList, buyerOrderVoList,sellerOrderVoList, cartList);
         return  new ResponseResult(200,"操作成功",userHomepageVo);
     }
 
-
+    @Transactional
     @GetMapping("/getPervideo")
     public ResponseResult getVideos(){
         long userId = JwtUtil.getUserId();
 
-        List<Video> videoList = videoService.findByUserId(userId);
-        List<Commodity> commodityList = commodityService.findByUserId(userId);
+        List<VideoPO> videoPOList = videoService.findByUserId(userId);
+        List<CommodityPO> commodityPOList = commodityService.findByUserId(userId);
 
-        VideosVo videosVo = new VideosVo(videoList, commodityList);
+        VideosVO videosVo = new VideosVO(videoPOList, commodityPOList);
 
         return new ResponseResult(200,"操作成功",videosVo);
     }
 
 
-    public List<PurchaseOrderVo> getPurchaseOrderVo(@CurrentUserId long buyerId){
-        List<Order> orderList = orderService.findByBuyerId(buyerId);
-        List<PurchaseOrderVo> purchaseOrderVoList = new ArrayList();
+    public List<PurchaseOrderVO> getPurchaseOrderVo(@CurrentUserId long buyerId){
+        List<OrderPO> orderList = orderService.findByBuyerId(buyerId);
+        List<PurchaseOrderVO> purchaseOrderVoList = new ArrayList();
 
-        PurchaseOrderVo purchaseOrderVo;
-        for (Order order : orderList) {
-            User buyer = userService.findById(buyerId);
+        PurchaseOrderVO purchaseOrderVo;
+        for (OrderPO order : orderList) {
+            UserPO buyer = userService.findById(buyerId);
             OrderCommodity orderCommodity = orderCommodityService.findById(order.getId());
-            Commodity commodity = commodityService.findByCommodityId(orderCommodity.getCommodityId());
-            User seller = userService.findById(order.getSellerId());
+            CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
+            UserPO seller = userService.findById(order.getSellerId());
 
-            purchaseOrderVo = new PurchaseOrderVo(order.getId(), commodity.getCommodityName(),
-                    commodity.getPrice(), commodity.getCommodityAddress(),
+            purchaseOrderVo = new PurchaseOrderVO(order.getId(), commodityPO.getCommodityName(),
+                    commodityPO.getPrice(), commodityPO.getCommodityAddress(),
                     order.getOrderStatus(), order.getUpdateTime());
             purchaseOrderVoList.add(purchaseOrderVo);
         }
@@ -102,28 +102,28 @@ public class UserHomepageController {
         return purchaseOrderVoList;
     }
 
-    public List<SaleOrderVo> getSaleOrderVo(long sellerId) {
-        List<Order> orderList = orderService.findByBuyerId(sellerId);
-        List<SaleOrderVo> saleOrderVoList = new ArrayList();
+    public List<SaleOrderVO> getSaleOrderVo(long sellerId) {
+        List<OrderPO> orderList = orderService.findByBuyerId(sellerId);
+        List<SaleOrderVO> saleOrderVoList = new ArrayList();
 
-        SaleOrderVo saleOrderVo;
-        for (Order order : orderList) {
+        SaleOrderVO saleOrderVo;
+        for (OrderPO order : orderList) {
 
-            User buyer = userService.findById(sellerId);
+            UserPO buyer = userService.findById(sellerId);
             OrderCommodity orderCommodity = orderCommodityService.findById(sellerId);
-            Commodity commodity = commodityService.findByCommodityId(orderCommodity.getCommodityId());
-            User seller = userService.findById(order.getSellerId());
+            CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
+            UserPO seller = userService.findById(order.getSellerId());
 
-            saleOrderVo = new SaleOrderVo(order.getId(), commodity.getCommodityName(),
-                    commodity.getPrice(), commodity.getCommodityAddress(),
+            saleOrderVo = new SaleOrderVO(order.getId(), commodityPO.getCommodityName(),
+                    commodityPO.getPrice(), commodityPO.getCommodityAddress(),
                     order.getOrderStatus(), order.getUpdateTime());
             saleOrderVoList.add(saleOrderVo);
         }
         return saleOrderVoList;
     }
-
+    @Transactional
     @PutMapping("/putUserPersonalInformation")
-    public ResponseResult putUserPersonalInformation(@RequestBody UserPersonalInformationVo userPersonalInformationVo) {
+    public ResponseResult putUserPersonalInformation(@RequestBody UserPersonalInformationVO userPersonalInformationVo) {
         userService.updateUserPersonalInformation(userPersonalInformationVo);
         return new ResponseResult(200, "发布成功");
     }

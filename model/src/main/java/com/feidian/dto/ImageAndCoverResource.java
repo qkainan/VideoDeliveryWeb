@@ -1,21 +1,20 @@
-package com.feidian.vo;
+package com.feidian.dto;
 
-import com.feidian.domain.Commodity;
-import com.feidian.domain.Video;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideosVo {
+public class ImageAndCoverResource {
 
-    private List<Video> videoList;
+    private byte[] coverResource;
 
-    private List<Commodity> commodityList;
-
+    private List<byte[]> imageResource;
 }

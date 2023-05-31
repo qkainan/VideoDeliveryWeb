@@ -1,7 +1,6 @@
 package com.feidian.controller;
 
-import com.feidian.domain.User;
-import com.feidian.responseResult.ResponseResult;
+import com.feidian.po.UserPO;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.LoginLogService;
 import com.feidian.service.UserService;
@@ -9,11 +8,11 @@ import com.feidian.util.AESUtil;
 import com.feidian.util.EmailUtil;
 import com.feidian.util.JwtUtil;
 import com.feidian.util.VerifyCode;
-import com.feidian.vo.LoginVo;
-import com.feidian.vo.SignUpVo;
+import com.feidian.vo.LoginVO;
+import com.feidian.vo.SignUpVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,8 +30,9 @@ public class IndexController {
     String verifyCode = new VerifyCode().setVerifyCode();
 
     //快速注册
+    @Transactional
     @PostMapping("/postFastSignup")
-    public ResponseResult fastSignUp(@RequestBody SignUpVo signUpMsg) throws Exception {
+    public ResponseResult fastSignUp(@RequestBody SignUpVO signUpMsg) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
         // 2.密码长度在8到25之间
@@ -52,15 +52,16 @@ public class IndexController {
         //加密密码并创建用户
         //补全16位
         String encryptUserPwd = getEncryptUserPwd(signUpMsg.getPassword());
-        User user = new User(signUpMsg.getId(), signUpMsg.getUsername(), encryptUserPwd);
+        UserPO userPO = new UserPO(signUpMsg.getId(), signUpMsg.getUsername(), encryptUserPwd);
 
-        userService.signUp(user);
+        userService.signUp(userPO);
         return new ResponseResult(200,"操作成功");
     }
 
     //邮箱注册
+    @Transactional
     @PostMapping("/postEmailSignup")
-    public ResponseResult emailSignUp(@RequestBody SignUpVo signUpVo) throws Exception {
+    public ResponseResult emailSignUp(@RequestBody SignUpVO signUpVo) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
         // 2.密码长度在8到16之间
@@ -90,9 +91,9 @@ public class IndexController {
         //加密密码并创建用户
         //补全16位
         String encryptUserPwd = getEncryptUserPwd(signUpVo.getPassword());
-        User user = new User(signUpVo.getId(), signUpVo.getUsername(), encryptUserPwd);
+        UserPO userPO = new UserPO(signUpVo.getId(), signUpVo.getUsername(), encryptUserPwd);
 
-        userService.signUp(user);
+        userService.signUp(userPO);
         return new ResponseResult(200,"操作成功");
     }
 
@@ -115,8 +116,9 @@ public class IndexController {
 
 
     //发送验证码
+    @Transactional
     @PostMapping("/postVerify")
-    public ResponseResult postVerify(@RequestBody SignUpVo signUpVo) {
+    public ResponseResult postVerify(@RequestBody SignUpVO signUpVo) {
 
         String regexEmailAddress = "\\w+@[\\w&&[^_]]{2,7}(\\.[a-zA-Z]{2,4}){1,3}";
 
@@ -135,16 +137,17 @@ public class IndexController {
     private LoginLogService loginLogService;
 
     @PostMapping("/postLogin")
-    public ResponseResult login(@RequestBody LoginVo loginVo) throws Exception {
+    @Transactional
+    public ResponseResult login(@RequestBody LoginVO loginVo) throws Exception {
 
         if (loginVo.getPassword().length() >16 && loginVo.getPassword().length() <8 ) {
             return new ResponseResult(403, "密码不符合要求");
         }
 
         //密码符合要求则开始验证
-        User user = userService.findByName(loginVo.getUsername());
-        Long id01 = user.getId();
-        String username01 = user.getUsername();
+        UserPO userPO = userService.findByName(loginVo.getUsername());
+        Long id01 = userPO.getId();
+        String username01 = userPO.getUsername();
 
         if (!StringUtils.hasText(username01)) {
             return new ResponseResult(403,"用户名不存在");
@@ -162,11 +165,11 @@ public class IndexController {
         userPwd = stringBuilder.toString();
 
         //获取解密后的密码
-        String decryptUserPwd = AESUtil.decryptByAES(user.getPassword());
+        String decryptUserPwd = AESUtil.decryptByAES(userPO.getPassword());
 
         if (!decryptUserPwd.equals(userPwd)) {
-            user.setUserStatus(1);
-            loginLogService.recordLoginLog(user.getUsername(),user.getUserStatus(),"登陆失败");
+            userPO.setUserStatus(1);
+            loginLogService.recordLoginLog(userPO.getUsername(), userPO.getUserStatus(),"登陆失败");
             return new ResponseResult(403,"密码不正确");
         }
 
@@ -175,9 +178,9 @@ public class IndexController {
         map = new HashMap<>();
         String token = JwtUtil.createJWT(UUID.randomUUID().toString(), String.valueOf(id01), null);
         map.put("Authorization", token);
-        user.setUserStatus(0);
+        userPO.setUserStatus(0);
 
-        loginLogService.recordLoginLog(user.getUsername(),user.getUserStatus(),"登录成功");
+        loginLogService.recordLoginLog(userPO.getUsername(), userPO.getUserStatus(),"登录成功");
         return new ResponseResult(200, "登录成功", map);
     }
 

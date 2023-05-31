@@ -1,16 +1,16 @@
 package com.feidian.service;
 
-import com.feidian.domain.Order;
+import com.feidian.po.OrderPO;
 
 import java.util.List;
 
 public interface OrderService {
 
     //买家订单
-    List<Order> findByBuyerId(long userId);
+    List<OrderPO> findByBuyerId(long userId);
 
     //卖家订单
-    List<Order> findBySellerId(long userId);
+    List<OrderPO> findBySellerId(long userId);
 
     void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus);
 

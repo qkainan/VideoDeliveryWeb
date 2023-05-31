@@ -1,6 +1,6 @@
 package com.feidian.service;
 
-import com.feidian.domain.OrderCommodity;
+import com.feidian.po.OrderCommodity;
 
 public interface OrderCommodityService {
 

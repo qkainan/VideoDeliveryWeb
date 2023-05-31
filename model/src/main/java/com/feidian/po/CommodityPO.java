@@ -1,4 +1,4 @@
-package com.feidian.domain;
+package com.feidian.po;
 
 
 import lombok.AllArgsConstructor;
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Commodity {
+public class CommodityPO {
 
   private long id;
   private long userId;
@@ -31,7 +31,7 @@ public class Commodity {
   private long isDeleted;
 
 
-  public Commodity(long id, long userId, String commodityName, String commodityType, BigDecimal price, String commodityDescription, String commodityAddress, String coverUrl) {
+  public CommodityPO(long id, long userId, String commodityName, String commodityType, BigDecimal price, String commodityDescription, String commodityAddress, String coverUrl) {
     this.id = id;
     this.userId = userId;
     this.commodityName = commodityName;

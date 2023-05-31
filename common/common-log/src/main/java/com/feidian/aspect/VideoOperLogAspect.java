@@ -2,9 +2,9 @@ package com.feidian.aspect;
 
 import com.alibaba.fastjson2.JSON;
 import com.feidian.annotation.VideoOperLogAt;
-import com.feidian.domain.User;
+import com.feidian.po.UserPO;
 
-import com.feidian.domain.VideoOperLog;
+import com.feidian.po.VideoOperLogPO;
 import com.feidian.service.VideoOperLogService;
 import com.feidian.util.JwtUtil;
 import org.aspectj.lang.JoinPoint;
@@ -43,35 +43,35 @@ public class VideoOperLogAspect {
             HttpServletRequest request = sra.getRequest();
 
             // *========数据库日志=========*//
-            VideoOperLog videoOperLog = new VideoOperLog();
+            VideoOperLogPO videoOperLogPO = new VideoOperLogPO();
             //状态
-            videoOperLog.setStatus(1);
+            videoOperLogPO.setStatus(1);
 
 
             //请求的用户
             String token = request.getHeader("token");
             long userId = JwtUtil.getSubject(token);
-            User user = videoOperLogService.findById(userId);
-            videoOperLog.setOperUserName(user.getUsername());
+            UserPO userPO = videoOperLogService.findById(userId);
+            videoOperLogPO.setOperUserName(userPO.getUsername());
 
             if (e != null) {
-                videoOperLog.setStatus(0);
-                videoOperLog.setErrorMsg(e.getMessage());
+                videoOperLogPO.setStatus(0);
+                videoOperLogPO.setErrorMsg(e.getMessage());
             }
 
             // 设置方法名称
             String className = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
-            videoOperLog.setMethod(className + "." + methodName + "()");
+            videoOperLogPO.setMethod(className + "." + methodName + "()");
 
             // 设置请求方式
-            videoOperLog.setRequestMethod(request.getMethod());
+            videoOperLogPO.setRequestMethod(request.getMethod());
 
             // 处理设置注解上的参数
-            getControllerMethodDescription(joinPoint, controllerLog, videoOperLog, jsonResult);
+            getControllerMethodDescription(joinPoint, controllerLog, videoOperLogPO, jsonResult);
 
             // 操作日志保存数据库
-            videoOperLogService.saveLog(videoOperLog);
+            videoOperLogService.saveLog(videoOperLogPO);
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class VideoOperLogAspect {
      * @param operLog 操作日志
      * @throws Exception
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, VideoOperLogAt log, VideoOperLog operLog, Object jsonResult) throws Exception {
+    public void getControllerMethodDescription(JoinPoint joinPoint, VideoOperLogAt log, VideoOperLogPO operLog, Object jsonResult) throws Exception {
         // 设置action动作
         operLog.setBusinessType(log.businessType().name());
         // 是否需要保存request，参数和值
@@ -104,7 +104,7 @@ public class VideoOperLogAspect {
      * @param operLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(JoinPoint joinPoint, VideoOperLog operLog) throws Exception {
+    private void setRequestValue(JoinPoint joinPoint, VideoOperLogPO operLog) throws Exception {
         String requestMethod = operLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());

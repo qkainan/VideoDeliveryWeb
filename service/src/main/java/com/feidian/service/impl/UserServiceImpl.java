@@ -1,11 +1,11 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.Address;
-import com.feidian.domain.User;
+import com.feidian.po.AddressPO;
+import com.feidian.po.UserPO;
 import com.feidian.mapper.AddressMapper;
 import com.feidian.mapper.UserMapper;
 import com.feidian.service.UserService;
-import com.feidian.vo.UserPersonalInformationVo;
+import com.feidian.vo.UserPersonalInformationVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,28 +24,28 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<User> findAll() {
+    public List<UserPO> findAll() {
         return userMapper.findAll();
     }
 
     @Override
-    public User findById(long id) {
+    public UserPO findById(long id) {
         return userMapper.findById(id);
     }
 
     @Override
-    public User findByName(String username) {
+    public UserPO findByName(String username) {
         return userMapper.findByName(username);
     }
 
     @Override
-    public void insertUser(User user) {
-        userMapper.insertUser(user);
+    public void insertUser(UserPO userPO) {
+        userMapper.insertUser(userPO);
     }
 
     @Override
-    public void signUp(User user) {
-        userMapper.signUp(user);
+    public void signUp(UserPO userPO) {
+        userMapper.signUp(userPO);
     }
 
     @Override
@@ -54,8 +54,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User user) {
-        userMapper.updateUser(user);
+    public void updateUser(UserPO userPO) {
+        userMapper.updateUser(userPO);
     }
 
     @Override
@@ -64,16 +64,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserPersonalInformation(UserPersonalInformationVo userPersonalInformationVo) {
-        User user = new User(userPersonalInformationVo.getId(),userPersonalInformationVo.getUsername(),userPersonalInformationVo.getPassword(),
+    public void updateUserPersonalInformation(UserPersonalInformationVO userPersonalInformationVo) {
+        UserPO userPO = new UserPO(userPersonalInformationVo.getId(),userPersonalInformationVo.getUsername(),userPersonalInformationVo.getPassword(),
                 userPersonalInformationVo.getPhone(),userPersonalInformationVo.getHeadUrl(),userPersonalInformationVo.getUserDescription(),
                 userPersonalInformationVo.getEmailAddress());
 
-        userMapper.updateUser(user);
+        userMapper.updateUser(userPO);
     }
 
     @Override
-    public Address findByAddressId(long addressId) {
+    public AddressPO findByAddressId(long addressId) {
         return addressMapper.findByAddressId(addressId);
     }
 

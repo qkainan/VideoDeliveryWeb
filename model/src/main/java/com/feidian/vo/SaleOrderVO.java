@@ -11,22 +11,17 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CartVo {
+public class SaleOrderVO {
 
     private long id;
-    private long userId;
-    private long commodityId;
-    private long addressId;
+    private String commodityName;
 
-    private String commodityDescription;
     private BigDecimal price;
-    private BigDecimal commodityNum;
-    private BigDecimal totalPrice;
 
-    private long orderStatus;
+    private String commodityAddress;
 
+    private long status;
 
     private java.sql.Timestamp updateTime;
-    private long isDeleted;
 
 }

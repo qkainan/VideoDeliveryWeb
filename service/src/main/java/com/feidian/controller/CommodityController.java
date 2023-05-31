@@ -1,8 +1,8 @@
 package com.feidian.controller;
 
-import com.feidian.domain.Commodity;
-import com.feidian.domain.CommodityImage;
-import com.feidian.domain.Video;
+import com.feidian.dto.ImageAndCoverResource;
+import com.feidian.po.CommodityPO;
+import com.feidian.po.CommodityImagePO;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.CommodityImageService;
 import com.feidian.service.CommodityService;
@@ -10,7 +10,7 @@ import com.feidian.util.JwtUtil;
 import com.feidian.util.fileUploadUtil;
 import com.feidian.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,43 +27,21 @@ public class CommodityController {
 
     @Autowired
     private CommodityImageService commodityImageService;
-
-//    @PostMapping("/getCommodity")
-//    public ResponseResult findByCommodityId(Long commodityId) throws IOException {
-//
-//        Commodity commodity = commodityService.findByCommodityId(commodityId);
-//
-//        CommodityVo commodityVo = new CommodityVo(commodity.getId(), commodity.getCommodityName(),
-//                commodity.getCommodityType(), commodity.getPrice(), commodity.getCommodityAddress(),
-//                commodity.getCommodityDescription(), commodity.getCoverUrl());
-//
-//        List<InputStreamResource> imageUrlList = new ArrayList<>();
-//        for (CommodityImage ci:commodityImageService.findByCommodityId(commodityVo.getId())) {
-//            imageUrlList.add(fileUploadUtil.getCommodityImage(ci.getImageUrl()));
-//        }
-//        ImageAndCoverResource imageAndCoverResource = new ImageAndCoverResource(
-//                fileUploadUtil.getCommodityCover(commodityVo.getCoverUrl()),imageUrlList );
-//
-//        Map<CommodityVo,ImageAndCoverResource> map = new HashMap<>();
-//        map.put(commodityVo, imageAndCoverResource);
-//        return new ResponseResult(200,"操作成功", map);
-//
-//    }
-
-    @PostMapping("/getCommodity")
+    @Transactional
+    @GetMapping("/getCommodity")
     public ResponseResult findByCommodityId(long commodityId) throws IOException, URISyntaxException {
-        Commodity commodity = commodityService.findByCommodityId(commodityId);
+        CommodityPO commodityPO = commodityService.findByCommodityId(commodityId);
 
-        if (commodity != null) {
-            CommodityVo commodityVo = new CommodityVo(commodity.getId(), commodity.getCommodityName(),
-                    commodity.getCommodityType(), commodity.getPrice(), commodity.getCommodityAddress(),
-                    commodity.getCommodityDescription(), commodity.getCoverUrl());
+        if (commodityPO != null) {
+            CommodityVO commodityVo = new CommodityVO(commodityPO.getId(), commodityPO.getCommodityName(),
+                    commodityPO.getCommodityType(), commodityPO.getPrice(), commodityPO.getCommodityAddress(),
+                    commodityPO.getCommodityDescription(), commodityPO.getCoverUrl());
 
             List<byte[]> imageFileList = new ArrayList<>();
-            List<CommodityImage> commodityImageList = commodityImageService.findByCommodityId(commodityVo.getId());
+            List<CommodityImagePO> commodityImageList = commodityImageService.findByCommodityId(commodityVo.getId());
 
             if (commodityImageList != null) {
-                for (CommodityImage ci : commodityImageList) {
+                for (CommodityImagePO ci : commodityImageList) {
                     imageFileList.add(fileUploadUtil.getFileImage(ci.getImageUrl()).getFileByte());
                 }
             }
@@ -71,7 +49,7 @@ public class CommodityController {
             ImageAndCoverResource imageAndCoverResource = new ImageAndCoverResource(
                     fileUploadUtil.getFileImage(commodityVo.getCoverUrl()).getFileByte(), imageFileList);
 
-            Map<CommodityVo, ImageAndCoverResource> map = new HashMap<>();
+            Map<CommodityVO, ImageAndCoverResource> map = new HashMap<>();
             map.put(commodityVo, imageAndCoverResource);
             return new ResponseResult(200, "操作成功", map);
         } else {
@@ -79,61 +57,38 @@ public class CommodityController {
         }
     }
 
-
+    @Transactional
     @GetMapping("/getDisplayCommodity")
     public ResponseResult getDisplayCommodity(Long commodityId) throws IOException, URISyntaxException {
         HashMap<Long, ImageAndCoverResource> map = new HashMap<>();
-        Commodity commodity = commodityService.findByCommodityId(commodityId);
-        List<CommodityImage> commodityImageList = commodityImageService.findByCommodityId(commodityId);
+        CommodityPO commodityPO = commodityService.findByCommodityId(commodityId);
+        List<CommodityImagePO> commodityImageList = commodityImageService.findByCommodityId(commodityId);
         List<byte[]> imageResourceList = new ArrayList<>();
 
-        for (CommodityImage commodityImage : commodityImageList) {
+        for (CommodityImagePO commodityImage : commodityImageList) {
             imageResourceList.add(fileUploadUtil.getFileImage(commodityImage.getImageUrl()).getFileByte());
         }
 
         ImageAndCoverResource imageAndCoverResource =
-                new ImageAndCoverResource(fileUploadUtil.getFileImage(commodity.getCoverUrl()).getFileByte(),
+                new ImageAndCoverResource(fileUploadUtil.getFileImage(commodityPO.getCoverUrl()).getFileByte(),
                         imageResourceList);
-        map.put(commodity.getId(), imageAndCoverResource);
+        map.put(commodityPO.getId(), imageAndCoverResource);
         return new ResponseResult(200, "操作成功", map);
     }
-
+    @Transactional
     @PutMapping("/putUpdateCommodityMsg")
-    public ResponseResult updateCommodityMsg(@RequestBody CommodityVo commodityVo){
+    public ResponseResult updateCommodityMsg(@RequestBody CommodityVO commodityVo){
 
-        Commodity commodity = new Commodity(commodityVo.getId(), JwtUtil.getUserId(), commodityVo.getCommodityName(),
+        CommodityPO commodityPO = new CommodityPO(commodityVo.getId(), JwtUtil.getUserId(), commodityVo.getCommodityName(),
                 commodityVo.getCommodityType(), commodityVo.getPrice(), commodityVo.getCommodityDescription(),
                 commodityVo.getCommodityAddress(), commodityVo.getCoverUrl());
 
-        commodityService.insertCommodity(commodity);
+        commodityService.insertCommodity(commodityPO);
 
         return new ResponseResult(200,"更改成功");
     }
 
-
-    @PostMapping("/postUploadCommodityVo")
-    public ResponseResult postUploadCommodityVo( @RequestBody UploadCommodityVo uploadCommodityVo){
-
-        Commodity commodity = new Commodity(JwtUtil.getUserId(),uploadCommodityVo.getUserId(),uploadCommodityVo.getCommodityName(),
-                uploadCommodityVo.getCommodityType(), uploadCommodityVo.getPrice(),uploadCommodityVo.getCommodityDescription()
-                ,uploadCommodityVo.getCommodityAddress(), uploadCommodityVo.getCoverUrl());
-
-        commodityService.insertCommodity(commodity);
-        return new ResponseResult(200,"上传商品信息成功");
-    }
-    @PostMapping("/uploadCover")
-    public ResponseResult uploadCover(@RequestPart("file")MultipartFile file){
-        saveCommodityFile(file,"D:/uploads/commodities/cover/");
-        return new ResponseResult(200, "上传封面成功");
-    }
-    @PostMapping("/uploadImage")
-    public ResponseResult uploadImage(@RequestPart("file")MultipartFile[] files){
-        for (MultipartFile f : files){
-            saveCommodityFile(f,  "D:/uploads/commodities/image/");
-        }
-        return new ResponseResult(200, "上传商品图片成功");
-    }
-
+    @Transactional
     @PostMapping("/postDeleteCommodity")
     public ResponseResult deleteCommodity(long commodityId){
         commodityService.deleteCommodity(commodityId);
@@ -169,9 +124,9 @@ public class CommodityController {
         }
     }
 
-
+    @Transactional
    @PostMapping(value = "/postUploadCommodity", consumes = "multipart/form-data")
-    public ResponseResult uploadCommodity(@RequestPart(name = "uploadCommodityVo") UploadCommodityVo uploadCommodityVo,
+    public ResponseResult uploadCommodity(@RequestPart(name = "uploadCommodityVo") UploadCommodityVO uploadCommodityVo,
                                           @RequestPart(name = "coverFile") MultipartFile coverFile,
                                           @RequestPart(name = "imageFile") MultipartFile[] imageFile) {
 
@@ -186,7 +141,7 @@ public class CommodityController {
 
         uploadCommodityVo.setUserId(userId);
 
-        Commodity commodity = new Commodity(uploadCommodityVo.getId(), uploadCommodityVo.getUserId(),
+        CommodityPO commodityPO = new CommodityPO(uploadCommodityVo.getId(), uploadCommodityVo.getUserId(),
                 uploadCommodityVo.getCommodityName(), uploadCommodityVo.getCommodityType(),
                 uploadCommodityVo.getPrice(), uploadCommodityVo.getCommodityDescription(),
                 uploadCommodityVo.getCommodityAddress(), uploadCommodityVo.getCoverUrl());
@@ -197,12 +152,10 @@ public class CommodityController {
         for (MultipartFile multipartFile :imageFile) {
             saveCommodityFile(multipartFile, uploadCommodityImageDir);
             commodityImageUrl = saveCommodityFile(multipartFile, uploadCommodityImageDir);
-            commodityImageService.insertCommodityImage(commodity.getId(), commodityImageUrl, 1);
+            commodityImageService.insertCommodityImage(commodityPO.getId(), commodityImageUrl, 1);
         }
-//       commodity.getUserId(),
-//               commodity.getCommodityName(), commodity.getCommodityType(), commodity.getPrice(),
-//               commodity.getCommodityDescription(), commodity.getCommodityAddress(), commodity.getCoverUrl()
-        commodityService.insertCommodity(commodity);
+
+        commodityService.insertCommodity(commodityPO);
 
         return new ResponseResult(200, "操作成功");
     }

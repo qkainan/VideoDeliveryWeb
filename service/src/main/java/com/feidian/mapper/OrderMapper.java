@@ -1,6 +1,6 @@
 package com.feidian.mapper;
 
-import com.feidian.domain.Order;
+import com.feidian.po.OrderPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -10,9 +10,9 @@ import java.util.List;
 @Mapper
 public interface OrderMapper {
 
-    List<Order> findByBuyerId(long buyerId);
+    List<OrderPO> findByBuyerId(long buyerId);
 
-    List<Order> findBySellerId(long sellerId);
+    List<OrderPO> findBySellerId(long sellerId);
 
     void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus);
 

@@ -1,6 +1,6 @@
 package com.feidian.mapper;
 
-import com.feidian.domain.VideoCommodity;
+import com.feidian.po.VideoCommodityPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 @Mapper
 public interface VideoCommodityMapper {
-    void insertVideoCommodity(VideoCommodity videoCommodity);
+    void insertVideoCommodity(VideoCommodityPO videoCommodityPO);
 
-    List<VideoCommodity> findByVideoId(long videoId);
+    List<VideoCommodityPO> findByVideoId(long videoId);
 
-    void updateVideoCommodityMsg(VideoCommodity videoCommodity);
+    void updateVideoCommodityMsg(VideoCommodityPO videoCommodityPO);
 }

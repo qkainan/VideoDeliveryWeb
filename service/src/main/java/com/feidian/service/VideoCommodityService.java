@@ -1,13 +1,13 @@
 package com.feidian.service;
 
-import com.feidian.domain.VideoCommodity;
+import com.feidian.po.VideoCommodityPO;
 
 import java.util.List;
 
 public interface VideoCommodityService {
-    void insertVideoCommodity(VideoCommodity videoCommodity);
+    void insertVideoCommodity(VideoCommodityPO videoCommodityPO);
 
-    List<VideoCommodity> findByVideoId(long videoId);
+    List<VideoCommodityPO> findByVideoId(long videoId);
 
-    void updateVideoCommodityMsg(VideoCommodity videoCommodity);
+    void updateVideoCommodityMsg(VideoCommodityPO videoCommodityPO);
 }

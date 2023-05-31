@@ -27,12 +27,12 @@
 
     <select id="findByVideoName"></select>
 
-    <select id="findByVideoId" resultType="com.feidian.domain.Video">
+    <select id="findByVideoId" resultType="com.feidian.po.VideoPO">
         select `id`, `user_id`, `video_name`, `video_title`, `video_type`,
                `video_status`, `video_description`,`cover_url`, `data_url` from `video` where `id` = #{videoId};
     </select>
 
-    <select id="findByUserId" resultType="com.feidian.domain.Video">
+    <select id="findByUserId" resultType="com.feidian.po.VideoPO">
         select *
         from video
         where user_id = #{userId};

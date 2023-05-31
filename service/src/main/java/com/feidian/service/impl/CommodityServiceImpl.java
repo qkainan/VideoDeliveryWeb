@@ -1,15 +1,12 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.Commodity;
-import com.feidian.domain.Video;
+import com.feidian.po.CommodityPO;
 import com.feidian.mapper.CommodityMapper;
 import com.feidian.service.CommodityService;
-import com.feidian.vo.CommodityVo;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -28,12 +25,12 @@ public class CommodityServiceImpl implements CommodityService {
     };
 
     @Override
-    public List<Commodity> findByUserId(long id) {
+    public List<CommodityPO> findByUserId(long id) {
         return commodityMapper.findByUserId(id);
     }
 
     @Override
-    public Commodity findByCommodityId(@Param("commodityId") long commodityId) {
+    public CommodityPO findByCommodityId(@Param("commodityId") long commodityId) {
         return commodityMapper.findByCommodityId(commodityId);
     }
 
@@ -47,8 +44,8 @@ public class CommodityServiceImpl implements CommodityService {
 //    }
 
     @Override
-    public void insertCommodity(Commodity commodity) {
-        commodityMapper.insertCommodity(commodity);
+    public void insertCommodity(CommodityPO commodityPO) {
+        commodityMapper.insertCommodity(commodityPO);
     }
 
 }

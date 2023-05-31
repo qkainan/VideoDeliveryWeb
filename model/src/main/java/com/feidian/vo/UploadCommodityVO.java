@@ -1,30 +1,28 @@
 package com.feidian.vo;
 
-import com.feidian.domain.Commodity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UploadVideoVo {
+public class UploadCommodityVO {
 
     private long id;
     private long userId;
 
-    private String videoName;
-    private String videoTitle;
-    private String videoType;
-    private String videoDescription;
-
-    private List<Commodity> commodityList;
+    private String commodityName;
+    private String commodityType;
+    private BigDecimal price;
+    private String commodityDescription;
+    private String commodityAddress;
     private String coverUrl;
-    private String dataUrl;
-
+    private List<String> imageUrl;
 
 }

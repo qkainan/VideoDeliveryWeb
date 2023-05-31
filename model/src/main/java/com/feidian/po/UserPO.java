@@ -1,4 +1,4 @@
-package com.feidian.domain;
+package com.feidian.po;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class User {
+public class UserPO {
 
     private long id;
     private String username;
@@ -28,21 +28,21 @@ public class User {
     private long isDeleted;
 
 
-    public User(long id, String username, String password) {
+    public UserPO(long id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
     }
 
-    public User(long id, String username, String password,  String emailAddress) {
+    public UserPO(long id, String username, String password, String emailAddress) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.emailAddress = emailAddress;
     }
 
-    public User(long id, String username, String password, Integer phone,
-                String headUrl, String userDescription, String emailAddress) {
+    public UserPO(long id, String username, String password, Integer phone,
+                  String headUrl, String userDescription, String emailAddress) {
         this.id = id;
         this.username = username;
         this.password = password;

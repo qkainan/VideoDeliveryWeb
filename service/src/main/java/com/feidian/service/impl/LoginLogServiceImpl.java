@@ -1,6 +1,6 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.LoginLog;
+import com.feidian.po.LoginLogPO;
 import com.feidian.mapper.LoginLogMapper;
 
 import com.feidian.service.LoginLogService;
@@ -16,11 +16,11 @@ public class LoginLogServiceImpl implements LoginLogService {
 
     @Override
     public void recordLoginLog(String username, Long status, String message) {
-        LoginLog loginLog = new LoginLog();
-        loginLog.setUsername(username);
-        loginLog.setStatus(status);
-        loginLog.setMsg(message);
-        loginLogMapper.insert(loginLog);
+        LoginLogPO loginLogPO = new LoginLogPO();
+        loginLogPO.setUsername(username);
+        loginLogPO.setStatus(status);
+        loginLogPO.setMsg(message);
+        loginLogMapper.insert(loginLogPO);
     }
 
 

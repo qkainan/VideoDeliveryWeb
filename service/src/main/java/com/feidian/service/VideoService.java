@@ -1,7 +1,6 @@
 package com.feidian.service;
 
-import com.feidian.domain.Video;
-import com.feidian.vo.DisplayVideoVo;
+import com.feidian.po.VideoPO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,16 +8,16 @@ import java.util.List;
 
 public interface VideoService {
 
-    void insertVideo(Video videoVo);
+    void insertVideo(VideoPO videoPOVo);
 
     long[] homeRecommend();
 
-    Video findByVideoId(@Param("videoId") long videoId);
+    VideoPO findByVideoId(@Param("videoId") long videoId);
 
-    List<Video> findByUserId(long userId);
+    List<VideoPO> findByUserId(long userId);
 
 
     void deleteVideo(long videoId);
 
-    void updateVideoMsg(Video video);
+    void updateVideoMsg(VideoPO videoPO);
 }

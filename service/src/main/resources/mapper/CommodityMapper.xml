@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.feidian.mapper.CommodityMapper">
-    <insert id="insertCommodity" parameterType="com.feidian.domain.Commodity">
+    <insert id="insertCommodity" parameterType="com.feidian.po.CommodityPO">
         insert into commodity
             (id, user_id, commodity_name, commodity_type, price, commodity_address, commodity_description,cover_url)
             values  (#{id}, #{userId}, #{commodityName}, #{commodityType} ,#{price}, #{commodityAddress},
@@ -29,13 +29,13 @@
 
 
 
-    <select id="findByUserId" resultType="com.feidian.domain.Commodity">
+    <select id="findByUserId" resultType="com.feidian.po.CommodityPO">
         select *
         from commodity
         where user_id = #{id}
     </select>
 
-    <select id="findByCommodityId" resultType="com.feidian.domain.Commodity">
+    <select id="findByCommodityId" resultType="com.feidian.po.CommodityPO">
         select id,user_id,commodity_name, commodity_type, price, commodity_description, commodity_address,
                cover_url, commodity_status, create_time, update_time, is_deleted
         from commodity

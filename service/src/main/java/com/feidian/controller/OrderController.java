@@ -1,17 +1,18 @@
 package com.feidian.controller;
 
 
-import com.feidian.domain.Commodity;
-import com.feidian.domain.Order;
-import com.feidian.domain.OrderCommodity;
+import com.feidian.po.CommodityPO;
+import com.feidian.po.OrderPO;
+import com.feidian.po.OrderCommodity;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.CommodityService;
 import com.feidian.service.OrderCommodityService;
 import com.feidian.service.OrderService;
 import com.feidian.util.JwtUtil;
-import com.feidian.vo.PurchaseOrderVo;
-import com.feidian.vo.SaleOrderVo;
+import com.feidian.vo.PurchaseOrderVO;
+import com.feidian.vo.SaleOrderVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,16 +32,17 @@ public class OrderController {
     private CommodityService commodityService;
 
     @GetMapping("/getPurchaseOrder")
+    @Transactional
     public ResponseResult getPurchaseOrder(){
-        List<PurchaseOrderVo> purchaseOrderVoList = new ArrayList<>();
+        List<PurchaseOrderVO> purchaseOrderVoList = new ArrayList<>();
 
-        for (Order o : orderService.findByBuyerId(JwtUtil.getUserId())) {
+        for (OrderPO o : orderService.findByBuyerId(JwtUtil.getUserId())) {
 
             OrderCommodity orderCommodity = orderCommodityService.findById(o.getId());
-            Commodity commodity = commodityService.findByCommodityId(orderCommodity.getCommodityId());
+            CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
 
-            PurchaseOrderVo purchaseOrderVo = new PurchaseOrderVo(o.getId(), commodity.getCommodityName(), commodity.getPrice(),
-                    commodity.getCommodityAddress(), o.getOrderStatus(), o.getUpdateTime());
+            PurchaseOrderVO purchaseOrderVo = new PurchaseOrderVO(o.getId(), commodityPO.getCommodityName(), commodityPO.getPrice(),
+                    commodityPO.getCommodityAddress(), o.getOrderStatus(), o.getUpdateTime());
 
             purchaseOrderVoList.add(purchaseOrderVo);
         }
@@ -49,16 +51,17 @@ public class OrderController {
     }
 
     @GetMapping("/getSaleOrder")
+    @Transactional
     public ResponseResult getSaleOrder(){
-        List<SaleOrderVo> saleOrderVoList = new ArrayList<>();
+        List<SaleOrderVO> saleOrderVoList = new ArrayList<>();
 
-        for (Order o : orderService.findBySellerId(JwtUtil.getUserId())) {
+        for (OrderPO o : orderService.findBySellerId(JwtUtil.getUserId())) {
 
             OrderCommodity orderCommodity = orderCommodityService.findById(o.getId());
-            Commodity commodity = commodityService.findByCommodityId(orderCommodity.getCommodityId());
+            CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
 
-            SaleOrderVo saleOrderVo = new SaleOrderVo(o.getId(), commodity.getCommodityName(), commodity.getPrice(),
-                    commodity.getCommodityAddress(), o.getOrderStatus(), o.getUpdateTime());
+            SaleOrderVO saleOrderVo = new SaleOrderVO(o.getId(), commodityPO.getCommodityName(), commodityPO.getPrice(),
+                    commodityPO.getCommodityAddress(), o.getOrderStatus(), o.getUpdateTime());
 
             saleOrderVoList.add(saleOrderVo);
         }

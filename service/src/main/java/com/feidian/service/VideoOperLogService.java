@@ -1,11 +1,11 @@
 package com.feidian.service;
 
-import com.feidian.domain.User;
-import com.feidian.domain.VideoOperLog;
+import com.feidian.po.UserPO;
+import com.feidian.po.VideoOperLogPO;
 
 public interface VideoOperLogService {
 
-    void saveLog(VideoOperLog videoOperLog);
+    void saveLog(VideoOperLogPO videoOperLogPO);
 
-    User findById(long id);
+    UserPO findById(long id);
 }

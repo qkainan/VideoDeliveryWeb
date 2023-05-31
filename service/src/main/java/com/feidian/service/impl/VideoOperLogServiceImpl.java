@@ -1,8 +1,8 @@
 package com.feidian.service.impl;
 
 
-import com.feidian.domain.User;
-import com.feidian.domain.VideoOperLog;
+import com.feidian.po.UserPO;
+import com.feidian.po.VideoOperLogPO;
 import com.feidian.mapper.VideoOperLogMapper;
 
 import com.feidian.service.VideoOperLogService;
@@ -15,12 +15,12 @@ public class VideoOperLogServiceImpl implements VideoOperLogService {
     private VideoOperLogMapper videoOperLogMapper;
 
     @Override
-    public void saveLog(VideoOperLog videoOperLog) {
-        videoOperLogMapper.insertLog(videoOperLog);
+    public void saveLog(VideoOperLogPO videoOperLogPO) {
+        videoOperLogMapper.insertLog(videoOperLogPO);
     }
 
     @Override
-    public User findById(long id) {
+    public UserPO findById(long id) {
         return videoOperLogMapper.findById(id);
     }
 }

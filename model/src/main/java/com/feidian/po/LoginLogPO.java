@@ -1,4 +1,4 @@
-package com.feidian.domain;
+package com.feidian.po;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class LoginLog {
+public class LoginLogPO {
 
   private long id;
   private String username;

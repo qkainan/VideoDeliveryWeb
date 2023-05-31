@@ -1,8 +1,8 @@
 package com.feidian.service;
 
-import com.feidian.domain.Address;
-import com.feidian.domain.User;
-import com.feidian.vo.UserPersonalInformationVo;
+import com.feidian.po.AddressPO;
+import com.feidian.po.UserPO;
+import com.feidian.vo.UserPersonalInformationVO;
 
 
 import java.util.List;
@@ -10,23 +10,23 @@ import java.util.List;
 public interface UserService {
 
 
-    List<User> findAll();
+    List<UserPO> findAll();
 
-    User findById(long id);
+    UserPO findById(long id);
 
-    User findByName(String username);
+    UserPO findByName(String username);
 
-    void insertUser(User user);
+    void insertUser(UserPO userPO);
 
-    void signUp(User user);
+    void signUp(UserPO userPO);
 
     void deleteUser(long id);
 
-    void updateUser(User user);
+    void updateUser(UserPO userPO);
 
     void updateUserDescription(String description);
 
-    void updateUserPersonalInformation(UserPersonalInformationVo userPersonalInformationVo);
+    void updateUserPersonalInformation(UserPersonalInformationVO userPersonalInformationVo);
 
-    Address findByAddressId(long addressId);
+    AddressPO findByAddressId(long addressId);
 }

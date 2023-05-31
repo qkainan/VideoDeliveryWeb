@@ -3,7 +3,7 @@
 <mapper namespace="com.feidian.mapper.CommodityOperLogMapper">
     <insert id="insertLog"></insert>
 
-    <select id="findById" resultType="com.feidian.domain.User">
+    <select id="findById" resultType="com.feidian.po.UserPO">
         select * from user where id = #{id};
     </select>
 </mapper>

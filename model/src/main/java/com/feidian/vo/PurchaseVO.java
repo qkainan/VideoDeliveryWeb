@@ -9,17 +9,9 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserPersonalInformationVo {
-
+public class PurchaseVO {
     private long id;
-    private String username;
-    private String password;
-
-    private Integer phone;
-    private String headUrl;
-    private String userDescription;
-    private String emailAddress;
-
-
+    private long commodityId;
+    private long addressId;
 
 }

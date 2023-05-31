@@ -1,9 +1,8 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.Cart;
+import com.feidian.po.CartPO;
 import com.feidian.mapper.CartMapper;
 import com.feidian.service.CartService;
-import com.feidian.vo.CartVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class CartServiceImpl implements CartService {
     private CartMapper cartMapper;
 
     @Override
-    public List<Cart> findByUserId(long userId) {
+    public List<CartPO> findByUserId(long userId) {
         return cartMapper.findByUserId(userId);
     }
 
@@ -27,10 +26,10 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void insertCart(long id, long userId, long commodityId, long addressId,
+    public void insertCart(long userId, long commodityId, long addressId,
                            String commodityDescription, BigDecimal price,
                            BigDecimal commodityNum, BigDecimal totalPrice, long orderStatus) {
-        cartMapper.insertCart(id, userId, commodityId, addressId,
+        cartMapper.insertCart( userId, commodityId, addressId,
                 commodityDescription, price, commodityNum, totalPrice, orderStatus);
     }
 

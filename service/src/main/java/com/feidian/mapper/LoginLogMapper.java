@@ -1,14 +1,12 @@
 package com.feidian.mapper;
 
-import com.feidian.domain.LoginLog;
-import com.github.pagehelper.IPage;
-import com.github.pagehelper.Page;
+import com.feidian.po.LoginLogPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @Mapper
 public interface LoginLogMapper {
-    void insert(LoginLog loginLog);
+    void insert(LoginLogPO loginLogPO);
 
 }

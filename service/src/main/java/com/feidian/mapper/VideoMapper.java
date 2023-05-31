@@ -1,6 +1,6 @@
 package com.feidian.mapper;
 
-import com.feidian.domain.Video;
+import com.feidian.po.VideoPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -13,13 +13,13 @@ public interface VideoMapper {
 
     void deleteVideo(long videoId);
 
-    void insertVideo(Video video);
+    void insertVideo(VideoPO videoPO);
 
     void findByVideoName();
 
-    Video findByVideoId(@Param("videoId") long videoId);
+    VideoPO findByVideoId(@Param("videoId") long videoId);
 
-    List<Video> findByUserId(long userId);
+    List<VideoPO> findByUserId(long userId);
 
-    void updateVideoMsg(Video video);
+    void updateVideoMsg(VideoPO videoPO);
 }

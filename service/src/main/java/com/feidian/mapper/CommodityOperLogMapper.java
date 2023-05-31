@@ -1,7 +1,7 @@
 package com.feidian.mapper;
 
-import com.feidian.domain.CommodityOperLog;
-import com.feidian.domain.User;
+import com.feidian.po.CommodityOperLogPO;
+import com.feidian.po.UserPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface CommodityOperLogMapper {
 
-    void insertLog(CommodityOperLog commodityOperLog);
+    void insertLog(CommodityOperLogPO commodityOperLogPO);
 
-    User findById(long id);
+    UserPO findById(long id);
 }

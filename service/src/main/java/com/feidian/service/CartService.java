@@ -1,15 +1,18 @@
 package com.feidian.service;
 
-import com.feidian.domain.Cart;
-import com.feidian.vo.CartVo;
+import com.feidian.po.CartPO;
+import io.lettuce.core.dynamic.annotation.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 public interface CartService {
-    List<Cart> findByUserId(long userId);
+    List<CartPO> findByUserId(long userId);
 
     void updateOrderStatus(long id, long orderStatus);
 
-    void insertCart(long id, long userId, long commodityId, long addressId, String commodityDescription, BigDecimal price, BigDecimal commodityNum, BigDecimal totalPrice, long orderStatus);
+    void insertCart(@Param("userId") long userId,@Param("commodityId") long commodityId,
+                    @Param("addressId") long addressId, @Param("commodityDescription") String commodityDescription,
+                    @Param("price") BigDecimal price,@Param("commodityNum") BigDecimal commodityNum,
+                    @Param("totalPrice") BigDecimal totalPrice,@Param("orderStatus") long orderStatus);
 }

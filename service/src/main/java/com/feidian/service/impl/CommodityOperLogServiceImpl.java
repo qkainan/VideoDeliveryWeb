@@ -1,7 +1,7 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.CommodityOperLog;
-import com.feidian.domain.User;
+import com.feidian.po.CommodityOperLogPO;
+import com.feidian.po.UserPO;
 import com.feidian.mapper.CommodityOperLogMapper;
 
 import com.feidian.service.CommodityOperLogService;
@@ -14,12 +14,12 @@ public class CommodityOperLogServiceImpl implements CommodityOperLogService {
     @Autowired
     private CommodityOperLogMapper commodityOperLogMapper;
     @Override
-    public void saveLog(CommodityOperLog commodityOperLog) {
-        commodityOperLogMapper.insertLog(commodityOperLog);
+    public void saveLog(CommodityOperLogPO commodityOperLogPO) {
+        commodityOperLogMapper.insertLog(commodityOperLogPO);
     }
 
     @Override
-    public User findById(long id) {
+    public UserPO findById(long id) {
         return commodityOperLogMapper.findById(id);
     }
 }

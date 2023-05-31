@@ -3,16 +3,16 @@
 <mapper namespace="com.feidian.mapper.UserMapper">
 
     <!--查询所有用户-->
-    <select id="findAll" resultType="com.feidian.domain.User">
+    <select id="findAll" resultType="com.feidian.po.UserPO">
         select id, username, password
         from user;
     </select>
 
     <!--根据提供信息查询用户-->
-    <select id="findById" resultType="com.feidian.domain.User">
+    <select id="findById" resultType="com.feidian.po.UserPO">
         select * from user where id = #{id};
     </select>
-    <select id="findByName" resultType="com.feidian.domain.User">
+    <select id="findByName" resultType="com.feidian.po.UserPO">
         select * from user where username = #{username};
     </select>
 
@@ -29,11 +29,11 @@
     </insert>
 
     <!--后台删除用户-->
-    <delete id="deleteUser">
-        delete
-        from user
+    <update id="deleteUser">
+        update user
+        set is_deleted = 1
         where id = #{id}
-    </delete>
+    </update>
 
     <!--后台更新用户数据-->
     <update id="updateUser">

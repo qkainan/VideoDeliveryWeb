@@ -2,8 +2,8 @@ package com.feidian.aspect;
 
 import com.alibaba.fastjson2.JSON;
 import com.feidian.annotation.CommodityOperLogAt;
-import com.feidian.domain.CommodityOperLog;
-import com.feidian.domain.User;
+import com.feidian.po.CommodityOperLogPO;
+import com.feidian.po.UserPO;
 
 
 import com.feidian.service.CommodityOperLogService;
@@ -47,35 +47,35 @@ public class CommodityOperLogAspect {
             HttpServletRequest request = sra.getRequest();
 
             // *========数据库日志=========*//
-            CommodityOperLog commodityOperLog = new com.feidian.domain.CommodityOperLog();
+            CommodityOperLogPO commodityOperLogPO = new CommodityOperLogPO();
             //状态
-            commodityOperLog.setStatus(1);
+            commodityOperLogPO.setStatus(1);
 
 
             //请求的用户
             String token = request.getHeader("token");
             long userId = JwtUtil.getSubject(token);
-            User user = commodityOperLogService.findById(userId);
-            commodityOperLog.setOperUserName(user.getUsername());
+            UserPO userPO = commodityOperLogService.findById(userId);
+            commodityOperLogPO.setOperUserName(userPO.getUsername());
 
             if (e != null) {
-                commodityOperLog.setStatus(0);
-                commodityOperLog.setErrorMsg(e.getMessage());
+                commodityOperLogPO.setStatus(0);
+                commodityOperLogPO.setErrorMsg(e.getMessage());
             }
 
             // 设置方法名称
             String className = joinPoint.getTarget().getClass().getName();
             String methodName = joinPoint.getSignature().getName();
-            commodityOperLog.setMethod(className + "." + methodName + "()");
+            commodityOperLogPO.setMethod(className + "." + methodName + "()");
 
             // 设置请求方式
-            commodityOperLog.setRequestMethod(request.getMethod());
+            commodityOperLogPO.setRequestMethod(request.getMethod());
 
             // 处理设置注解上的参数
-            getControllerMethodDescription(joinPoint, controllerLog, commodityOperLog, jsonResult);
+            getControllerMethodDescription(joinPoint, controllerLog, commodityOperLogPO, jsonResult);
 
             // 操作日志保存数据库
-            commodityOperLogService.saveLog(commodityOperLog);
+            commodityOperLogService.saveLog(commodityOperLogPO);
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -88,7 +88,7 @@ public class CommodityOperLogAspect {
      * @param operLog 操作日志
      * @throws Exception
      */
-    public void getControllerMethodDescription(JoinPoint joinPoint, CommodityOperLogAt log, CommodityOperLog operLog, Object jsonResult) throws Exception {
+    public void getControllerMethodDescription(JoinPoint joinPoint, CommodityOperLogAt log, CommodityOperLogPO operLog, Object jsonResult) throws Exception {
         // 设置action动作
         operLog.setBusinessType(log.businessType().name());
         // 是否需要保存request，参数和值
@@ -108,7 +108,7 @@ public class CommodityOperLogAspect {
      * @param operLog 操作日志
      * @throws Exception 异常
      */
-    private void setRequestValue(JoinPoint joinPoint, CommodityOperLog operLog) throws Exception {
+    private void setRequestValue(JoinPoint joinPoint, CommodityOperLogPO operLog) throws Exception {
         String requestMethod = operLog.getRequestMethod();
         if (HttpMethod.PUT.name().equals(requestMethod) || HttpMethod.POST.name().equals(requestMethod)) {
             String params = argsArrayToString(joinPoint.getArgs());

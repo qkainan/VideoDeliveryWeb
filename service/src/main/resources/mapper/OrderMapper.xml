@@ -13,13 +13,13 @@
         where id = #{id};
     </update>
 
-    <select id="findByBuyerId" resultType="com.feidian.domain.Order">
+    <select id="findByBuyerId" resultType="com.feidian.po.OrderPO">
         select *
         from `order`
         where buyer_id = #{buyerId};
     </select>
 
-    <select id="findBySellerId" resultType="com.feidian.domain.Order">
+    <select id="findBySellerId" resultType="com.feidian.po.OrderPO">
         select *
         from `order`
         where seller_id = #{sellerId};

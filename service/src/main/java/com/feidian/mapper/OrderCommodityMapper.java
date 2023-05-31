@@ -1,6 +1,6 @@
 package com.feidian.mapper;
 
-import com.feidian.domain.OrderCommodity;
+import com.feidian.po.OrderCommodity;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

@@ -1,31 +1,29 @@
 package com.feidian.vo;
 
-import com.feidian.domain.Commodity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DisplayVideoVo {
+public class UploadVideoVO {
 
-    private long videoId;
-    private String videoTitle;
-
+    private long id;
     private long userId;
-    private String username;
 
-
-    private String videoDataUrl;
-    private String videoCoverUrl;
+    private String videoName;
+    private String videoTitle;
+    private String videoType;
     private String videoDescription;
-    private java.sql.Timestamp createTime;
 
+    private List<Long> commodityIdList;
+    private String coverUrl;
+    private String dataUrl;
 
-    private List<Commodity> commodityList;
 
 }

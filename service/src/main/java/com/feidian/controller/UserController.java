@@ -1,9 +1,10 @@
 package com.feidian.controller;
 
-import com.feidian.domain.User;
+import com.feidian.po.UserPO;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -15,43 +16,50 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/findAll")
+    @Transactional
     public ResponseResult findAll() {
         return new ResponseResult<>(200, "操作成功", userService.findAll());
     }
 
     @GetMapping ("/findById/{id}")
+    @Transactional
     public ResponseResult findById(@PathVariable("id")long id){
-        User user = userService.findById(id);
-        if (user == null) {
-            return new ResponseResult(500, "User does not exist");
+        UserPO userPO = userService.findById(id);
+        if (userPO == null) {
+            return new ResponseResult(500, "用户不存在");
         }
-        return new ResponseResult(200,"操作成功",user);
+        return new ResponseResult(200,"操作成功", userPO);
     }
 
     @GetMapping("/findByName/{name}")
+    @Transactional
     public ResponseResult findByName(@PathVariable("name") String username){
-        User user = userService.findByName(username);
-        if (user == null) {
-            return new ResponseResult(500, "User does not exist");
+        UserPO userPO = userService.findByName(username);
+        if (userPO == null) {
+            return new ResponseResult(500, "用户不存在");
         }
-        return new ResponseResult<>(200 , "操作成功", user);
+        return new ResponseResult<>(200 , "操作成功", userPO);
     }
 
     @PostMapping("/insertUser")
-    public ResponseResult insertUser(User user){
-        userService.insertUser(user);
+    @Transactional
+    public ResponseResult insertUser(UserPO userPO){
+        userService.insertUser(userPO);
         return new ResponseResult(200, "操作成功");
     }
 
-    @DeleteMapping("/deleteUser/{id}")
-    public ResponseResult deleteUser(@PathVariable("id") long id){
+
+    @PostMapping ("/deleteUser")
+    @Transactional
+    public ResponseResult deleteUser(long id){
         userService.deleteUser(id);
         return new ResponseResult(200, "操作成功");
     }
 
     @PutMapping("/updateUser")
-    public ResponseResult updateUser(@RequestBody User user){
-        userService.updateUser(user);
+    @Transactional
+    public ResponseResult updateUser(@RequestBody UserPO userPO){
+        userService.updateUser(userPO);
         return new ResponseResult(200,"操作成功");
     }
 

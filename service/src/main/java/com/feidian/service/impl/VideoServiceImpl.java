@@ -1,9 +1,8 @@
 package com.feidian.service.impl;
 
-import com.feidian.domain.Video;
+import com.feidian.po.VideoPO;
 import com.feidian.mapper.VideoMapper;
 import com.feidian.service.VideoService;
-import com.feidian.vo.DisplayVideoVo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +17,8 @@ public class VideoServiceImpl implements VideoService {
     private VideoMapper videoMapper;
 
     @Override
-    public void insertVideo(Video video) {
-        videoMapper.insertVideo(video);
+    public void insertVideo(VideoPO videoPO) {
+        videoMapper.insertVideo(videoPO);
     }
 
     @Override
@@ -40,12 +39,12 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public Video findByVideoId(@Param("videoId") long videoId) {
+    public VideoPO findByVideoId(@Param("videoId") long videoId) {
         return videoMapper.findByVideoId(videoId);
     }
 
     @Override
-    public List<Video> findByUserId(long userId) {
+    public List<VideoPO> findByUserId(long userId) {
         return videoMapper.findByUserId(userId);
     }
 
@@ -55,8 +54,8 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
-    public void updateVideoMsg(Video video) {
-        videoMapper.updateVideoMsg(video);
+    public void updateVideoMsg(VideoPO videoPO) {
+        videoMapper.updateVideoMsg(videoPO);
     }
 
 

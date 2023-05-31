@@ -1,4 +1,4 @@
-package com.feidian.domain;
+package com.feidian.po;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VideoCommodity {
+public class VideoCommodityPO {
 
   private long id;
   private long userId;
@@ -23,14 +23,14 @@ public class VideoCommodity {
   private long isDeleted;
 
 
-  public VideoCommodity(long userId, long videoId, long commodityId, long videoStatus) {
+  public VideoCommodityPO(long userId, long videoId, long commodityId, long videoStatus) {
     this.userId = userId;
     this.videoId = videoId;
     this.commodityId = commodityId;
     this.videoStatus = videoStatus;
   }
 
-  public VideoCommodity(long videoId, long commodityId) {
+  public VideoCommodityPO(long videoId, long commodityId) {
     this.videoId = videoId;
     this.commodityId = commodityId;
   }
