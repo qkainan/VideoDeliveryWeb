@@ -21,8 +21,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void updateOrderStatus(long id, long orderStatus) {
-        cartMapper.updateOrderStatus(id, orderStatus);
+    public void updateOrderStatus(long id) {
+        cartMapper.updateOrderStatus(id, 1);
     }
 
     @Override
@@ -31,6 +31,11 @@ public class CartServiceImpl implements CartService {
                            BigDecimal commodityNum, BigDecimal totalPrice, long orderStatus) {
         cartMapper.insertCart( userId, commodityId, addressId,
                 commodityDescription, price, commodityNum, totalPrice, orderStatus);
+    }
+
+    @Override
+    public CartPO findByCartId(long id) {
+        return cartMapper.findByCartId(id);
     }
 
 }

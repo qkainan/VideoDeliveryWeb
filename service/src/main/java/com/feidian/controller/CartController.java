@@ -1,5 +1,8 @@
 package com.feidian.controller;
 
+import com.feidian.bo.CartBO;
+import com.feidian.dto.CartDTO;
+import com.feidian.dto.PurchaseDTO;
 import com.feidian.po.AddressPO;
 import com.feidian.po.CartPO;
 import com.feidian.po.CommodityPO;
@@ -32,25 +35,31 @@ public class CartController {
     private OrderService orderService;
     @Transactional
     @PostMapping("/postCart")
-    public ResponseResult postCart(@RequestBody CartVO cartVo){
-        CommodityPO commodityPO = commodityService.findByCommodityId(cartVo.getCommodityId());
+    @ResponseBody
+    public ResponseResult postCart(@RequestBody CartDTO cartDTO){
+        CommodityPO commodityPO = commodityService.findByCommodityId(cartDTO.getCommodityId());
         long orderStatus = 0;
         //@CurrentUserId long userId = 0;
-        BigDecimal totalPrice = commodityPO.getPrice().multiply(cartVo.getCommodityNum());
-        cartVo = new CartVO(0,cartVo.getUserId(), cartVo.getCommodityId(),
-                cartVo.getAddressId(), commodityPO.getCommodityDescription(),
-                commodityPO.getPrice(), cartVo.getCommodityNum(), totalPrice,
+        BigDecimal totalPrice = commodityPO.getPrice().multiply(cartDTO.getCommodityNum());
+
+        CartBO cartBO = new CartBO(0,cartDTO.getUserId(), cartDTO.getCommodityId(),
+                cartDTO.getAddressId(), commodityPO.getCommodityDescription(),
+                commodityPO.getPrice(), cartDTO.getCommodityNum(), totalPrice,
                 orderStatus);
-        cartService.insertCart(cartVo.getUserId(), cartVo.getCommodityId(),
-                cartVo.getAddressId(), commodityPO.getCommodityDescription(),
-                commodityPO.getPrice(), cartVo.getCommodityNum(), totalPrice,
-                orderStatus);
-         return new ResponseResult(200,"操作成功",cartVo);
+
+        cartService.insertCart(cartBO.getUserId(), cartBO.getCommodityId(),
+                cartBO.getAddressId(), cartBO.getCommodityDescription(),
+                cartBO.getPrice(), cartBO.getCommodityNum(), cartBO.getTotalPrice(),
+                cartBO.getOrderStatus());
+
+
+        return new ResponseResult(200,"操作成功");
     }
     @Transactional
-    @GetMapping("/getCartVoList")
-    public ResponseResult getCartVoList(@RequestBody long userId) {
-        List<CartPO> list = getCartList(userId);
+    @GetMapping("/getCartVOList")
+    public ResponseResult getCartVOList() {
+        //Todo bug无法解析出userId
+        List<CartPO> list = getCartList(JwtUtil.getUserId());
         List<CartVO> cartVOList = new ArrayList<>();
 
         for (CartPO cart : list) {
@@ -58,35 +67,40 @@ public class CartController {
             CommodityPO commodityPO = commodityService.findByCommodityId(cart.getCommodityId());
             BigDecimal totalPrice = commodityPO.getPrice().multiply(cart.getCommodityNum());
 
-            CartVO cartVo = new CartVO(cart.getId(), cart.getUserId(), cart.getCommodityId(),
+            CartVO cartVO = new CartVO(cart.getId(), cart.getUserId(), cart.getCommodityId(),
                     cart.getAddressId(), commodityPO.getCommodityDescription(), commodityPO.getPrice(),
                     cart.getCommodityNum(), totalPrice, cart.getOrderStatus(),
-                    cart.getUpdateTime(), cart.getIsDeleted());
-            cartVOList.add(cartVo);
+                    cart.getUpdateTime());
+            cartVOList.add(cartVO);
         }
 
         return new ResponseResult(200, "操作成功", cartVOList);
     }
+
+    //Todo 待优化 putCartStatus和postCartPurchase同时执行
     @Transactional
-    @PutMapping("/putCatStatus")
-    public ResponseResult putCatStatus(@RequestBody CartPO cart){
-        cartService.updateOrderStatus(cart.getId(),cart.getOrderStatus());
+    @PutMapping("/putCartStatus")
+    public ResponseResult putCartStatus(@RequestBody CartDTO cartDTO){
+        cartService.updateOrderStatus(cartDTO.getId());
         return new ResponseResult(200,"更新成功");
     }
     @Transactional
     @PostMapping("/postCartPurchase")
-    public ResponseResult postCartPurchase(PurchaseVO purchaseVo) {
-        long userId = JwtUtil.getUserId();
+    public ResponseResult postCartPurchase(@RequestBody PurchaseDTO purchaseDTO) {
+        //long userId = JwtUtil.getUserId();
+        long userId = 8;
+        CartPO cartPO =  cartService.findByCartId(purchaseDTO.getId());
 
         //状态（5：已收货 4：代发货 3：已发货 2：代发货 0：已退款 ）
-        long orderStatus = 1;
-        CommodityPO commodityPO = commodityService.findByCommodityId(purchaseVo.getCommodityId());
-        AddressPO address = userService.findByAddressId(purchaseVo.getAddressId());
+        long orderStatus = 2;
+        CommodityPO commodityPO = commodityService.findByCommodityId(cartPO.getCommodityId());
+        AddressPO address = userService.findByAddressId(purchaseDTO.getAddressId());
 
-        orderService.insertOrder(purchaseVo.getId(), userId, commodityPO.getUserId(), address.getAddressName(),
+        orderService.insertOrder(0, userId, commodityPO.getUserId(), address.getAddressName(),
                 commodityPO.getCommodityAddress(), orderStatus);
         return new ResponseResult(200,"操作成功");
     }
+
     @Transactional
     @PostMapping("/postTakeCommodity")
     public ResponseResult postTakeCommodity(long orderId){

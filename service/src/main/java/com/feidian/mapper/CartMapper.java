@@ -18,4 +18,6 @@ public interface CartMapper {
     void insertCart(long userId, long commodityId, long addressId,
                     String commodityDescription, BigDecimal price,
                     BigDecimal commodityNum, BigDecimal totalPrice, long orderStatus);
+
+    CartPO findByCartId(long id);
 }

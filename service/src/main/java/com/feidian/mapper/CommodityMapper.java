@@ -28,4 +28,6 @@ public interface CommodityMapper {
 //                         @Param("commodityAddress")String commodityAddress,@Param("coverUrl") String coverUrl);
     void insertCommodity(CommodityPO commodityPO);
     void insertInCommodity(long commodityId, String coverUrl);
+
+    void updateCommodity(CommodityPO commodityPO);
 }

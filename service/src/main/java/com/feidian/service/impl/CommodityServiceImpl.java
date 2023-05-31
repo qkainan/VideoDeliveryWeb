@@ -48,4 +48,9 @@ public class CommodityServiceImpl implements CommodityService {
         commodityMapper.insertCommodity(commodityPO);
     }
 
+    @Override
+    public void updateCommodity(CommodityPO commodityPO) {
+        commodityMapper.updateCommodity(commodityPO);
+    }
+
 }

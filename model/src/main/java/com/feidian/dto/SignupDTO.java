@@ -1,4 +1,4 @@
-package com.feidian.vo;
+package com.feidian.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,10 +9,14 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PurchaseVO {
+public class SignupDTO {
 
     private long id;
-    private long commodityId;
-    private long addressId;
+    private String username;
+    private String password;
+
+    private String rePwd;
+    private String verifyCode;
+    private String emailAddress;
 
 }

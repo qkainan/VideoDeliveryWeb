@@ -21,4 +21,6 @@ public interface CommodityService {
 //                          @Param("commodityType") String commodityType,@Param("price") BigDecimal price, @Param("commodityDescription")String commodityDescription,
 //                          @Param("")String commodityAddress,@Param("coverUrl") String coverUrl);
     void insertCommodity( CommodityPO commodityPO);
+
+    void updateCommodity(CommodityPO commodityPO);
 }

@@ -9,7 +9,7 @@
 
     <update id="updateOrderStatus">
         update cart
-        set order_status = #{orderStatus}
+        set order_status = ${1}
         where id = #{id};
     </update>
 
@@ -17,6 +17,12 @@
         select *
         from cart
         where user_id = #{userId};
+    </select>
+
+    <select id="findByCartId" resultType="com.feidian.po.CartPO">
+        select *
+        from cart
+        where id = #{id};
     </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.feidian.controller;
 
+import com.feidian.dto.SignupDTO;
 import com.feidian.po.UserPO;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.LoginLogService;
@@ -32,7 +33,7 @@ public class IndexController {
     //快速注册
     @Transactional
     @PostMapping("/postFastSignup")
-    public ResponseResult fastSignUp(@RequestBody SignUpVO signUpMsg) throws Exception {
+    public ResponseResult fastSignup(@RequestBody SignupDTO signUpMsg) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
         // 2.密码长度在8到25之间
@@ -61,7 +62,7 @@ public class IndexController {
     //邮箱注册
     @Transactional
     @PostMapping("/postEmailSignup")
-    public ResponseResult emailSignUp(@RequestBody SignUpVO signUpVo) throws Exception {
+    public ResponseResult emailSignup(@RequestBody SignUpVO signUpVo) throws Exception {
         //Todo 校验密码是否符合强度要求
         // 1.只能包含英文字母、阿拉伯数字和下划线
         // 2.密码长度在8到16之间

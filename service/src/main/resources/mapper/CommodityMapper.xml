@@ -27,7 +27,21 @@
         where id = #{id}
     </update>
 
-
+    <update id="updateCommodity">
+        update commodity
+            <set>
+                <if test="username!=null and username!=''">
+                    username=#{username},
+                </if>
+                <if test="sex!=null and sex!=''">
+                    sex=#{sex},
+                </if>
+                <if test="phone!=null and phone!=''">
+                    phone=#{phone},
+                </if>
+            </set>
+            where id=#{id}
+        </update>
 
     <select id="findByUserId" resultType="com.feidian.po.CommodityPO">
         select *

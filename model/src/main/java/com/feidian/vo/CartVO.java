@@ -23,11 +23,12 @@ public class CartVO {
     private BigDecimal commodityNum;
     private BigDecimal totalPrice;
 
+    //1：已购买 0：未购买
     private long orderStatus;
 
 
     private java.sql.Timestamp updateTime;
-    private long isDeleted;
+
 
     public CartVO(long id, long userId, long commodityId, long addressId, String commodityDescription, BigDecimal price, BigDecimal commodityNum, BigDecimal totalPrice, long orderStatus) {
         this.id = id;

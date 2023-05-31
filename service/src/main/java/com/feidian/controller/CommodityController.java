@@ -59,7 +59,7 @@ public class CommodityController {
 
     @Transactional
     @GetMapping("/getDisplayCommodity")
-    public ResponseResult getDisplayCommodity(Long commodityId) throws IOException, URISyntaxException {
+    public ResponseResult getDisplayCommodity(long commodityId) throws IOException, URISyntaxException {
         HashMap<Long, ImageAndCoverResource> map = new HashMap<>();
         CommodityPO commodityPO = commodityService.findByCommodityId(commodityId);
         List<CommodityImagePO> commodityImageList = commodityImageService.findByCommodityId(commodityId);
@@ -83,7 +83,7 @@ public class CommodityController {
                 commodityVo.getCommodityType(), commodityVo.getPrice(), commodityVo.getCommodityDescription(),
                 commodityVo.getCommodityAddress(), commodityVo.getCoverUrl());
 
-        commodityService.insertCommodity(commodityPO);
+        commodityService.updateCommodity(commodityPO);
 
         return new ResponseResult(200,"更改成功");
     }
@@ -133,7 +133,7 @@ public class CommodityController {
         long userId = JwtUtil.getUserId();
 
         String commodityCoverUrl = "";
-        String uploadCommodityCoverDir = "D:/uploads/commodities/cover/";
+        String uploadCommodityCoverDir = "file://D:/uploads/commodities/cover/";
         saveCommodityFile(coverFile, uploadCommodityCoverDir);
         commodityCoverUrl = saveCommodityFile(coverFile, uploadCommodityCoverDir);
         uploadCommodityVo.setCoverUrl(commodityCoverUrl);
@@ -148,7 +148,7 @@ public class CommodityController {
 
 
         String commodityImageUrl = "";
-        String uploadCommodityImageDir = "D:/uploads/commodities/image/";
+        String uploadCommodityImageDir = "file://D:/uploads/commodities/image/";
         for (MultipartFile multipartFile :imageFile) {
             saveCommodityFile(multipartFile, uploadCommodityImageDir);
             commodityImageUrl = saveCommodityFile(multipartFile, uploadCommodityImageDir);
