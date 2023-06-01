@@ -6,6 +6,7 @@ import com.feidian.dto.PurchaseDTO;
 import com.feidian.po.AddressPO;
 import com.feidian.po.CartPO;
 import com.feidian.po.CommodityPO;
+import com.feidian.resolver.CurrentUserId;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.*;
 import com.feidian.util.JwtUtil;
@@ -39,7 +40,9 @@ public class CartController {
     public ResponseResult postCart(@RequestBody CartDTO cartDTO){
         CommodityPO commodityPO = commodityService.findByCommodityId(cartDTO.getCommodityId());
         long orderStatus = 0;
-        //@CurrentUserId long userId = 0;
+
+
+
         BigDecimal totalPrice = commodityPO.getPrice().multiply(cartDTO.getCommodityNum());
 
         CartBO cartBO = new CartBO(0,cartDTO.getUserId(), cartDTO.getCommodityId(),
@@ -58,9 +61,10 @@ public class CartController {
     @Transactional
     @GetMapping("/getCartVOList")
     public ResponseResult getCartVOList() {
-        //Todo bug无法解析出userId
+
         List<CartPO> list = getCartList(JwtUtil.getUserId());
         List<CartVO> cartVOList = new ArrayList<>();
+
 
         for (CartPO cart : list) {
 

@@ -12,6 +12,7 @@ import com.feidian.util.VerifyCode;
 import com.feidian.vo.LoginVO;
 import com.feidian.vo.SignUpVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +29,8 @@ public class IndexController {
     @Autowired
     private UserService userService;
 
-    String verifyCode = new VerifyCode().setVerifyCode();
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     //快速注册
     @Transactional
@@ -82,7 +84,8 @@ public class IndexController {
 
 
         //验证邮箱验证码
-        Boolean verifyResult = verifyCode.equals(signUpVo.getVerifyCode());
+        Boolean verifyResult = ((String)redisTemplate.opsForValue().get(signUpVo.getUsername()+ "verifyCode")).equals(signUpVo.getVerifyCode());
+
 
         if (false == verifyResult) {
             return new  ResponseResult(403,"验证码错误");
@@ -121,7 +124,11 @@ public class IndexController {
     @PostMapping("/postVerify")
     public ResponseResult postVerify(@RequestBody SignUpVO signUpVo) {
 
+
         String regexEmailAddress = "\\w+@[\\w&&[^_]]{2,7}(\\.[a-zA-Z]{2,4}){1,3}";
+        String verifyCode = new VerifyCode().setVerifyCode();
+
+        redisTemplate.opsForValue().set(signUpVo.getUsername()+ "verifyCode",verifyCode);
 
         if (!signUpVo.getEmailAddress().matches(regexEmailAddress)) {
             return new ResponseResult(403,"密码格式不正确");

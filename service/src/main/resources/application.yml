@@ -10,9 +10,9 @@ spring:
   aop:
     proxy-target-class: false #切换动态代理的方式
 
-#  redis:
-#    host: 127.0.0.1 #redis服务器ip地址
-#    port: 6379  #redis端口号
+  redis:
+    host: 127.0.0.1 #redis服务器ip地址
+    port: 6379  #redis端口号
 
 #  config:
 #    activate:
