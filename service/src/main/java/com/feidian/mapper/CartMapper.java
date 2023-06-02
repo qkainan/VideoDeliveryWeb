@@ -20,4 +20,7 @@ public interface CartMapper {
                     BigDecimal commodityNum, BigDecimal totalPrice, long orderStatus);
 
     CartPO findByCartId(long id);
+
+
+    void deleteCart(long cartId);
 }

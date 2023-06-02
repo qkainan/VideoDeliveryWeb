@@ -12,7 +12,9 @@ import org.springframework.stereotype.Component;
 public class PurchaseDTO {
 
     private long id;
+    private long orderId;
     private long commodityId;
+    private long commodityNum;
     //收货地址
     private long addressId;
 

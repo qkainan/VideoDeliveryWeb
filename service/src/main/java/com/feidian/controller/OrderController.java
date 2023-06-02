@@ -2,8 +2,8 @@ package com.feidian.controller;
 
 
 import com.feidian.po.CommodityPO;
+import com.feidian.po.OrderCommodityPO;
 import com.feidian.po.OrderPO;
-import com.feidian.po.OrderCommodity;
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.CommodityService;
 import com.feidian.service.OrderCommodityService;
@@ -38,7 +38,7 @@ public class OrderController {
 
         for (OrderPO o : orderService.findByBuyerId(JwtUtil.getUserId())) {
 
-            OrderCommodity orderCommodity = orderCommodityService.findById(o.getId());
+            OrderCommodityPO orderCommodity = orderCommodityService.findById(o.getId());
             CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
 
             PurchaseOrderVO purchaseOrderVo = new PurchaseOrderVO(o.getId(), commodityPO.getCommodityName(), commodityPO.getPrice(),
@@ -57,7 +57,7 @@ public class OrderController {
 
         for (OrderPO o : orderService.findBySellerId(JwtUtil.getUserId())) {
 
-            OrderCommodity orderCommodity = orderCommodityService.findById(o.getId());
+            OrderCommodityPO orderCommodity = orderCommodityService.findById(o.getId());
             CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
 
             SaleOrderVO saleOrderVo = new SaleOrderVO(o.getId(), commodityPO.getCommodityName(), commodityPO.getPrice(),

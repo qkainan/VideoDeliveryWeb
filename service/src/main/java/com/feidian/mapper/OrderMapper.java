@@ -1,7 +1,10 @@
 package com.feidian.mapper;
 
+import com.feidian.bo.OrderBO;
 import com.feidian.po.OrderPO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -14,7 +17,8 @@ public interface OrderMapper {
 
     List<OrderPO> findBySellerId(long sellerId);
 
-    void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus);
+    void insertOrder(OrderBO orderBO);
 
     void updateStatus(long orderId);
+
 }

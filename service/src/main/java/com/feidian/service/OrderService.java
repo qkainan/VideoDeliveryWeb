@@ -1,5 +1,6 @@
 package com.feidian.service;
 
+import com.feidian.bo.OrderBO;
 import com.feidian.po.OrderPO;
 
 import java.util.List;
@@ -12,7 +13,8 @@ public interface OrderService {
     //卖家订单
     List<OrderPO> findBySellerId(long userId);
 
-    void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus);
+    void insertOrder(OrderBO orderBO);
 
     void updateStatus(long orderId);
+
 }

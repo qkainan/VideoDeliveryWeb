@@ -1,4 +1,4 @@
-package com.feidian.po;
+package com.feidian.bo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderPO {
+public class OrderBO {
 
   private long id;
   private long buyerId;
@@ -23,13 +23,11 @@ public class OrderPO {
   private long isDeleted;
 
 
-  public OrderPO(long id, long buyerId, long sellerId, String addressName, long orderStatus) {
-    this.id = id;
+  public OrderBO( long buyerId, long sellerId, String addressName, long orderStatus) {
     this.buyerId = buyerId;
     this.sellerId = sellerId;
     this.addressName = addressName;
     this.orderStatus = orderStatus;
   }
-
 
 }

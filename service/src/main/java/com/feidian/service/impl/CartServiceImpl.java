@@ -38,4 +38,10 @@ public class CartServiceImpl implements CartService {
         return cartMapper.findByCartId(id);
     }
 
+    @Override
+    public void deleteCart(long cartId) {
+        cartMapper.deleteCart(cartId);
+    }
+
+
 }

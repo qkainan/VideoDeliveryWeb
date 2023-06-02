@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.feidian.mapper.OrderMapper">
-    <insert id="insertOrder">
-        insert into `order` (id, buyer_id, seller_id, address_name,
-                           order_status, commodity_address)
-            value (#{id}, #{userId}, #{userId1}, #{addressName}, #{orderStatus}, #{commodityAddress});
+    <insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
+        insert into `order` (buyer_id, seller_id, address_name,order_status)
+            value ( #{buyerId}, #{sellerId}, #{addressName},#{orderStatus});
     </insert>
 
     <update id="updateStatus">
@@ -12,6 +11,7 @@
         set order_status = ${5}
         where id = #{id};
     </update>
+
 
     <select id="findByBuyerId" resultType="com.feidian.po.OrderPO">
         select *

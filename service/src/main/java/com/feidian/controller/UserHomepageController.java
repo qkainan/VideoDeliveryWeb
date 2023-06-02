@@ -18,10 +18,6 @@ import java.util.List;
 @RestController
 public class UserHomepageController {
 
-    //Todo 上传视频（视频名称、视频封面、编写视频简介、获取视频发布时间） 视频资源路径
-    // 发布商品（商品名称、价格、商品简介、商品封面、获取商品发布时间）
-    // 编写个人签名
-
     @Autowired
     private UserService userService;
 
@@ -89,7 +85,7 @@ public class UserHomepageController {
         PurchaseOrderVO purchaseOrderVo;
         for (OrderPO order : orderList) {
             UserPO buyer = userService.findById(buyerId);
-            OrderCommodity orderCommodity = orderCommodityService.findById(order.getId());
+            OrderCommodityPO orderCommodity = orderCommodityService.findById(order.getId());
             CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
             UserPO seller = userService.findById(order.getSellerId());
 
@@ -110,7 +106,7 @@ public class UserHomepageController {
         for (OrderPO order : orderList) {
 
             UserPO buyer = userService.findById(sellerId);
-            OrderCommodity orderCommodity = orderCommodityService.findById(sellerId);
+            OrderCommodityPO orderCommodity = orderCommodityService.findById(sellerId);
             CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
             UserPO seller = userService.findById(order.getSellerId());
 

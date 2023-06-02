@@ -17,4 +17,7 @@ public interface CartService {
                     @Param("totalPrice") BigDecimal totalPrice,@Param("orderStatus") long orderStatus);
 
     CartPO findByCartId(long id);
+
+
+    void deleteCart(long cartId);
 }

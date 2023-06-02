@@ -1,47 +1,49 @@
 package com.feidian.controller;
 
 import com.feidian.bo.CartBO;
+import com.feidian.bo.OrderBO;
 import com.feidian.dto.CartDTO;
 import com.feidian.dto.PurchaseDTO;
 import com.feidian.po.AddressPO;
 import com.feidian.po.CartPO;
 import com.feidian.po.CommodityPO;
-import com.feidian.resolver.CurrentUserId;
+
 import com.feidian.responseResult.ResponseResult;
 import com.feidian.service.*;
 import com.feidian.util.JwtUtil;
 import com.feidian.vo.CartVO;
-import com.feidian.vo.PurchaseVO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.io.Serializable;
 import java.math.BigDecimal;
+
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class CartController {
-
     @Autowired
     private CartService cartService;
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private CommodityService commodityService;
-
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderCommodityService orderCommodityService;
+
     @Transactional
     @PostMapping("/postCart")
     @ResponseBody
     public ResponseResult postCart(@RequestBody CartDTO cartDTO){
         CommodityPO commodityPO = commodityService.findByCommodityId(cartDTO.getCommodityId());
         long orderStatus = 0;
-
-
 
         BigDecimal totalPrice = commodityPO.getPrice().multiply(cartDTO.getCommodityNum());
 
@@ -54,7 +56,6 @@ public class CartController {
                 cartBO.getAddressId(), cartBO.getCommodityDescription(),
                 cartBO.getPrice(), cartBO.getCommodityNum(), cartBO.getTotalPrice(),
                 cartBO.getOrderStatus());
-
 
         return new ResponseResult(200,"操作成功");
     }
@@ -81,7 +82,6 @@ public class CartController {
         return new ResponseResult(200, "操作成功", cartVOList);
     }
 
-    //Todo 待优化 putCartStatus和postCartPurchase同时执行
     @Transactional
     @PutMapping("/putCartStatus")
     public ResponseResult putCartStatus(@RequestBody CartDTO cartDTO){
@@ -91,18 +91,28 @@ public class CartController {
     @Transactional
     @PostMapping("/postCartPurchase")
     public ResponseResult postCartPurchase(@RequestBody PurchaseDTO purchaseDTO) {
-        //long userId = JwtUtil.getUserId();
-        long userId = 8;
-        CartPO cartPO =  cartService.findByCartId(purchaseDTO.getId());
+        long userId = JwtUtil.getUserId();
+
+        if (purchaseDTO.getId() != 0) {
+            CartPO cartPO = cartService.findByCartId(purchaseDTO.getId());
+            cartService.updateOrderStatus(cartPO.getId());
+            cartService.deleteCart(cartPO.getId());
+        }
 
         //状态（5：已收货 4：代发货 3：已发货 2：代发货 0：已退款 ）
         long orderStatus = 2;
-        CommodityPO commodityPO = commodityService.findByCommodityId(cartPO.getCommodityId());
+        CommodityPO commodityPO = commodityService.findByCommodityId(purchaseDTO.getCommodityId());
         AddressPO address = userService.findByAddressId(purchaseDTO.getAddressId());
 
-        orderService.insertOrder(0, userId, commodityPO.getUserId(), address.getAddressName(),
-                commodityPO.getCommodityAddress(), orderStatus);
-        return new ResponseResult(200,"操作成功");
+        //Todo order orderCommodity同步更新
+        OrderBO orderBO = new OrderBO( userId, commodityPO.getUserId(), address.getAddressName(), orderStatus);
+
+        orderService.insertOrder(orderBO);
+
+        orderCommodityService.insertOrderCommodity(orderBO.getId(),commodityPO.getId(),purchaseDTO.getCommodityNum());
+
+        return new ResponseResult(200, "购买成功");
+
     }
 
     @Transactional
@@ -111,6 +121,14 @@ public class CartController {
         orderService.updateStatus(orderId);
         return new ResponseResult(200,"操作成功");
     }
+
+    @Transactional
+    @PostMapping("/postDeleteCart")
+    public ResponseResult postDeleteCart(long cartId){
+        cartService.deleteCart(cartId);
+        return new ResponseResult(200,"操作成功");
+    }
+
 
     public List<CartPO> getCartList(long userId){
         return cartService.findByUserId(userId);

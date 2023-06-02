@@ -1,8 +1,10 @@
 package com.feidian.service;
 
-import com.feidian.po.OrderCommodity;
+import com.feidian.po.OrderCommodityPO;
 
 public interface OrderCommodityService {
 
-    OrderCommodity findById(long id);
+    OrderCommodityPO findById(long id);
+
+    void insertOrderCommodity(long orderId, long commodityId, long commodityNum);
 }

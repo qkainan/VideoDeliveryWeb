@@ -13,6 +13,14 @@
         where id = #{id};
     </update>
 
+    <update id="deleteCart">
+        update cart
+        set is_deleted = ${1}
+        where id = #{cartId};
+    </update>
+
+
+
     <select id="findByUserId" resultType="com.feidian.po.CartPO">
         select *
         from cart

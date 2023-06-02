@@ -1,7 +1,8 @@
 package com.feidian.service.impl;
 
-import com.feidian.po.OrderPO;
+import com.feidian.bo.OrderBO;
 import com.feidian.mapper.OrderMapper;
+import com.feidian.po.OrderPO;
 import com.feidian.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +26,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void insertOrder(long id, long userId, long userId1, String addressName, String commodityAddress, long orderStatus) {
-        orderMapper.insertOrder(id, userId,userId1, addressName, commodityAddress, orderStatus);
+    public void insertOrder(OrderBO orderBO) {
+        orderMapper.insertOrder(orderBO);
     }
 
     @Override
     public void updateStatus(long orderId) {
         orderMapper.updateStatus(orderId);
     }
+
 }
