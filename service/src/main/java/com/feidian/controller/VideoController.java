@@ -13,6 +13,7 @@ import com.feidian.service.VideoService;
 import com.feidian.util.JwtUtil;
 import com.feidian.util.fileUploadUtil;
 import com.feidian.dto.DataAndCoverResource;
+import com.feidian.vo.CoverVo;
 import com.feidian.vo.DisplayVideoVO;
 import com.feidian.vo.UploadVideoVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,14 +49,17 @@ public class VideoController {
     public ResponseResult homeRecommend() throws IOException, URISyntaxException {
         List<VideoPO> list = new ArrayList<>();
 
-        HashMap<Long,DataAndCoverResource> map = new HashMap<>();
+        HashMap<Long,byte[]> map = new HashMap<>();
 
         for (long videoId:videoService.homeRecommend()) {
             VideoPO videoPO = videoService.findByVideoId(videoId);
             list.add(videoPO);
-            DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getFileVideo(videoPO.getDataUrl()).getFileByte(),
-                    fileUploadUtil.getFileImage(videoPO.getCoverUrl()).getFileByte());
-            map.put(videoPO.getId(),dataAndCoverResource);
+            CoverVo coverVo = new CoverVo();
+            /*DataAndCoverResource dataAndCoverResource =new DataAndCoverResource(fileUploadUtil.getFileVideo(videoPO.getDataUrl()).getFileByte(),
+                    fileUploadUtil.getFileImage(videoPO.getCoverUrl()).getFileByte());*/
+
+            byte[] coverFile = fileUploadUtil.getFileImage(videoPO.getCoverUrl()).getFileByte();
+            map.put(videoPO.getId(),coverFile);
         }
         return new ResponseResult(200, "操作成功",map);
     }

@@ -5,7 +5,7 @@ spring:
       max-request-size: 1048576000
 
   profiles:
-    active: develop
+    active: deploy
 
   aop:
     proxy-target-class: false #切换动态代理的方式

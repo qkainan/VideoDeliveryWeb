@@ -56,7 +56,7 @@ public class UserHomepageController {
         List<CommodityPO> commodityPOList = commodityService.findByUserId(userId);
         List<PurchaseOrderVO> buyerOrderVoList = getPurchaseOrderVo(userId);
         List<SaleOrderVO> sellerOrderVoList = getSaleOrderVo(userId);
-        List<CartPO> cartList = cartService. findByUserId(userId);
+        List<CartPO> cartList = cartService.findByUserId(userId);
 
         UserHomepageVO userHomepageVo = new UserHomepageVO(userId, userPO.getUsername(),
                 userPO.getUserDescription(), userPO.getPhone(), userPO.getHeadUrl(),
@@ -106,7 +106,7 @@ public class UserHomepageController {
         for (OrderPO order : orderList) {
 
             UserPO buyer = userService.findById(sellerId);
-            OrderCommodityPO orderCommodity = orderCommodityService.findById(sellerId);
+            OrderCommodityPO orderCommodity = orderCommodityService.findById(order.getId());
             CommodityPO commodityPO = commodityService.findByCommodityId(orderCommodity.getCommodityId());
             UserPO seller = userService.findById(order.getSellerId());
 
@@ -123,6 +123,6 @@ public class UserHomepageController {
         userService.updateUserPersonalInformation(userPersonalInformationVo);
         return new ResponseResult(200, "发布成功");
     }
-    //发送验证码
+
 
 }
